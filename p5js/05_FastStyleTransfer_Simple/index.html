@@ -1,0 +1,37 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Fast Style Transfer Simple Example</title>
+
+  <script src="../libraries/p5.min.js"></script>
+  <script src="../libraries/p5.dom.min.js"></script>
+  <script src="../libraries/ml5.min.js"></script>
+
+  <style>
+  .example img {
+    width: 250px;
+    height: 250px;
+  }
+
+  </style>
+</head>
+
+
+<body>
+  <div class="example">
+    <p>Input Image:</p>
+    <img id="inputImg" src='img/patagonia.jpg' />
+
+    <p>Style A: <a href="https://en.wikipedia.org/wiki/The_Great_Wave_off_Kanagawa">The Great Wave off Kanagawa, 1829 - Katsushika Hokusai</a></p>
+    <img src='img/wave.jpg' />
+    <span id="resultImgOne"></span>
+
+    <p>Style B: <a href="https://en.wikipedia.org/wiki/File:Francis_Picabia,_1913,_Udnie_(Young_American_Girl,_The_Dance),_oil_on_canvas,_290_x_300_cm,_Mus%C3%A9e_National_d%E2%80%99Art_Moderne,_Centre_Georges_Pompidou,_Paris..jpg">Udnie (Young American Girl, The Dance), 1913 - Francis Picabia</a></p>
+    <img src='img/udnie.jpg' />
+    <span id="resultImgTwo"></span>
+    <script src="sketch.js"></script>
+  </div>
+</body>
+
+</html>
