@@ -18,24 +18,24 @@ function setup() {
 function createButtons() {
   // Train buttons
   buttonA = select('#buttonA');
-  buttonA.mousePressed(() => {
+  buttonA.mousePressed(function() {
     train(1);
   });
 
   buttonB = select('#buttonB');
-  buttonB.mousePressed(() => {
+  buttonB.mousePressed(function() {
     train(2);
   });
 
   // Reset buttons
   resetBtnA = select('#resetA');
-  resetBtnA.mousePressed(() => {
+  resetBtnA.mousePressed(function() {
     clearClass(1);
     updateExampleCounts();
   });
 
   resetBtnB = select('#resetB');
-  resetBtnB.mousePressed(() => {
+  resetBtnB.mousePressed(function() {
     clearClass(2);
     updateExampleCounts();
   });
@@ -83,7 +83,9 @@ function gotResults(results) {
   select('#confidenceA').html(results.confidences[1]);
   select('#confidenceB').html(results.confidences[2]);
 
-  setTimeout(() => predict(), 50);
+  setTimeout(function(){
+    predict();
+  }, 50);
 }
 
 // Clear the data in one class
