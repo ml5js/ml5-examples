@@ -10,9 +10,8 @@ let video;
 
 function setup() {
   noCanvas();
-  video = createCapture(VIDEO);
-  // Start the prediction loop!
-  guess();
+  // Load the camera and call guess() once it has loaded.
+  video = createCapture(VIDEO, guess);
 }
 
 // Get a prediction for the current video frame
