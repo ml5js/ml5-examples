@@ -6,7 +6,7 @@ This repository contains a collection of  examples using [ML5.js](https://github
 
 Examples are organized into folders based on integration with other JavaScript libraries.
 
-For example, the `/p5js` folder holds examples of using [ML5.js](https://github.com/ml5js/ml5-library) with [p5.js](https://p5js.org/).
+For example, the `/p5js` folder holds examples of using [ML5.js](https://github.com/ml5js/ml5-library) with [p5.js](https://p5js.org/). All examples are self contained and can be run independently. Libraries are loaded through a Content Delivery Network (CDN).
 
 ## Usage
 

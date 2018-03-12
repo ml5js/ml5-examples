@@ -21,7 +21,7 @@ function setup() {
   resultImg.hide();
   video.size(200, 200);
   video.hide();
-  fastStyle = new ml5.FastStyle('models/udnie', modelLoaded);
+  style = new ml5.StyleTransfer('models/udnie', modelLoaded);
 }
 
 function draw(){
@@ -49,8 +49,8 @@ function togglePredicting() {
 
 function predict() {
   if(cameraReady && modelReady && startPredict) {
-    const result = fastStyle.transfer(video.elt);
-    resultImg.elt.src = result.src
+    const result = style.transfer(video.elt);
+    resultImg.attribute('src', result.src);
     image(resultImg, 0, 300, 300);
     setTimeout(() => predict(), 500);
   }
