@@ -1,17 +1,19 @@
-# ML5 Examples
+# ml5 Examples
 
 ## Description
 
-This repository contains a collection of  examples using [ML5.js](https://github.com/ml5js/ml5-library). The examples are meant to serve as an introduction to the library and basic machine learning concepts.
+This repository contains a collection of  examples using [ml5.js](https://github.com/ml5js/ml5-library). The examples are meant to serve as an introduction to the library and machine learning concepts.
 
-Examples are organized into folders based on integration with other JavaScript libraries.
+Examples are organized into folders according to their integration with other JavaScript libraries.
 
-For example, the `/p5js` folder holds examples of using [ML5.js](https://github.com/ml5js/ml5-library) with [p5.js](https://p5js.org/). All examples are self contained and can be run independently. Libraries are loaded through a Content Delivery Network (CDN).
+For example, the `/p5js` folder holds examples of using [ml5.js](https:/ml5js.github.io) with [p5.js](https://p5js.org/). All examples are self-contained and can be run independently. Libraries are loaded through a Content Delivery Network (CDN) and certain examples (indicated in code comments) download a machine learning model from a "cloud" url.
+
+If you need to run the examples offline you can [download the p5.js libraries here](https://p5js.org/download/) and [ml5 library here](https://github.com/ml5js/ml5-library/releases).
 
 ## Usage
 
 Download or clone this repository:
-``` 
+```
 git clone https://github.com/ml5js/ml5-examples.git
 ```
 
@@ -22,6 +24,10 @@ python -m SimpleHTTPServer
 ```
 
 If you don't know how to start a server, check [this](https://github.com/processing/p5.js/wiki/Local-server) guide.
+
+## p5.js web editor examples
+
+The p5.js examples can also be run using the [p5.js web editor](https://alpha.editor.p5js.org). Link coming soon.
 
 ## Contributing
 
