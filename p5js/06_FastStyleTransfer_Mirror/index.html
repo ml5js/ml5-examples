@@ -1,0 +1,45 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Style Transfer Mirror</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
+  <script src="../libraries/ml5.min.js"></script>
+
+  <style>
+    img {
+      width: 300px;
+      height: 300px;
+      display: inline;
+    }
+    button {
+      width: 100px;
+      height: 30px;
+      font-size: 14px;
+      border: solid 2px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    button:hover {
+      color: white;
+      background: #333;
+    }
+    #canvasContainer{
+      display: inline;
+    }
+  </style>
+</head>
+
+<script src="sketch.js"></script>
+
+<body>
+  <h1>Style Transfer Mirror Example</h1>
+  <p>Sytle: Udnie (Young American Girl, The Dance), 1913 - Francis Picabia</p>
+  <img src="images/udnie.jpg" />
+  <div id="canvasContainer"></div>
+  <br/>
+  <button onClick="togglePredicting()" id="controlBtn">Start</button>
+</body>
+
+</html>
