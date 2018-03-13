@@ -16,6 +16,18 @@ function setup() {
 }
 
 function createButtons() {
+  // Save and Load buttons
+  save = select('#save');
+  save.mousePressed(function() {
+    knn.save('test');
+  });
+
+ load = select('#load');
+ load.mousePressed(function() {
+    knn.load('KNN-preload.json', updateExampleCounts);
+  });
+
+
   // Train buttons
   buttonA = select('#buttonA');
   buttonA.mousePressed(function() {

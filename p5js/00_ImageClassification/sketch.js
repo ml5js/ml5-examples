@@ -5,7 +5,7 @@ Simple Image Classification using p5.js
 === */
 
 // Initialize the ImageNet method with the MobileNet model.
-const classifier = new ml5.ImageNet('MobileNet');
+const classifier = new ml5.ImageClassifier('MobileNet');
 
 let img;
 
