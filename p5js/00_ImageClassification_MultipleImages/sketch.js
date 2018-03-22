@@ -10,6 +10,8 @@ const classifier = new ml5.ImageClassifier('MobileNet');
 let img;
 current_index = 0;
 all_images = []
+display = false;
+predictions = []
 
 function append_images(){
     for (var item in data.all_images){
@@ -21,7 +23,6 @@ function append_images(){
 }
 
 function preload(){
-    console.log('in preload');
     data = loadJSON('assets/data.json', append_images);
 }
 
@@ -36,7 +37,6 @@ function draw_next_image(){
 }
 
 function setup() {
-    console.log('setup');
     noCanvas();
     draw_next_image();
 }
@@ -47,6 +47,11 @@ function imageReady() {
   classifier.predict(img.elt, 10, gotResult);
 }
 
+function savePredictions(){
+    predictions_JSON = {"predictions": predictions}
+    saveJSON(predictions_JSON, 'predictions.json');
+}
+
 function removeImage(){
     img.remove();
     current_index++;
@@ -54,14 +59,25 @@ function removeImage(){
     if (current_index <= all_images.length-1){
         draw_next_image();
     }else{
-        console.log('Done!');
+        savePredictions();
     }
 }
 
 // When we get the results
 function gotResult(results) {
-  // The results are in an array ordered by probability.
-  select('#result').html(results[0].label);
-  select('#probability').html(nf(results[0].probability, 0, 2));
-  setTimeout(removeImage, 1000);
+    information = {
+        "name": all_images[current_index],
+        "result": results[0].label,
+        "probability": nf(results[0].probability, 0, 2)
+    }
+    predictions.push(information);
+
+  if (display){
+    // The results are in an array ordered by probability.
+    select('#result').html(results[0].label);
+    select('#probability').html(nf(results[0].probability, 0, 2));
+    setTimeout(removeImage, 1000);
+  }else{
+    removeImage();
+  }
 }
