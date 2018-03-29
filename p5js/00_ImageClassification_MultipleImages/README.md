@@ -1,6 +1,6 @@
 # Classifying multiple images
 
-# This example shows how to classify multiple images and save predictions to a JSON file. Additional information down the page explains how to download or process a different dataset for use with this example.
+## This example shows how to classify multiple images and save predictions to a JSON file. 
 
 ***
 
@@ -18,15 +18,33 @@ If you already have a collection of images, place those in a folder called 'data
 
 Because JavaScript has a hard time pulling in multiple files, we need to make a JSON file of the image folder's structure, with all of the file names. 
 
-Navigate to the dataset in your terminal (cd images/dataset). If you type 'ls', you can see many folders, each containing images. The images that you want to make predictions on can be in any format.
+Navigate to the dataset in your terminal:
 
-Once in the folder, type 'tree'. You can see a printout of the structure of the data folder. Type 'tree > ../../make_json/tree.txt' to save this structure to a text file in the "make_json" folder.
+```cd images/dataset```
 
-Next, navigate to the make_json folder (cd ../../make_json). There is a program here that will take the tree structure and turn it into a nice clean JSON file to read into our JavaScript program.
+If you type 'ls', you can see many folders, each containing images. The images that you want to make predictions on can be in any format.
 
-Once there, if you type 'ls', you will see your tree.txt file and a python script called main.py. Run this program by typing 'python main.py' in your terminal. If you type 'ls' again after this, you will see a data.json file with your JSON-structured data.
+Once in the folder, type 'tree'. You can see a printout of the structure of the data folder. Type 
 
-Move that file to your 'assets' folder. You can do this on the command line by typing 'mv data.json ../assets/data.json'.
+```tree > ../../make_json/tree.txt```
+
+to save this structure to a text file in the "make_json" folder.
+
+Next, navigate to the make_json folder:
+
+```cd ../../make_json```
+
+There is a program here that will take the tree structure and turn it into a nice clean JSON file to read into our JavaScript program.
+
+Once there, if you type 'ls', you will see your tree.txt file and a python script called main.py. Run this program by typing 
+
+```python main.py```
+
+in your terminal. If you type 'ls' again after this, you will see a data.json file with your JSON-structured data.
+
+Move that file to your 'assets' folder. You can do this on the command line by typing:
+
+```mv data.json ../assets/data.json```
 
 
 
