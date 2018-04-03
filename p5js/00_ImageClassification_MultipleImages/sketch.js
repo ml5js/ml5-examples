@@ -63,10 +63,10 @@ function removeImage(){
 
 // When we get the results
 function gotResult(results) {
+    console.log(results);
     information = {
         "name": all_images[current_index],
-        "result": results[0].label,
-        "probability": nf(results[0].probability, 0, 2)
+        "result": results,
     }
     predictions.push(information);
 

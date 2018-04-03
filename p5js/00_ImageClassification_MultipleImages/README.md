@@ -4,7 +4,7 @@
 
 ***
 
-## Using your own dataset
+## Using your own images
 
 This example uses a few photos from the [Caltech 101](http://www.vision.caltech.edu/Image_Datasets/Caltech101/).
 
