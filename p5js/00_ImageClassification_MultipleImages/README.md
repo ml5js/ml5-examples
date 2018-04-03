@@ -10,7 +10,7 @@ This example uses a few photos from the [Caltech 101](http://www.vision.caltech.
 
 #### Collect the data
 
-If you're downloading a dataset, download it and move it to the 'images' folder of this example. Unzip it. Delete the zip file. Rename the parent folder (under 'images') to 'dataset'. The dataset folder should contain only other folders and images.
+If you're downloading a dataset, download it and move it to the 'images' folder of this example. Unzip it. Delete the zip file. Rename the parent folder (under 'images') to 'dataset'. The dataset folder should contain only images.
 
 If you already have a collection of images, place those in a folder called 'dataset' in the 'images' folder of this example.
 

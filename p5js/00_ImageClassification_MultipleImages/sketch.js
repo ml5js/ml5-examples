@@ -11,17 +11,14 @@ let img;
 current_index = 0;
 all_images = []
 display = true;
-display_time = 1000;
+display_time = 750;
 predictions = []
 
 function append_images(){
-    //for (var item in data.images){
     for (var i in data.images){
-        console.log(i);
-        img_path = i;
+        img_path = data.images[i];
         all_images.push(get_image_path(img_path));
     }
-    //}
 }
 
 function preload(){
@@ -31,7 +28,6 @@ function preload(){
 function get_image_path(img_path){
     full_path = 'images/dataset/';
     full_path = full_path + img_path;
-    console.log(full_path);
     return full_path
 }
 
@@ -78,7 +74,7 @@ function gotResult(results) {
     // The results are in an array ordered by probability.
     select('#result').html(results[0].label);
     select('#probability').html(nf(results[0].probability, 0, 2));
-    // Currently set to 1000 ms. This can be changed to show the image for a longer or shorter time.
+    // Can be changed with the display_time variable. 
     setTimeout(removeImage, display_time);
   }else{
     removeImage();
