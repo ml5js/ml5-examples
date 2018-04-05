@@ -13,4 +13,4 @@ for line in text:
         print line
 
 with open('data.json', 'w') as f:
-     json.dump(data, f)
+    json.dump(data, f)
