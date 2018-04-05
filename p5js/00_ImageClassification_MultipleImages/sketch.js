@@ -8,36 +8,37 @@ Simple Image Classification using p5.js
 const classifier = new ml5.ImageClassifier('MobileNet');
 
 let img;
-current_index = 0;
-all_images = []
+currentIndex = 0;
+allImages = []
 display = true;
-display_time = 750;
+displayTime = 750;
 predictions = []
 
-function append_images(){
-    for (var i in data.images){
-        img_path = data.images[i];
-        all_images.push(get_image_path(img_path));
-    }
+function appendImages(){
+  for (i = 0; i < data.images.length; i++){
+    imgPath = data.images[i];
+    allImages.push(getImagePath(imgPath));
+  }
 }
 
 function preload(){
-    data = loadJSON('/assets/data.json', append_images);
+  data = loadJSON('/assets/data.json');
 }
 
-function get_image_path(img_path){
-    full_path = 'images/dataset/';
-    full_path = full_path + img_path;
-    return full_path
+function getImagePath(imgPath){
+  fullPath = 'images/dataset/';
+  fullPath = fullPath + imgPath;
+  return fullPath
 }
 
-function draw_next_image(){
-    img.attribute('src', all_images[current_index], imageReady);
+function drawNextImage(){
+  img.attribute('src', allImages[currentIndex], imageReady);
 }
 
 function setup() {
-    noCanvas();
-    img = createImg(all_images[0], imageReady);
+  noCanvas();
+  appendImages();
+  img = createImg(allImages[0], imageReady);
 }
 
 
@@ -48,34 +49,33 @@ function imageReady() {
 }
 
 function savePredictions(){
-    predictions_JSON = {"predictions": predictions}
-    saveJSON(predictions_JSON, 'predictions.json');
+  predictionsJSON = {"predictions": predictions}
+  saveJSON(predictionsJSON, 'predictions.json');
 }
 
 function removeImage(){
-    current_index++;
-    if (current_index <= all_images.length-1){
-        draw_next_image();
-    }else{
-        savePredictions();
-    }
+  currentIndex++;
+  if (currentIndex <= allImages.length-1){
+    drawNextImage();
+  }else{
+    savePredictions();
+  }
 }
 
 // When we get the results
 function gotResult(results) {
-    console.log(results);
-    information = {
-        "name": all_images[current_index],
-        "result": results,
-    }
-    predictions.push(information);
+  information = {
+    "name": allImages[currentIndex],
+    "result": results,
+  }
+  predictions.push(information);
 
   if (display){
     // The results are in an array ordered by probability.
     select('#result').html(results[0].label);
     select('#probability').html(nf(results[0].probability, 0, 2));
-    // Can be changed with the display_time variable. 
-    setTimeout(removeImage, display_time);
+    // Can be changed with the displayTime variable. 
+    setTimeout(removeImage, displayTime);
   }else{
     removeImage();
   }
