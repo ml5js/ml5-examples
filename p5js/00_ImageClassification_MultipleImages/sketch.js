@@ -1,7 +1,7 @@
 /* ===
 ML5 Example
-00_ImageNet_Simple
-Simple Image Classification using p5.js
+00_ImageNet_Multiple
+Multiple Image Classification using p5.js
 === */
 
 // Initialize the ImageNet method with the MobileNet model.
