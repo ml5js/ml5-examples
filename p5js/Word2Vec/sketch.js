@@ -1,6 +1,6 @@
 /* ===
 ML5 Example
-07_Word2Vecs
+Word2Vecs
 Simple Word2Vec Example with p5.js
 Using a pre-trained model on common English words. Source: (TODO)
 === */

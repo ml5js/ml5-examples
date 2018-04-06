@@ -1,6 +1,6 @@
 /* ===
 ML5 Example
-01_ImageNet_Camera
+ImageNet_Camera
 Video Camera Classification using p5.js
 === */
 

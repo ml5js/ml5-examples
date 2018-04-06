@@ -1,7 +1,7 @@
 /* ===
 ML5 Example
-04_LSTM_Interactive
-Interactive LSTM Generator example with p5.js
+LSTM_Simple
+Simple LSTM Generator example with p5.js
 This uses a pre-trained model on a corpus of Hemingway
 === */
 
@@ -9,8 +9,9 @@ This uses a pre-trained model on a corpus of Hemingway
 const lstm = new ml5.LSTMGenerator('models/hemingway/', modelReady);
 
 let textInput;
-let tempSlider;
 let lengthSlider;
+let tempSlider;
+let button;
 
 function modelReady() {
   select('#status').html('Model Loaded');
@@ -23,29 +24,35 @@ function setup() {
   textInput = select('#textInput');
   lengthSlider = select('#lenSlider');
   tempSlider = select('#tempSlider');
+  button = select('#generate');
 
-  // Run generate anytime something changes
-  textInput.input(generate);
-  lengthSlider.input(generate);
-  tempSlider.input(generate);
+  // DOM element events
+  button.mousePressed(generate);
+  lengthSlider.input(updateSliders);
+  tempSlider.input(updateSliders);
+
+  // Update the slider values
+  function updateSliders() {
+    select('#length').html(lengthSlider.value())
+    select('#temperature').html(tempSlider.value())
+  }
 }
 
+// Generate new text
 function generate() {
   // Update the status log
   select('#status').html('Generating...');
-
-  // Update the length and temperature span elements
-  select('#length').html(lengthSlider.value());
-  select('#temperature').html(tempSlider.value());
 
   // Grab the original text
   let original = textInput.value();
   // Make it to lower case
   let txt = original.toLowerCase();
 
-  // Check if there's something
+  // Check if there's something to send
   if (txt.length > 0) {
-    // Here is the data for the LSTM generator
+    // This is what the LSTM generator needs
+    // Seed text, temperature, length to outputs
+    // TODO: What are the defaults?
     let data = {
       seed: txt,
       temperature: tempSlider.value(),
@@ -55,15 +62,11 @@ function generate() {
     // Generate text with the lstm
     lstm.generate(data, gotData);
 
-    // Update the DOM elements with typed and generated text
+    // When it's done
     function gotData(result) {
+      // Update the status log
       select('#status').html('Ready!');
-      select('#original').html(original);
-      select('#prediction').html(result.generated);
+      select('#result').html(txt + result.generated);
     }
-  } else {
-    // Clear everything
-    select('#original').html('');
-    select('#prediction').html('');
   }
 }
