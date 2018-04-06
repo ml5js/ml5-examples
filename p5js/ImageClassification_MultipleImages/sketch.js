@@ -1,37 +1,37 @@
 /* ===
 ML5 Example
-ImageNet_Multiple
-Multiple Image Classification using p5.js
+ImageNet_Simple
+Simple Image Classification using p5.js
 === */
 
 // Initialize the ImageNet method with the MobileNet model.
 const classifier = new ml5.ImageClassifier('MobileNet');
 
 let img;
-currentIndex = 0;
-allImages = []
-display = true;
-displayTime = 750;
-predictions = []
+let currentIndex = 0;
+let allImages = [];
+let display = true;
+let displayTime = 750;
+let predictions = [];
 
-function appendImages(){
-  for (i = 0; i < data.images.length; i++){
+function appendImages() {
+  for (i = 0; i < data.images.length; i++) {
     imgPath = data.images[i];
     allImages.push(getImagePath(imgPath));
   }
 }
 
-function preload(){
+function preload() {
   data = loadJSON('/assets/data.json');
 }
 
-function getImagePath(imgPath){
+function getImagePath(imgPath) {
   fullPath = 'images/dataset/';
   fullPath = fullPath + imgPath;
   return fullPath
 }
 
-function drawNextImage(){
+function drawNextImage() {
   img.attribute('src', allImages[currentIndex], imageReady);
 }
 
@@ -48,16 +48,18 @@ function imageReady() {
   classifier.predict(img.elt, 10, gotResult);
 }
 
-function savePredictions(){
-  predictionsJSON = {"predictions": predictions}
+function savePredictions() {
+  predictionsJSON = {
+    "predictions": predictions
+  }
   saveJSON(predictionsJSON, 'predictions.json');
 }
 
-function removeImage(){
+function removeImage() {
   currentIndex++;
-  if (currentIndex <= allImages.length-1){
+  if (currentIndex <= allImages.length - 1) {
     drawNextImage();
-  }else{
+  } else {
     savePredictions();
   }
 }
@@ -70,13 +72,13 @@ function gotResult(results) {
   }
   predictions.push(information);
 
-  if (display){
+  if (display) {
     // The results are in an array ordered by probability.
     select('#result').html(results[0].label);
     select('#probability').html(nf(results[0].probability, 0, 2));
-    // Can be changed with the displayTime variable. 
+    // Can be changed with the displayTime variable.
     setTimeout(removeImage, displayTime);
-  }else{
+  } else {
     removeImage();
   }
 }
