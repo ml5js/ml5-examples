@@ -1,6 +1,6 @@
 /* ===
 ML5 Example
-00_ImageNet_Simple
+ImageNet_Simple
 Simple Image Classification using p5.js
 === */
 
