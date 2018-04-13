@@ -5,7 +5,7 @@
 
 /* ===
 ML5 Example
-02_KNN_Image
+KNN_Image
 KNN Image Classifier example with p5.js
 === */
 
