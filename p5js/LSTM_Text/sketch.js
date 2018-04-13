@@ -5,7 +5,7 @@
 
 /* ===
 ML5 Example
-03_LSTM_Simple
+LSTM_Simple
 Simple LSTM Generator example with p5.js
 This uses a pre-trained model on a corpus of Hemingway
 === */

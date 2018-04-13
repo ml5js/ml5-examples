@@ -5,7 +5,7 @@
 
 /* ===
 ML5 Example
-05_Fast_Style_Transfer_Simple
+Fast_Style_Transfer_Simple
 Fast Style Transfer Simple Example with p5.js
 This uses a pre-trained model of The Great Wave off Kanagawa and Udnie (Young American Girl, The Dance)
 === */
