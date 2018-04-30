@@ -5,12 +5,12 @@
 
 /* ===
 ML5 Example
-ImageNet_Simple
+Image Classification
 Simple Image Classification using p5.js
 === */
 
-// Initialize the ImageNet method with the MobileNet model.
-const classifier = new ml5.ImageClassifier('MobileNet');
+// Initialize the Image Classifier method
+const classifier = new ml5.ImageClassifier();
 
 let img;
 
@@ -29,6 +29,6 @@ function imageReady() {
 // When we get the results
 function gotResult(results) {
   // The results are in an array ordered by probability.
-  select('#result').html(results[0].label);
+  select('#result').html(results[0].className);
   select('#probability').html(nf(results[0].probability, 0, 2));
 }
