@@ -5,7 +5,6 @@
 
 /* ===
 ML5 Example
-Image Classification
 Simple Image Classification using p5.js
 === */
 
