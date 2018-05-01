@@ -36,5 +36,5 @@ function gotResult(results) {
   // The results are in an array ordered by probability.
   select('#result').html(results[0].className);
   select('#probability').html(nf(results[0].probability, 0, 2));
-  setTimeout(guess, 250);
+  guess();
 }
