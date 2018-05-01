@@ -14,31 +14,34 @@ let yolo;
 let objects = [];
 
 function setup() {
-  createCanvas(416, 416);
+  createCanvas(640, 410);
   video = createCapture(VIDEO, onVideoLoaded);
   video.hide();
-  noFill();
+  select('#start').mousePressed(function() {
+    detect();
+  });
 }
 
 function draw() {
-  image(video, 0, 0);
+  image(video, 0, 0, 640, 410);
   objects.forEach(function(object) {
-    rect(object.x, object.y, object.w, object.h);
+    noStroke();
+    fill(0, 255, 0);
+    text(object.className, object.x*width, object.y*height - 5);
+    noFill();
+    strokeWeight(4);
+    stroke(0,255, 0);
+    rect(object.x*width, object.y*height, object.w*width, object.h*height);
   });
-
 }
 
 function onVideoLoaded() {
   yolo = new ml5.YOLO(video.elt);
-  // setInterval(function(){
-  //   detect();
-  // }, 200);
-  detect();
 }
 
 function detect() {
-  yolo.detect((results) => {
+  yolo.detect(function(results){
     objects = results;
-    console.log(results);
+    detect();
   });
 }
