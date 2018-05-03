@@ -26,7 +26,10 @@ const options = {
 function setup() {
   noCanvas();
   // Create a video element
-  video = createCapture(VIDEO, onVideoLoaded).parent('videoContainer');
+  video = createCapture(VIDEO, onVideoLoaded);
+  // Append it to the videoContainer DOM element
+  video.parent('videoContainer');
+  // Create the UI buttons
   createButtons();
 }
 
