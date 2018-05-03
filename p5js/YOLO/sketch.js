@@ -24,15 +24,15 @@ function setup() {
 
 function draw() {
   image(video, 0, 0, 640, 410);
-  objects.forEach(function(object) {
+  for (let i = 0; i < objects.length; i++) {
     noStroke();
     fill(0, 255, 0);
-    text(object.className, object.x*width, object.y*height - 5);
+    text(objects[i].className, objects[i].x*width, objects[i].y*height - 5);
     noFill();
     strokeWeight(4);
     stroke(0,255, 0);
-    rect(object.x*width, object.y*height, object.w*width, object.h*height);
-  });
+    rect(objects[i].x*width, objects[i].y*height, objects[i].w*width, objects[i].h*height);
+  }
 }
 
 function onVideoLoaded() {
