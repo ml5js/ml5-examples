@@ -36,7 +36,7 @@ function setup() {
 // When the video is loaded, 
 function onVideoLoaded() {
   // Create the image classifier with the video and training options
-  classifier = new ml5.ImageClassifier(video.elt, options, modelLoaded);
+  classifier = new ml5.ImageClassifier(video, options, modelLoaded);
 }
 
 // A function to be called when the model has been loaded
