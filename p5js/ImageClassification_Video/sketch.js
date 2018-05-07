@@ -21,7 +21,7 @@ function setup() {
 // When the video is loaded
 function onVideoLoaded() {
   // Create the classifier
-  classifier = new ml5.ImageClassifier(video.elt);
+  classifier = new ml5.ImageClassifier(video);
   // Call the guess function
   guess();
 }
