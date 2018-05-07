@@ -11,15 +11,14 @@ Real time Object Detection
 
 let video;
 let yolo;
+let status;
 let objects = [];
 
 function setup() {
   createCanvas(640, 410);
   video = createCapture(VIDEO, onVideoLoaded);
   video.hide();
-  select('#start').mousePressed(function() {
-    detect();
-  });
+  status = select('#status');
 }
 
 function draw() {
@@ -36,7 +35,12 @@ function draw() {
 }
 
 function onVideoLoaded() {
-  yolo = new ml5.YOLO(video.elt);
+  yolo = new ml5.YOLO(video, startDetecting);
+}
+
+function startDetecting() {
+  status.html('Model loaded!');
+  detect();
 }
 
 function detect() {
