@@ -16,7 +16,7 @@ let img;
 function setup() {
   noCanvas();
   // Load the image
-  img = createImg('images/kitten.jpg', imageReady);
+  img = createImg('images/bird.jpg', imageReady);
 }
 
 // When the image has been loaded,
