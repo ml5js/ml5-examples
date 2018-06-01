@@ -38,26 +38,30 @@ function draw() {
 
 // A function to draw ellipses over the detected keypoints
 function drawKeypoints() {
-  poses.forEach(pose => {
-    pose.keypoints.forEach(e => {
-      if (e.score > 0.2) {
-        ellipse(e.position.x, e.position.y, 10, 10);
+  // Loop through all the poses detected
+  for(let i = 0; i < poses.length; i++) {
+    // For each pose detected, loop through all the keypoints
+    for(let j = 0; j < poses[i].keypoints.length; j++) {
+      let keypoint = poses[i].keypoints[j];
+      // Only draw an ellipse is the pose probability is bigger than 0.2
+      if (keypoint.score > 0.2) {
+        ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
       }
-    })
-  });
+    }
+  }
 }
 
 // A function to draw the skeletons
 function drawSkeleton() {
-  skeletons.forEach(skeleton => {
-    skeleton.forEach(parts => {
-      let x1 = parts[0].position.x;
-      let y1 = parts[0].position.y;
-      let x2 = parts[1].position.x;
-      let y2 = parts[1].position.y;
-      line(x1, y1, x2, y2);
-    });
-  });
+  // Loop through all the skeletons detected
+  for(let i = 0; i < skeletons.length; i++) {
+    // For every skeleton, loop through all body connections
+    for(let j = 0; j < skeletons[i].length; j++) {
+      let partA = skeletons[i][j][0];
+      let partB = skeletons[i][j][1];
+      line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+    }
+  }
 }
 
 // The callback that gets called every time there's an update from the model
