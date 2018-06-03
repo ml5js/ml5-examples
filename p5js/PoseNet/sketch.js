@@ -41,8 +41,9 @@ function drawKeypoints() {
   // Loop through all the poses detected
   for(let i = 0; i < poses.length; i++) {
     // For each pose detected, loop through all the keypoints
-    for(let j = 0; j < poses[i].keypoints.length; j++) {
-      let keypoint = poses[i].keypoints[j];
+    for(let j = 0; j < poses[i].pose.keypoints.length; j++) {
+      // A keypoint is an object describing a body part (like rightArm or leftShoulder)
+      let keypoint = poses[i].pose.keypoints[j];
       // Only draw an ellipse is the pose probability is bigger than 0.2
       if (keypoint.score > 0.2) {
         ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
@@ -54,11 +55,11 @@ function drawKeypoints() {
 // A function to draw the skeletons
 function drawSkeleton() {
   // Loop through all the skeletons detected
-  for(let i = 0; i < skeletons.length; i++) {
+  for(let i = 0; i < poses.length; i++) {
     // For every skeleton, loop through all body connections
-    for(let j = 0; j < skeletons[i].length; j++) {
-      let partA = skeletons[i][j][0];
-      let partB = skeletons[i][j][1];
+    for(let j = 0; j < poses[i].skeleton.length; j++) {
+      let partA = poses[i].skeleton[j][0];
+      let partB = poses[i].skeleton[j][1];
       line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
     }
   }
@@ -67,5 +68,4 @@ function drawSkeleton() {
 // The callback that gets called every time there's an update from the model
 function gotPoses(results) {
   poses = results;
-  skeletons = poses.map(pose => poseNet.skeleton(pose.keypoints));
 }

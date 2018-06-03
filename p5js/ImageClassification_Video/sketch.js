@@ -14,21 +14,19 @@ let video;
 
 function setup() {
   noCanvas();
-  // Load the camera and call guess() once it has loaded.
-  video = createCapture(VIDEO, onVideoLoaded);
-}
-
-// When the video is loaded
-function onVideoLoaded() {
-  // Create the classifier
+  // Create a camera input
+  video = createCapture(VIDEO);
+  // Create the classifier with the video element
   classifier = new ml5.ImageClassifier(video);
-  // Call the guess function
-  guess();
+  // Call the classifyFrame function to start classifying the video
+  classifyFrame();
 }
 
 // Get a prediction for the current video frame
-function guess() {
-  classifier.predict(10, gotResult);
+function classifyFrame() {
+  classifier.predict(gotResult);
+  // You can also specify the amount of classes detected you want
+  // classifier.predict(10, gotResult)
 }
 
 // When we get a result
@@ -36,5 +34,5 @@ function gotResult(results) {
   // The results are in an array ordered by probability.
   select('#result').html(results[0].className);
   select('#probability').html(nf(results[0].probability, 0, 2));
-  guess();
+  classifyFrame();
 }

@@ -11,6 +11,7 @@ Simple Image Classification using p5.js
 // Initialize the Image Classifier method
 const classifier = new ml5.ImageClassifier();
 
+// A variable to hold the image we want to classify
 let img;
 
 function setup() {
@@ -22,10 +23,12 @@ function setup() {
 // When the image has been loaded,
 // get a prediction for that image
 function imageReady() {
-  classifier.predict(img.elt, 10, gotResult);
+  classifier.predict(img, gotResult);
+  // You can also specify the amount of classes you want
+  //classifier.predict(img, 10, gotResult);
 }
 
-// When we get the results
+// A function to run when we get the results
 function gotResult(results) {
   // The results are in an array ordered by probability.
   select('#result').html(results[0].className);
