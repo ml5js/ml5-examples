@@ -5,28 +5,34 @@
 
 /* ===
 ML5 Example
-ImageNet_Camera
-Video Camera Classification using p5.js
+Webcam Classification using p5.js
 === */
 
-// Initialize the ImageNet method with the MobileNet model.
-const classifier = new ml5.ImageClassifier('MobileNet');
+// Initialize the Image Classifier method.
+let classifier;
 let video;
 
 function setup() {
   noCanvas();
-  // Load the camera and call guess() once it has loaded.
-  video = createCapture(VIDEO, guess);
+  // Create a camera input
+  video = createCapture(VIDEO);
+  // Create the classifier with the video element
+  classifier = new ml5.ImageClassifier(video);
+  // Call the classifyFrame function to start classifying the video
+  classifyFrame();
 }
 
 // Get a prediction for the current video frame
-function guess() {
-  classifier.predict(video.elt, 10, gotResult);
+function classifyFrame() {
+  classifier.predict(gotResult);
+  // You can also specify the amount of classes detected you want
+  // classifier.predict(10, gotResult)
 }
 
+// When we get a result
 function gotResult(results) {
   // The results are in an array ordered by probability.
-  select('#result').html(results[0].label);
+  select('#result').html(results[0].className);
   select('#probability').html(nf(results[0].probability, 0, 2));
-  setTimeout(guess, 250);
+  classifyFrame();
 }
