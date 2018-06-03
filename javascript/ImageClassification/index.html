@@ -1,18 +1,25 @@
+<!--
+ Copyright (c) 2018 ml5
+ 
+ This software is released under the MIT License.
+ https://opensource.org/licenses/MIT
+-->
+
 <html>
 
 <head>
   <meta charset="UTF-8">
-  <title>Imagenet Example</title>
+  <title>Image Classification Example</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
   <!-- <script src="https://unpkg.com/ml5@0.0.3/dist/ml5.js"></script> -->
   <script src="../../temp_lib/ml5.min.js"></script>
   
 </head>
 
 <body>
+  <h1>Image classification</h1>
   <p>I guess this is a <span id="result">...</span>. My confidence is <span id="probability">...</span>.</p>
+  <img src="images/bird.jpg" id="image">
   <script src="sketch.js"></script>
 </body>
 

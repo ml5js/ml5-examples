@@ -9,10 +9,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Video Camera Image Classification using p5.js</title>
+  <title>Video Camera Classification</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
   <!-- <script src="https://unpkg.com/ml5@0.0.3/dist/ml5.js"></script> -->
   <script src="../../temp_lib/ml5.min.js"></script>
 
@@ -24,6 +22,7 @@
     My guess is a <span id="result">...</span>.
     <br/>My confidence is <span id="probability">...</span>.
   </p>
+  <video id="video" width="640" height="480" autoplay></video>
   <script src="sketch.js"></script>
 </body>
 
