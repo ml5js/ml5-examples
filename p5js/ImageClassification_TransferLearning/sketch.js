@@ -14,29 +14,16 @@ let loss;
 let dogImages = 0;
 let catImages = 0;
 
-// Default options for training
-const options = {
-  learningRate: 0.0001,
-  hiddenUnits: 100,
-  epochs: 20,
-  numClasses: 2,
-  batchSize: 0.4,
-};
-
 function setup() {
   noCanvas();
   // Create a video element
-  video = createCapture(VIDEO, onVideoLoaded);
+  video = createCapture(VIDEO);
   // Append it to the videoContainer DOM element
   video.parent('videoContainer');
+  // Create the image classifier with the video and a callback
+  classifier = new ml5.ImageClassifier(video, modelLoaded);
   // Create the UI buttons
   createButtons();
-}
-
-// When the video is loaded, 
-function onVideoLoaded() {
-  // Create the image classifier with the video and training options
-  classifier = new ml5.ImageClassifier(video, options, modelLoaded);
 }
 
 // A function to be called when the model has been loaded
@@ -56,18 +43,20 @@ function predict() {
 
 // A util function to create UI buttons
 function createButtons() {
-  // Add image as cat class
-  buttonA = select('#buttonA');
+  // When the Cat button is pressed, add the current frame
+  // from the video with a label of "cat" to the classifier
+  buttonA = select('#catButton');
   buttonA.mousePressed(function() {
     addImage('cat');
-    select('#exampleA').html(catImages++);
+    select('#amountOfCatImages').html(catImages++);
   });
 
-  // Add image as dog class
-  buttonB = select('#buttonB');
+  // When the Dog button is pressed, add the current frame
+  // from the video with a label of "dog" to the classifier
+  buttonB = select('#dogButton');
   buttonB.mousePressed(function() {
     addImage('dog');
-    select('#exampleB').html(dogImages++);
+    select('#amountOfDogImages').html(dogImages++);
   });
 
   // Train Button
@@ -91,7 +80,5 @@ function createButtons() {
 // Show the results
 function gotResults(result) {
   select('#result').html(result);
-  setTimeout(function(){
-    predict();
-  }, 50);
+  predict();
 }
