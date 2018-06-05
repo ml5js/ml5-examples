@@ -40,8 +40,8 @@ function gotImage(e) {
   reader.readAsDataURL(file);
   reader.onloadend = () => {
     image.src = reader.result;
+    setTimeout(classifyImage, 100);
   }
-  classifyImage();
 }
 
 image.addEventListener('drop', gotImage, false);
@@ -51,8 +51,6 @@ const probability = document.getElementById('probability'); // The probability t
 
 // Initialize the Image Classifier method
 const classifier = new ml5.ImageClassifier();
-
-
 
 // Make a prediction with the selected image
 // This will return an array with a default of 10 options with their probabilities
