@@ -29,6 +29,9 @@ If you don't know how to start a server, check [this](https://github.com/process
 
 The p5.js examples can also be run using the [p5.js web editor](https://alpha.editor.p5js.org). Link coming soon.
 
+* [PoseNet Example](https://alpha.editor.p5js.org/ml5/sketches/B1uDXDugX)
+* [YOLO Example](https://alpha.editor.p5js.org/ml5/sketches/HyKg7DOe7)
+
 ## Contributing
 
 See CONTRIBUTING.MD
