@@ -27,7 +27,7 @@ If you don't know how to start a server, check [this](https://github.com/process
 
 ## p5.js web editor examples
 
-The p5.js examples can also be run using the [p5.js web editor](https://alpha.editor.p5js.org). Link coming soon.
+The p5.js examples can also be run using the [p5.js web editor](https://alpha.editor.p5js.org). We are [in the process of porting](https://github.com/ml5js/ml5-examples/issues/6) and would welcome any contributions!
 
 * [PoseNet Example](https://alpha.editor.p5js.org/ml5/sketches/B1uDXDugX)
 * [YOLO Example](https://alpha.editor.p5js.org/ml5/sketches/HyKg7DOe7)
