@@ -9,7 +9,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>LSTM Simple Example</title>
+  <title>LSTM Text Generation Example</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
@@ -18,16 +18,22 @@
 
 </head>
 
-<script src="sketch.js"></script>
-
 <body>
-  <h1>LSTM Text Generation Example</h1> 
-  <p>seed text: <input id="textInput" value="The meaning of life is" /></p> 
-  <p>length: <input id="lenSlider" type="range" min="10" max="500" value="100"> <span id="length">100</span></p>
-  <p>temperature:<input id="tempSlider" type="range" min="0" max="1" step="0.01"><span id="temperature">0.5</span></p>
+  <h1>LSTM Text Generation Example</h1>
+  <h2>This example uses a pre-trained model on a corpus of Nietschze</h2>
+  <p>seed text:
+    <input id="textInput" value="The meaning of life is" />
+  </p>
+  <p>length:
+    <input id="lenSlider" type="range" min="10" max="500" value="100"> <span id="length">100</span></p>
+  <p>temperature:
+    <input id="tempSlider" type="range" min="0" max="1" step="0.01"><span id="temperature">0.5</span></p>
   <p id="status">Loading Model</p>
   <button id="generate">generate</button>
   <p id="result"></p>
+
+
+  <script src="sketch.js"></script>
 </body>
 
 </html>

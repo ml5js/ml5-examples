@@ -4,9 +4,8 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
-YOLO
-Real time Object Detection
+ml5 Example
+Real time Object Detection using YOLO and p5.js
 === */
 
 let video;
@@ -15,14 +14,19 @@ let status;
 let objects = [];
 
 function setup() {
-  createCanvas(640, 410);
-  video = createCapture(VIDEO, onVideoLoaded);
+  createCanvas(640, 480);
+  video = createCapture(VIDEO);
+
+  // Create a YOLO method
+  yolo = new ml5.YOLO(video, startDetecting);
+  
+  // Hide the original video
   video.hide();
   status = select('#status');
 }
 
 function draw() {
-  image(video, 0, 0, 640, 410);
+  image(video, 0, 0, 640, 480);
   for (let i = 0; i < objects.length; i++) {
     noStroke();
     fill(0, 255, 0);
@@ -34,9 +38,6 @@ function draw() {
   }
 }
 
-function onVideoLoaded() {
-  yolo = new ml5.YOLO(video, startDetecting);
-}
 
 function startDetecting() {
   status.html('Model loaded!');

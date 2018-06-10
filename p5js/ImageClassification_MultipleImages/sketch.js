@@ -1,10 +1,15 @@
+// Copyright (c) 2018 ml5
+// 
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
 /* ===
-ML5 Example
-Multiple Image Classification using p5.js
+ml5 Example
+Multiple Image classification using Mobilenet and p5.js
 === */
 
-// Initialize the Image Classifier method.
-const classifier = new ml5.ImageClassifier();
+// Initialize the Image Classifier method using Mobilenet
+const classifier = new ml5.ImageClassifier('Mobilenet');
 
 let img;
 let currentIndex = 0;
@@ -16,18 +21,12 @@ let predictions = [];
 function appendImages() {
   for (i = 0; i < data.images.length; i++) {
     imgPath = data.images[i];
-    allImages.push(getImagePath(imgPath));
+    allImages.push('images/dataset/' + imgPath);
   }
 }
 
 function preload() {
-  data = loadJSON('/assets/data.json');
-}
-
-function getImagePath(imgPath) {
-  fullPath = 'images/dataset/';
-  fullPath = fullPath + imgPath;
-  return fullPath
+  data = loadJSON('assets/data.json');
 }
 
 function drawNextImage() {
@@ -43,7 +42,7 @@ function setup() {
 // When the image has been loaded,
 // get a prediction for that image
 function imageReady() {
-  classifier.predict(img.elt, 10, gotResult);
+  classifier.predict(img, gotResult);
 }
 
 function savePredictions() {
@@ -69,7 +68,7 @@ function gotResult(results) {
     "result": results,
   }
   predictions.push(information);
-
+  console.log(results);
   if (display) {
     // The results are in an array ordered by probability.
     select('#result').html(results[0].className);

@@ -8,61 +8,61 @@ ML5 Example
 Image Classifier with Transfer Learning example with p5.js
 === */
 
-let classifier;
+let featureExtractor;
+let regressor;
 let video;
 let loss;
-let dogImages = 0;
-let catImages = 0;
+let slider;
+let addSample;
+let samples = 0;
+let positionX = 140;
 
 function setup() {
-  noCanvas();
+  createCanvas(340, 280);
   // Create a video element
   video = createCapture(VIDEO);
   // Append it to the videoContainer DOM element
-  video.parent('videoContainer');
-  // Create the image classifier with the video and a callback
-  classifier = new ml5.ImageClassifier(video, modelLoaded);
+  video.hide();
+  // Extract the features from Mobilenet
+  featureExtractor = new ml5.FeatureExtractor('Mobilenet', modelReady);
+  // Create a new regressor using those features and give the video we want to use
+  regressor = featureExtractor.asRegressor(video);
   // Create the UI buttons
   createButtons();
+  noStroke();
+  fill(255, 0, 0);
+}
+
+function draw() {
+  image(video, 0, 0, 340, 280);
+  rect(positionX, 120, 50, 50);
 }
 
 // A function to be called when the model has been loaded
-function modelLoaded() {
+function modelReady() {
   select('#loading').html('Model loaded!');
 }
 
-// Add the current frame from the video to the classifier
-function addImage(label) {
-  classifier.addImage(label);
-}
-
-// Predict the current frame.
+// Classify the current frame.
 function predict() {
-  classifier.predict(gotResults);
+  regressor.predict(gotResults);
 }
 
 // A util function to create UI buttons
 function createButtons() {
-  // When the Cat button is pressed, add the current frame
-  // from the video with a label of "cat" to the classifier
-  buttonA = select('#catButton');
-  buttonA.mousePressed(function() {
-    addImage('cat');
-    select('#amountOfCatImages').html(catImages++);
-  });
-
+  slider = select('#slider');
   // When the Dog button is pressed, add the current frame
   // from the video with a label of "dog" to the classifier
-  buttonB = select('#dogButton');
-  buttonB.mousePressed(function() {
-    addImage('dog');
-    select('#amountOfDogImages').html(dogImages++);
+  addSample = select('#addSample');
+  addSample.mousePressed(function() {
+    regressor.addImage(slider.value());
+    select('#amountOfSamples').html(samples++);
   });
 
   // Train Button
   train = select('#train');
   train.mousePressed(function() {
-    classifier.train(function(lossValue) {
+    regressor.train(function(lossValue) {
       if (lossValue) {
         loss = lossValue;
         select('#loss').html('Loss: ' + loss);
@@ -79,6 +79,7 @@ function createButtons() {
 
 // Show the results
 function gotResults(result) {
-  select('#result').html(result);
+  positionX = map(result, 0, 1, 0, width);
+  slider.value(result);
   predict();
 }

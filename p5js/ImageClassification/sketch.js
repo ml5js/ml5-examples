@@ -4,12 +4,12 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
-Simple Image Classification using p5.js
+ml5 Example
+Image classification using Mobilenet and p5.js
 === */
 
-// Initialize the Image Classifier method
-const classifier = new ml5.ImageClassifier();
+// Initialize the Image Classifier method with Mobilenet
+const classifier = new ml5.ImageClassifier('Mobilenet');
 
 // A variable to hold the image we want to classify
 let img;
@@ -18,6 +18,7 @@ function setup() {
   noCanvas();
   // Load the image
   img = createImg('images/bird.jpg', imageReady);
+  img.size(400, 400);
 }
 
 // When the image has been loaded,
@@ -25,7 +26,7 @@ function setup() {
 function imageReady() {
   classifier.predict(img, gotResult);
   // You can also specify the amount of classes you want
-  //classifier.predict(img, 10, gotResult);
+  // classifier.predict(img, 10, gotResult);
 }
 
 // A function to run when we get the results
