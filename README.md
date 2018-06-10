@@ -17,10 +17,16 @@ Download or clone this repository:
 git clone https://github.com/ml5js/ml5-examples.git
 ```
 
-Change directory into the new folder and start a server
+Change directory into the new folder and start a server.
+An easy way to start a server is with python. If you are have python 2:
 ```
 cd ml5-examples
 python -m SimpleHTTPServer
+```
+If you are have python 3:
+```
+cd ml5-examples
+python -m http.server
 ```
 
 If you don't know how to start a server, check [this](https://github.com/processing/p5.js/wiki/Local-server) guide.
