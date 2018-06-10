@@ -4,8 +4,8 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
-Image Classifier with Transfer Learning example
+ml5 Example
+Image Classification using Feature Extractor with Mobilenet
 === */
 
 // Grab all the DOM elements
@@ -36,8 +36,10 @@ function modelLoaded() {
   loading.innerText = 'Model loaded!';
 }
 
-// Create the image classifier with the video and training options
-const classifier = new ml5.ImageClassifier(video, modelLoaded);
+// Extract the already learned features from Mobilenet
+const featureExtractor = new ml5.FeatureExtractor('Mobilenet', modelLoaded);
+// Create a new classifier using those features
+const classifier = featureExtractor.asClassifier(video);
 
 // Predict the current frame.
 function predict() {
@@ -74,11 +76,11 @@ train.onclick = function () {
 // A function to show the results and loop
 function gotResults(data) {
   result.innerText = data;
-  classifier.predict(gotResults);
+  classifier.classify(gotResults);
 }
 
 // Start predicting when the predict button is clicked
 predict.onclick = function () {
-  classifier.predict(gotResults);
+  classifier.classify(gotResults);
 }
 

@@ -4,59 +4,58 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
-Fast_Style_Transfer_Mirror
-Fast Style Transfer Mirror Example with p5.js
+ml5 Example
+Style Transfer Mirror Example using p5.js
 This uses a pre-trained model of The Great Wave off Kanagawa and Udnie (Young American Girl, The Dance)
 === */
 
 let fastStyle;
 let video;
-let modelReady = false;
-let cameraReady = false;
-let startPredict = false;
+let isTransfering = false;
 let resultImg;
 
 function setup() {
   createCanvas(300, 300).parent('canvasContainer');
-  pixelDensity(1);
-  background(0);
-  video = createCapture(VIDEO, cameraLoaded);
+
+  video = createCapture(VIDEO);
+  video.hide();
+
+  //
   resultImg = createImg('');
   resultImg.hide();
-  video.size(200, 200);
-  video.hide();
-  style = new ml5.StyleTransfer('models/udnie', modelLoaded);
+
+  // 
+  select('#startStop').mousePressed(startStop);
+
+  // 
+  style = new ml5.StyleTransfer('models/udnie', video, modelLoaded);
 }
 
 function draw(){
-  image(resultImg, 0, 0, 300, 300);
-}
-
-function cameraLoaded() {
-  cameraReady = true;
+  if (isTransfering) {
+    image(resultImg, 0, 0, 300, 300);
+  } else {
+    image(video, 0, 0, 300, 300);
+  }
 }
 
 function modelLoaded() {
-  modelReady = true;
+  select('#status').html('Model Loaded');
 }
 
-function togglePredicting() {
-  startPredict = !startPredict;
-  if(startPredict){
-    select('#controlBtn').html('Stop');
-    predict();
+function startStop() {
+  if (isTransfering) {
+    select('#startStop').html('Start');
   } else {
-    select('#controlBtn').html('Start');
+    select('#startStop').html('Stop');
+    style.transfer(gotResult); 
   }
-
+  isTransfering = !isTransfering;
 }
 
-function predict() {
-  if(cameraReady && modelReady && startPredict) {
-    const result = style.transfer(video.elt);
-    resultImg.attribute('src', result.src);
-    image(resultImg, 0, 300, 300);
-    setTimeout(() => predict(), 500);
+function gotResult(img) {
+  resultImg.attribute('src', img.src);
+  if (isTransfering) {
+    style.transfer(gotResult); 
   }
 }

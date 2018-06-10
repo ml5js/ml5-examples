@@ -5,7 +5,7 @@
 
 /* ===
 ML5 Example
-Interactive LSTM Generator example with p5.js
+Interactive LSTM Text Generation Example using p5.js
 This uses a pre-trained model on a corpus of Nietschze
 === */
 
