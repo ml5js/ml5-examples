@@ -28,9 +28,8 @@ let currentText = '';
 let currentFreq = '';
 const textCoordinates = [(rectWidth * 8) + cornerCoords[0], 150]
 
-
 function createCrepe() {
-  crepe = ml5.Crepe(getAudioContext(), audioStream.stream);
+  crepe = ml5.pitchDetection('Crepe', getAudioContext(), audioStream.stream);
   loop();
 }
 
