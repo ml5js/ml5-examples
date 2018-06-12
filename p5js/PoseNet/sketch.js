@@ -20,7 +20,7 @@ function setup() {
   video = createCapture(VIDEO);
   
   // Create a new poseNet method with a single detection
-  poseNet = new ml5.PoseNet(video, 'single', gotPoses);
+  poseNet = ml5.poseNet(video, 'single', gotPoses);
   
   // Hide the video element, and just show the canvas
   video.hide();
