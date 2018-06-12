@@ -21,7 +21,7 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 
 // Initialize the Image Classifier method with Mobilenet passing the video as the
 // second argument and the getClassification function as the third
-const classifier = new ml5.ImageClassifier('Mobilenet', video, getClassification);
+const classifier = ml5.imageClassifier('Mobilenet', video, getClassification);
 
 // A function that calls the predict method in the classifier
 function getClassification() {

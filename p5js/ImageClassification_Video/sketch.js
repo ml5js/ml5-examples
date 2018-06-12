@@ -8,7 +8,6 @@ ml5 Example
 Webcam Image Classification using Mobilenet and p5.js
 === */
 
-// Initialize the Image Classifier method.
 let classifier;
 let video;
 
@@ -17,7 +16,7 @@ function setup() {
   // Create a camera input
   video = createCapture(VIDEO);
   // Initialize the Image Classifier method with Mobilenet and the video as the second argument
-  classifier = new ml5.ImageClassifier('Mobilenet', video);
+  classifier = ml5.imageClassifier('Mobilenet', video);
   // Call the classifyFrame function to start classifying the video
   classifyVideo();
 }

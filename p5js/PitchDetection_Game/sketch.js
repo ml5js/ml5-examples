@@ -26,7 +26,7 @@ let currentText = '';
 let textCoordinates;
 
 function createCrepe() {
-  crepe = new ml5.Crepe(getAudioContext(), audioStream.stream);
+  crepe = ml5.pitchDetection('Crepe', getAudioContext(), audioStream.stream);
   loop();
 }
 
