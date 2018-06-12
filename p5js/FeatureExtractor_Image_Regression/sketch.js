@@ -4,8 +4,8 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
-Image Classifier with Transfer Learning example with p5.js
+ml5 Example
+Creating a regression extracting features of Mobilenet. Build with p5js.
 === */
 
 let featureExtractor;
