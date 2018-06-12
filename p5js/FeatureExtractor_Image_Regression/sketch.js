@@ -26,7 +26,7 @@ function setup() {
   // Extract the features from Mobilenet
   featureExtractor = new ml5.FeatureExtractor('Mobilenet', modelReady);
   // Create a new regressor using those features and give the video we want to use
-  regressor = featureExtractor.asRegressor(video);
+  regressor = featureExtractor.regression(video);
   // Create the UI buttons
   createButtons();
   noStroke();

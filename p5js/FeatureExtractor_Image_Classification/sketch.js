@@ -24,7 +24,7 @@ function setup() {
   // Extract the already learned features from Mobilenet
   featureExtractor = new ml5.FeatureExtractor('Mobilenet', modelReady);
   // Create a new classifier using those features and give the video we want to use
-  classifier = featureExtractor.asClassifier(video);
+  classifier = featureExtractor.classification(video);
   // Create the UI buttons
   createButtons();
 }
