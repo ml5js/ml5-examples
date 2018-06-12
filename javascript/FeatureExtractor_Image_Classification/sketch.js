@@ -37,7 +37,7 @@ function modelLoaded() {
 }
 
 // Extract the already learned features from Mobilenet
-const featureExtractor = new ml5.FeatureExtractor('Mobilenet', modelLoaded);
+const featureExtractor = ml5.featureExtractor('Mobilenet', modelLoaded);
 // Create a new classifier using those features
 const classifier = featureExtractor.asClassifier(video);
 
