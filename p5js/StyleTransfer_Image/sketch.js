@@ -14,8 +14,8 @@ let statusMsg;
 let transferBtn;
 
 // Create two Style methods with different pre-trained models
-const style1 = new ml5.StyleTransfer('models/wave', modelLoaded);
-const style2 = new ml5.StyleTransfer('models/udnie', modelLoaded);
+const style1 = ml5.styleTransfer('models/wave', modelLoaded);
+const style2 = ml5.styleTransfer('models/udnie', modelLoaded);
 
 function setup() {
   noCanvas();
