@@ -24,7 +24,7 @@ function setup() {
   // Append it to the videoContainer DOM element
   video.hide();
   // Extract the features from Mobilenet
-  featureExtractor = new ml5.FeatureExtractor('Mobilenet', modelReady);
+  featureExtractor = ml5.featureExtractor('Mobilenet', modelReady);
   // Create a new regressor using those features and give the video we want to use
   regressor = featureExtractor.regression(video);
   // Create the UI buttons

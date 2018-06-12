@@ -9,7 +9,7 @@ Image classification using Mobilenet and p5.js
 === */
 
 // Initialize the Image Classifier method with Mobilenet
-const classifier = new ml5.ImageClassifier('Mobilenet');
+const classifier = ml5.imageClassifier('Mobilenet');
 
 // A variable to hold the image we want to classify
 let img;

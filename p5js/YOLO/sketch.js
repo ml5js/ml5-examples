@@ -18,7 +18,7 @@ function setup() {
   video = createCapture(VIDEO);
 
   // Create a YOLO method
-  yolo = new ml5.YOLO(video, startDetecting);
+  yolo = ml5.YOLO(video, startDetecting);
   
   // Hide the original video
   video.hide();

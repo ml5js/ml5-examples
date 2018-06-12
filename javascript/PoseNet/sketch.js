@@ -41,7 +41,7 @@ function drawCameraIntoCanvas() {
 drawCameraIntoCanvas();
 
 // Create a new poseNet method with a single detection
-const poseNet = new ml5.PoseNet(video, 'single', gotPoses);
+const poseNet = ml5.poseNet(video, 'single', gotPoses);
 // You can optionally call it for multiple poses 
 //const poseNet = new ml5.PoseNet(video, 'multiple', gotPoses);
 

@@ -29,7 +29,7 @@ function setup() {
 
   // Create a new Style Transfer method with a defined style.
   // We give the video as the second argument
-  style = new ml5.StyleTransfer('models/udnie', video, modelLoaded);
+  style = ml5.styleTransfer('models/udnie', video, modelLoaded);
 }
 
 function draw(){

@@ -22,7 +22,7 @@ function setup() {
   // Append it to the videoContainer DOM element
   video.parent('videoContainer');
   // Extract the already learned features from Mobilenet
-  featureExtractor = new ml5.FeatureExtractor('Mobilenet', modelReady);
+  featureExtractor = ml5.featureExtractor('Mobilenet', modelReady);
   // Create a new classifier using those features and give the video we want to use
   classifier = featureExtractor.classification(video);
   // Create the UI buttons
