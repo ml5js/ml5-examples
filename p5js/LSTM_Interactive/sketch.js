@@ -10,7 +10,7 @@ This uses a pre-trained model on a corpus of Nietschze
 === */
 
 // Create the LSTM Generator passing it the model directory
-const lstm = new ml5.LSTMGenerator('models/nietschze/', modelReady);
+const lstm = ml5.LSTMGenerator('models/nietschze/', modelReady);
 
 let textInput;
 let tempSlider;
