@@ -8,7 +8,6 @@ ml5 Example
 Webcam Image Classification using Mobilenet and p5.js
 === */
 
-// Initialize the Image Classifier method.
 let classifier;
 let video;
 
