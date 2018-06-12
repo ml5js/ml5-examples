@@ -30,7 +30,7 @@ const textCoordinates = [(rectWidth * 8) + cornerCoords[0], 150]
 
 
 function createCrepe() {
-  crepe = new ml5.Crepe(getAudioContext(), audioStream.stream);
+  crepe = ml5.Crepe(getAudioContext(), audioStream.stream);
   loop();
 }
 
