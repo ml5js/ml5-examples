@@ -4,8 +4,8 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
-Simple LSTM Generator example with p5.js
+ml5 Example
+LSTM Generator example with p5.js
 This uses a pre-trained model on a corpus of Nietschze
 === */
 

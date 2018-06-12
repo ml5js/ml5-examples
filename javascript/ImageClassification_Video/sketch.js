@@ -4,8 +4,8 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
-Webcam Classification
+ml5 Example
+Webcam Image Classification using Mobilenet
 === */
 
 // Grab elements, create settings, etc.
@@ -19,16 +19,16 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
   });
 }
 
-// Create the classifier and passing the video as the
-// first argument and the getClassification function as the second
-const classifier = new ml5.ImageClassifier(video, getClassification);
+// Initialize the Image Classifier method with Mobilenet passing the video as the
+// second argument and the getClassification function as the third
+const classifier = new ml5.ImageClassifier('Mobilenet', video, getClassification);
 
 // A function that calls the predict method in the classifier
 function getClassification() {
   // Call the predict method and use a callback to handle the results
   classifier.predict(function(results) {
     result.innerText = results[0].className;
-    probability.innerText = results[0].probability;
+    probability.innerText = results[0].probability.toFixed(4);
     // Call again to create a loop
     getClassification();
   });

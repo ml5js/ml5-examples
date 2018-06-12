@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
+ml5 Example
 PoseNet using p5.js
 === */
 /* eslint-disable */

@@ -4,12 +4,12 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
-PoseNet using p5.js
+ml5 Example
+PoseNet example using p5.js
 === */
 
-let w = 315;
-let h = 315;
+let w = 640;
+let h = 480;
 let video;
 let poseNet;
 let poses = [];
