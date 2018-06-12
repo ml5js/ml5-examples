@@ -1,4 +1,14 @@
-// Crepe varialbes
+// Copyright (c) 2018 ml5
+// 
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
+/* ===
+ml5 Example
+A game using pitch Detection with CREPE
+=== */
+
+// Crepe variables
 let crepe;
 const voiceLow = 100;
 const voiceHigh = 500;
@@ -17,7 +27,6 @@ let textCoordinates;
 
 function createCrepe() {
   crepe = new ml5.Crepe(getAudioContext(), audioStream.stream);
-  console.log(crepe);
   loop();
 }
 

@@ -4,10 +4,8 @@
 // https://opensource.org/licenses/MIT
 
 /* ===
-ML5 Example
-Word2Vecs
-Simple Word2Vec Example with p5.js
-Using a pre-trained model on common English words. Source: (TODO)
+ml5 Example
+Word2Vec example with p5.js. Using a pre-trained model on common English words.
 === */
 
 // Create the Word2Vec methods
