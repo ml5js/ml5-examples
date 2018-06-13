@@ -10,7 +10,7 @@ This uses a pre-trained model on a corpus of Nietschze
 === */
 
 // Create the LSTM Generator passing it the model directory
-const lstm = ml5.LSTMGenerator('models/nietschze/', modelReady);
+const lstm = ml5.LSTMGenerator('models/hemingway/', modelReady);
 
 let textInput;
 let lengthSlider;
@@ -70,7 +70,7 @@ function generate() {
     function gotData(result) {
       // Update the status log
       select('#status').html('Ready!');
-      select('#result').html(txt + result);
+      select('#result').html(txt + result.generated);
     }
   }
 }
