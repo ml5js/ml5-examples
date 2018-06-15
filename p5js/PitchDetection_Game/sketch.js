@@ -1,5 +1,5 @@
 // Copyright (c) 2018 ml5
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
@@ -38,7 +38,7 @@ function getNoteFromMidiNum(midiNum) {
 function setup() {
   createCanvas(1200, 600);
   gameReset();
-  textCoordinates = [windowWidth / 2, 30];
+  textCoordinates = [width / 2, 30];
   textAlign(CENTER);
   noLoop();
   audioStream = new p5.AudioIn(function(err) {
@@ -64,10 +64,10 @@ function hit(goalHeight, note) {
   noLoop();
   background(240);
   fill(138, 43, 226);
-  ellipse(windowWidth / 2, goalHeight, circleSize, circleSize);
+  ellipse(width / 2, goalHeight, circleSize, circleSize);
   textSize(18);
   fill(255);
-  text(note, windowWidth / 2, goalHeight + (circleSize / 6));
+  text(note, width / 2, goalHeight + (circleSize / 6));
   fill(50);
   textSize(100);
   text("Hooray!", textCoordinates[0], textCoordinates[1] + 80);
@@ -76,21 +76,21 @@ function hit(goalHeight, note) {
 
 function drawCircles() {
   noStroke();
-  //GOAL CIRCLE
+  // Goal Circle
   fill(255, 0, 0);
-  goalHeight = map(goalNote, 0, scale.length - 1, windowHeight - 100, 150);
-  ellipse(windowWidth / 2, goalHeight, circleSize, circleSize);
+  goalHeight = map(goalNote, 0, scale.length - 1, height - 100, 150);
+  ellipse(width / 2, goalHeight, circleSize, circleSize);
   fill(255);
-  text(scale[goalNote], (windowWidth / 2), goalHeight + (circleSize / 6));
-  //PITCH CIRCLE
+  text(scale[goalNote], (width / 2), goalHeight + (circleSize / 6));
+  // Pitch Circle
   if (currentNote != '') {
     fill(0, 0, 255);
-    currentHeight = map(scale.indexOf(currentNote), 0, scale.length - 1, windowHeight - 100, 150);
-    ellipse(windowWidth / 2, currentHeight, circleSize, circleSize);
+    currentHeight = map(scale.indexOf(currentNote), 0, scale.length - 1, height - 100, 150);
+    ellipse(width / 2, currentHeight, circleSize, circleSize);
     fill(255);
-    text(scale[scale.indexOf(currentNote)], windowWidth / 2, currentHeight + (circleSize / 6));
-    //IF TARGET IS HIT
-    if (dist(windowWidth / 2, currentHeight, windowWidth / 2, goalHeight) < circleSize / 2) {
+    text(scale[scale.indexOf(currentNote)], width / 2, currentHeight + (circleSize / 6));
+    // If target is hit
+    if (dist(width / 2, currentHeight, width / 2, goalHeight) < circleSize / 2) {
       hit(goalHeight, scale[goalNote]);
     }
   }
