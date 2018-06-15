@@ -49,6 +49,6 @@ function startDetecting() {
 function detect() {
   yolo.detect(function(results) {
     objects = results;
-    setTimeout(detect, 100);
+    detect();
   });
 }
