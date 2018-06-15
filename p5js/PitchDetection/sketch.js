@@ -12,9 +12,6 @@ Basic Pitch Detection
 let crepe;
 let mic;
 let fft
-
-const scale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-
 let frequencyP;
 
 function startPitch() {
