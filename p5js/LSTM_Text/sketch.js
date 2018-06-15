@@ -1,16 +1,17 @@
 // Copyright (c) 2018 ml5
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
 /* ===
 ml5 Example
 LSTM Generator example with p5.js
-This uses a pre-trained model on a corpus of Nietschze
+This uses a pre-trained model on a corpus of Virginia Woolf
+For more models see: https://github.com/ml5js/ml5-data-and-training/tree/master/models/lstm
 === */
 
 // Create the LSTM Generator passing it the model directory
-const lstm = ml5.LSTMGenerator('models/hemingway/', modelReady);
+const lstm = ml5.LSTMGenerator('models/woolf/', modelReady);
 
 let textInput;
 let lengthSlider;
