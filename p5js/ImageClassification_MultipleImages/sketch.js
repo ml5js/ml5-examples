@@ -5,11 +5,11 @@
 
 /* ===
 ml5 Example
-Multiple Image classification using Mobilenet and p5.js
+Multiple Image classification using MobileNet and p5.js
 === */
 
-// Initialize the Image Classifier method using Mobilenet
-const classifier = ml5.imageClassifier('Mobilenet');
+// Initialize the Image Classifier method using MobileNet
+const classifier = ml5.imageClassifier('MobileNet');
 
 let img;
 let currentIndex = 0;

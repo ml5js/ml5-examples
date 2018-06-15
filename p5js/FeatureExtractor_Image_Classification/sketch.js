@@ -5,7 +5,7 @@
 
 /* ===
 ml5 Example
-Image Classification using Feature Extraction with Mobilenet. Built with p5.js
+Image Classification using Feature Extraction with MobileNet. Built with p5.js
 === */
 
 let featureExtractor;
@@ -21,8 +21,8 @@ function setup() {
   video = createCapture(VIDEO);
   // Append it to the videoContainer DOM element
   video.parent('videoContainer');
-  // Extract the already learned features from Mobilenet
-  featureExtractor = ml5.featureExtractor('Mobilenet', modelReady);
+  // Extract the already learned features from MobileNet
+  featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
   // Create a new classifier using those features and give the video we want to use
   classifier = featureExtractor.classification(video);
   // Create the UI buttons
@@ -31,7 +31,7 @@ function setup() {
 
 // A function to be called when the model has been loaded
 function modelReady() {
-  select('#loading').html('Base Model (Mobilenet) loaded!');
+  select('#loading').html('Base Model (MobileNet) loaded!');
 }
 
 // Add the current frame from the video to the classifier
