@@ -5,7 +5,7 @@
 
 /* ===
 ml5 Example
-Image Classification using Feature Extractor with Mobilenet
+Image Classification using Feature Extractor with MobileNet
 === */
 
 // Grab all the DOM elements
@@ -36,8 +36,8 @@ function modelLoaded() {
   loading.innerText = 'Model loaded!';
 }
 
-// Extract the already learned features from Mobilenet
-const featureExtractor = ml5.featureExtractor('Mobilenet', modelLoaded);
+// Extract the already learned features from MobileNet
+const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
 // Create a new classifier using those features
 const classifier = featureExtractor.asClassifier(video);
 
