@@ -11,7 +11,7 @@ This uses a pre-trained model of The Great Wave off Kanagawa and Udnie (Young Am
 
 let style;
 let video;
-let isTransfering = false;
+let isTransferring = false;
 let resultImg;
 
 function setup() {
@@ -34,7 +34,7 @@ function setup() {
 
 function draw(){
   // Switch between showing the raw camera or the style
-  if (isTransfering) {
+  if (isTransferring) {
     image(resultImg, 0, 0, 300, 300);
   } else {
     image(video, 0, 0, 300, 300);
@@ -48,20 +48,20 @@ function modelLoaded() {
 
 // Start and stop the transfer process
 function startStop() {
-  if (isTransfering) {
+  if (isTransferring) {
     select('#startStop').html('Start');
   } else {
     select('#startStop').html('Stop');
     // Make a transfer using the video
     style.transfer(gotResult); 
   }
-  isTransfering = !isTransfering;
+  isTransferring = !isTransferring;
 }
 
 // When we get the results, update the result image src
 function gotResult(img) {
   resultImg.attribute('src', img.src);
-  if (isTransfering) {
+  if (isTransferring) {
     style.transfer(gotResult); 
   }
 }

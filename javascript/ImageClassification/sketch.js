@@ -5,15 +5,15 @@
 
 /* ===
 ml5 Example
-Simple Image Classification using Mobilenet
+Simple Image Classification using MobileNet
 === */
 
 const image = document.getElementById('image'); // The image we want to classify
 const result = document.getElementById('result'); // The result tag in the HTML
 const probability = document.getElementById('probability'); // The probability tag in the HTML
 
-// Initialize the Image Classifier method with Mobilenet
-const classifier = ml5.imageClassifier('Mobilenet');
+// Initialize the Image Classifier method with MobileNet
+const classifier = ml5.imageClassifier('MobileNet');
 
 // Make a prediction with the selected image
 // This will return an array with a default of 10 options with their probabilities

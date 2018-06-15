@@ -5,7 +5,7 @@
 
 /* ===
 ml5 Example
-Webcam Image Classification using Mobilenet
+Webcam Image Classification using MobileNet
 === */
 
 // Grab elements, create settings, etc.
@@ -19,9 +19,9 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
   });
 }
 
-// Initialize the Image Classifier method with Mobilenet passing the video as the
+// Initialize the Image Classifier method with MobileNet passing the video as the
 // second argument and the getClassification function as the third
-const classifier = ml5.imageClassifier('Mobilenet', video, getClassification);
+const classifier = ml5.imageClassifier('MobileNet', video, getClassification);
 
 // A function that calls the predict method in the classifier
 function getClassification() {

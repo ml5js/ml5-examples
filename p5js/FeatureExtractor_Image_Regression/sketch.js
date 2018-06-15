@@ -5,7 +5,7 @@
 
 /* ===
 ml5 Example
-Creating a regression extracting features of Mobilenet. Build with p5js.
+Creating a regression extracting features of MobileNet. Build with p5js.
 === */
 
 let featureExtractor;
@@ -23,18 +23,18 @@ function setup() {
   video = createCapture(VIDEO);
   // Append it to the videoContainer DOM element
   video.hide();
-  // Extract the features from Mobilenet
-  featureExtractor = ml5.featureExtractor('Mobilenet', modelReady);
+  // Extract the features from MobileNet
+  featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
   // Create a new regressor using those features and give the video we want to use
   regressor = featureExtractor.regression(video);
   // Create the UI buttons
   createButtons();
-  noStroke();
-  fill(255, 0, 0);
 }
 
 function draw() {
   image(video, 0, 0, 340, 280);
+  noStroke();
+  fill(255, 0, 0);
   rect(positionX, 120, 50, 50);
 }
 
