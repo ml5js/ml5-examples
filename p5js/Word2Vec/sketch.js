@@ -1,5 +1,5 @@
 // Copyright (c) 2018 ml5
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
@@ -40,7 +40,7 @@ function setup() {
     let word1 = betweenWordInput1.value();
     let word2 = betweenWordInput2.value();
     let average = word2Vec.average([word1, word2], 1);
-    betweenResults.html(average[0].vector);
+    betweenResults.html(average[0].word);
   });
 
   addButton.mousePressed(() => {
@@ -48,8 +48,8 @@ function setup() {
     let to1 = addInput2.value();
     let is2 = addInput3.value();
     let difference = word2Vec.subtract([to1, is1]);
-    let to2 = word2Vec.add([is2, difference[0].vector]);
-    addResults.html(to2[0].vector);
+    let to2 = word2Vec.add([is2, difference[0].word]);
+    addResults.html(to2[0].word);
   });
 }
 
@@ -65,9 +65,9 @@ function findNearest(word, n=10) {
     }
     let output = '';
     for (let i = 0; i < nearest.length; i++) {
-      output += nearest[i].vector + '<br/>';
+      output += nearest[i].word + '<br/>';
     }
     return output;
-  } 
+  }
   return 'Model has not loaded yet!';
 }
