@@ -57,7 +57,7 @@ function setup() {
   });
 }
 
-// Mode is ready
+// Model is ready
 function modelLoaded() {
   modelReady = true;
 }
