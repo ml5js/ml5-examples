@@ -1,0 +1,64 @@
+<!--
+ Copyright (c) 2018 ml5
+ 
+ This software is released under the MIT License.
+ https://opensource.org/licenses/MIT
+-->
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>KNN Classification on Webcam Images with mobileNet. Built with p5.js</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
+  <!-- <script src="https://unpkg.com/ml5" type="text/javascript"></script> -->
+  <script src="http://localhost:8080/ml5.js" type="text/javascript"></script>
+
+  <style>
+  button {
+    margin: 2px;
+    padding: 4px;
+  }
+  video {
+    width: 300;
+    height: 300;
+  }
+  p {
+    display: inline;
+    font-size: 14px;
+  }
+  h6 {
+    margin: 4px;
+    font-weight: lighter;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  </style>
+</head>
+
+<body>
+  <h2>KNN Classification on Webcam Images with mobileNet. Built with p5.js</h2>
+  <div id="videoContainer"></div>
+  <p>
+    <button id="aButton">Add Class A</button>
+    <p><span id="amountOfAExamples">0</span> A examples</p>
+    <br><button id="bButton">Add Class B</button>
+    <p><span id="amountOfBExamples">0</span> B examples</p>
+    <br><button id="cButton">Add Class C</button>
+    <p><span id="amountOfCExamples">0</span> C examples</p>
+  </p>
+  <br/>
+  <p>
+    <button id="buttonPredict">Start predicting!</button><br>
+  </p>
+  <p>
+    KNN Classifier with mobileNet model labeled this
+    as Class: <span id="result">...</span>
+    with a confidence of <span id="confidence">...</span>
+  </p>
+  <script src="sketch.js"></script>
+</body>
+
+</html>
