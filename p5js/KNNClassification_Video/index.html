@@ -41,8 +41,18 @@
 <body>
   <h2>KNN Classification on Webcam Images with mobileNet. Built with p5.js</h2>
   <div id="videoContainer"></div>
-  <div><button id="load">Load Dataset</button></div>
-  <p>
+  <div>
+    <button id="load">Load Dataset</button><br>
+    <p>If you load this saved classifer dataset.<br>
+      For Class A: cover your webcam completely to make it all black;<br>
+      For Class B: present anything in front of webcam other than complete black.<br>
+      There is no saved dataset for Class C.<br>
+      If this saved dataset doesn't work well for you, you could train your own classifier,<br>
+      and use the 'Save Dataset' button below to create your own myKNNDataset.json file,<br>
+      and place the json file in the same directory as 'sketch.js'
+    </p>
+  </div>
+  <br><p>
     <button id="addClassA">Add an Example to Class A</button>
     <button id="resetA">Reset Class A</button>
     <p><span id="exampleA">0</span> A examples</p>
