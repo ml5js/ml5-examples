@@ -41,23 +41,34 @@
 <body>
   <h2>KNN Classification on Webcam Images with mobileNet. Built with p5.js</h2>
   <div id="videoContainer"></div>
+  <div><button id="load">Load Dataset</button></div>
   <p>
-    <button id="aButton">Add Class A</button>
-    <p><span id="amountOfAExamples">0</span> A examples</p>
-    <br><button id="bButton">Add Class B</button>
-    <p><span id="amountOfBExamples">0</span> B examples</p>
-    <br><button id="cButton">Add Class C</button>
-    <p><span id="amountOfCExamples">0</span> C examples</p>
+    <button id="addClassA">Add an Example to Class A</button>
+    <button id="resetA">Reset Class A</button>
+    <p><span id="exampleA">0</span> A examples</p>
+    <p>| Confidence in A is: <span id="confidenceA">0</span></p>
+
+    <br><button id="addClassB">Add an Example to Class B</button>
+    <button id="resetB">Reset Class B</button>
+    <p><span id="exampleB">0</span> B examples</p>
+    <p>| Confidence in B is: <span id="confidenceB">0</span></p>
+
+    <br><button id="addClassC">Add an Example to Class C</button>
+    <button id="resetC">Reset Class C</button>
+    <p><span id="exampleC">0</span> C examples</p>
+    <p>| Confidence in C is: <span id="confidenceC">0</span></p>
   </p>
   <br/>
   <p>
     <button id="buttonPredict">Start predicting!</button><br>
+    <button id="clearAll">Clear all classes</button><br>
   </p>
   <p>
     KNN Classifier with mobileNet model labeled this
     as Class: <span id="result">...</span>
     with a confidence of <span id="confidence">...</span>
   </p>
+  <div><button id="save">Save Dataset</button></div>
   <script src="sketch.js"></script>
 </body>
 
