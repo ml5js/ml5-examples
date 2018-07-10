@@ -6,39 +6,29 @@
 /* ===
 ml5 Example
 Webcam Image Classification using MobileNet
+This example uses promises to create the classifier
 === */
 
 // Grab elements, create settings, etc.
-var video = document.getElementById('video');
+const video = document.getElementById('video');
 
 // Create a webcam capture
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-    video.src = window.URL.createObjectURL(stream);
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    video.srcObject = stream;
     video.play();
-  });
-}
+  })
 
 // Initialize the Image Classifier method with MobileNet passing the video as the
 // second argument and the getClassification function as the third
-const classifier = ml5.imageClassifier('MobileNet', video, getClassification);
+ml5.imageClassifier('MobileNet', video)
+  .then(classifier => loop(classifier))
 
-// A function that calls the predict method in the classifier
-function getClassification() {
-  // Call the predict method and use a callback to handle the results
-  classifier.predict(function(results) {
-    result.innerText = results[0].className;
-    probability.innerText = results[0].probability.toFixed(4);
-    // Call again to create a loop
-    getClassification();
-  });
-
-  // Optionally, you can also pass the amount of
-  // results as the first argument and the callback as the second
-  // classifier.predict(5, function(results) {
-  //   result.innerText = results[0].className;
-  //   probability.innerText = results[0].probability;
-  //   // Call again to create a loop
-  //   getClassification();
-  // });
+const loop = (classifier) => {
+  classifier.predict()
+    .then(results => {
+      result.innerText = results[0].className;
+      probability.innerText = results[0].probability.toFixed(4);
+      startLoop(classifier) // Call again to create a loop
+    })
 }

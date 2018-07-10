@@ -13,7 +13,6 @@ let regressor;
 let video;
 let loss;
 let slider;
-let addSample;
 let samples = 0;
 let positionX = 140;
 
@@ -26,7 +25,7 @@ function setup() {
   // Extract the features from MobileNet
   featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
   // Create a new regressor using those features and give the video we want to use
-  regressor = featureExtractor.regression(video);
+  regressor = featureExtractor.regression(video, videoReady);
   // Create the UI buttons
   createButtons();
 }
@@ -40,7 +39,12 @@ function draw() {
 
 // A function to be called when the model has been loaded
 function modelReady() {
-  select('#loading').html('Model loaded!');
+  select('#modelStatus').html('Model loaded!');
+}
+
+// A function to be called when the video has loaded
+function videoReady () {
+  select('#videoStatus').html('Video ready!');
 }
 
 // Classify the current frame.
@@ -53,15 +57,13 @@ function createButtons() {
   slider = select('#slider');
   // When the Dog button is pressed, add the current frame
   // from the video with a label of "dog" to the classifier
-  addSample = select('#addSample');
-  addSample.mousePressed(function() {
+  select('#addSample').mousePressed(function() {
     regressor.addImage(slider.value());
     select('#amountOfSamples').html(samples++);
   });
 
   // Train Button
-  train = select('#train');
-  train.mousePressed(function() {
+  select('#train').mousePressed(function() {
     regressor.train(function(lossValue) {
       if (lossValue) {
         loss = lossValue;
@@ -73,12 +75,11 @@ function createButtons() {
   });
 
   // Predict Button
-  buttonPredict = select('#buttonPredict');
-  buttonPredict.mousePressed(predict);
+  select('#buttonPredict').mousePressed(predict);
 }
 
 // Show the results
-function gotResults(result) {
+function gotResults(err, result) {
   positionX = map(result, 0, 1, 0, width);
   slider.value(result);
   predict();

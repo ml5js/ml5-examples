@@ -19,7 +19,7 @@ function setup() {
   video.size(width, height);
 
   // Create a new poseNet method with a single detection
-  poseNet = ml5.poseNet(video, 'single', gotPoses);
+  poseNet = ml5.poseNet();
 
   // Hide the video element, and just show the canvas
   video.hide();
