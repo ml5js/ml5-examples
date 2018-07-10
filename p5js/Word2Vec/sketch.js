@@ -8,12 +8,18 @@ ml5 Example
 Word2Vec example with p5.js. Using a pre-trained model on common English words.
 === */
 
-// Create the Word2Vec model with pre-trained file of 10,000 words
-const word2Vec = ml5.word2vec('data/wordvecs10000.json');
+let word2Vec;
+
+function modelLoaded() {
+  select('#status').html('Model Loaded');
+}
 
 function setup() {
   noLoop();
   noCanvas();
+
+  // Create the Word2Vec model with pre-trained file of 10,000 words
+  word2Vec = ml5.word2vec('data/wordvecs10000.json', modelLoaded);
 
   // Select all the DOM elements
   let nearWordInput = select('#nearword');
@@ -34,7 +40,7 @@ function setup() {
   // Finding the nearest words
   nearButton.mousePressed(() => {
     let word = nearWordInput.value();
-    word2Vec.nearest(word, (result) => {
+    word2Vec.nearest(word, (err, result) => {
       let output = '';
       if (result) {
         for (let i = 0; i < result.length; i++) {
@@ -51,7 +57,7 @@ function setup() {
   betweenButton.mousePressed(() => {
     let word1 = betweenWordInput1.value();
     let word2 = betweenWordInput2.value();
-    word2Vec.average([word1, word2], 4, (average) => {
+    word2Vec.average([word1, word2], 4, (err, average) => {
       betweenResults.html(average[0].word);
     })
   });
