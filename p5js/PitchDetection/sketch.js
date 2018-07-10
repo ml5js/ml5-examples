@@ -8,29 +8,33 @@ ml5 Example
 Basic Pitch Detection
 === */
 
-// Crepe variables
-let crepe;
+let audioContext;
 let mic;
-let fft
-let frequencyP;
-
-function startPitch() {
-  crepe = ml5.pitchDetection('Crepe', getAudioContext(), mic.stream);
-}
+let pitch;
 
 function setup() {
   noCanvas();
-  frequencyP = createP('sing!');
+  audioContext = getAudioContext();
   mic = new p5.AudioIn();
   mic.start(startPitch);
-  fft = new p5.FFT();
 }
 
-function draw() {
-  if (crepe) {
-    let pitch = crepe.getResults();
-    if (pitch) {
-      frequencyP.html(pitch['result']);
+function startPitch() {
+  pitch = ml5.pitchDetection('./model/', audioContext , mic.stream, modelLoaded);
+}
+
+function modelLoaded() {
+  select('#status').html('Model Loaded');
+  getPitch();
+}
+
+function getPitch() {
+  pitch.getPitch(function(err, frequency) {
+    if (frequency) {
+      select('#result').html(frequency);
+    } else {
+      select('#result').html('No pitch detected');
     }
-  }
+    getPitch();
+  })
 }
