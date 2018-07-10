@@ -9,24 +9,18 @@ LSTM Generator example with p5.js
 This uses a pre-trained model on a corpus of Virginia Woolf
 For more models see: https://github.com/ml5js/ml5-data-and-training/tree/master/models/lstm
 === */
-const MODEL = 'https://raw.githubusercontent.com/ml5js/ml5-data-and-models/master/models/lstm/woolf/'
-// Create the LSTM Generator passing it the model directory
-let lstm;
 
+let lstm;
 let textInput;
 let lengthSlider;
 let tempSlider;
 let button;
 
-function modelReady() {
-  console.log('model ready');
-  select('#status').html('Model Loaded');
-}
-
 function setup() {
   noCanvas();
 
-  lstm = ml5.LSTMGenerator(MODEL, modelReady);
+  // Create the LSTM Generator passing it the model directory
+  lstm = ml5.LSTMGenerator('./models/woolf/', modelReady);
 
   // Grab the DOM elements
   textInput = select('#textInput');
@@ -38,12 +32,16 @@ function setup() {
   button.mousePressed(generate);
   lengthSlider.input(updateSliders);
   tempSlider.input(updateSliders);
+}
 
-  // Update the slider values
-  function updateSliders() {
-    select('#length').html(lengthSlider.value());
-    select('#temperature').html(tempSlider.value());
-  }
+// Update the slider values
+function updateSliders() {
+  select('#length').html(lengthSlider.value());
+  select('#temperature').html(tempSlider.value());
+}
+
+function modelReady() {
+  select('#status').html('Model Loaded');
 }
 
 // Generate new text

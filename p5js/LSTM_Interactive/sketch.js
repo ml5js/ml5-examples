@@ -10,19 +10,16 @@ This uses a pre-trained model on a corpus of Virginia Woolf
 For more models see: https://github.com/ml5js/ml5-data-and-training/tree/master/models/lstm
 === */
 
-// Create the LSTM Generator passing it the model directory
-const lstm = ml5.LSTMGenerator('models/woolf/', modelReady);
-
+let lstm;
 let textInput;
 let tempSlider;
 let lengthSlider;
 
-function modelReady() {
-  select('#status').html('Model Loaded');
-}
-
 function setup() {
   noCanvas();
+
+  // Create the LSTM Generator passing it the model directory
+  lstm = ml5.LSTMGenerator('models/woolf/', modelReady);
 
   // Grab the DOM elements
   textInput = select('#textInput');
@@ -33,6 +30,10 @@ function setup() {
   textInput.input(generate);
   lengthSlider.input(generate);
   tempSlider.input(generate);
+}
+
+function modelReady() {
+  select('#status').html('Model Loaded');
 }
 
 function generate() {
@@ -61,10 +62,10 @@ function generate() {
     lstm.generate(data, gotData);
 
     // Update the DOM elements with typed and generated text
-    function gotData(result) {
+    function gotData(err, result) {
       select('#status').html('Ready!');
       select('#original').html(original);
-      select('#prediction').html(result.generated);
+      select('#prediction').html(result);
     }
   } else {
     // Clear everything

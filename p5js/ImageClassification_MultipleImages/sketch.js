@@ -9,7 +9,7 @@ Multiple Image classification using MobileNet and p5.js
 === */
 
 // Initialize the Image Classifier method using MobileNet
-const classifier = ml5.imageClassifier('MobileNet');
+const classifier = ml5.imageClassifier('MobileNet', modelReady);
 
 let img;
 let currentIndex = 0;
@@ -18,6 +18,20 @@ let display = true;
 let displayTime = 750;
 let predictions = [];
 
+function preload() {
+  data = loadJSON('assets/data.json');
+}
+
+function setup() {
+  noCanvas();
+  appendImages();
+  img = createImg(allImages[0], imageReady);
+}
+
+function modelReady() {
+  select('#status').html('Model Loaded');
+}
+
 function appendImages() {
   for (i = 0; i < data.images.length; i++) {
     imgPath = data.images[i];
@@ -25,18 +39,8 @@ function appendImages() {
   }
 }
 
-function preload() {
-  data = loadJSON('assets/data.json');
-}
-
 function drawNextImage() {
   img.attribute('src', allImages[currentIndex], imageReady);
-}
-
-function setup() {
-  noCanvas();
-  appendImages();
-  img = createImg(allImages[0], imageReady);
 }
 
 // When the image has been loaded,
@@ -62,7 +66,7 @@ function removeImage() {
 }
 
 // When we get the results
-function gotResult(results) {
+function gotResult(err, results) {
   information = {
     "name": allImages[currentIndex],
     "result": results,
