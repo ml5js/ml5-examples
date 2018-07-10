@@ -12,8 +12,6 @@ This uses a pre-trained model of The Great Wave off Kanagawa and Udnie (Young Am
 let inputImg;
 let statusMsg;
 let transferBtn;
-
-// Create two Style methods with different pre-trained models
 let style1;
 let style2;
 
@@ -29,6 +27,7 @@ function setup() {
   transferBtn = select('#transferBtn')
   transferBtn.mousePressed(transferImages);
 
+  // Create two Style methods with different pre-trained models
   style1 = ml5.styleTransfer('models/wave', modelLoaded);
   style2 = ml5.styleTransfer('models/udnie', modelLoaded);
 }
@@ -44,7 +43,7 @@ function modelLoaded() {
 // Apply the transfer to both images!
 function transferImages() {
   statusMsg.html('Applying Style Transfer...!');
-  console.log(inputImg.elt);
+  
   style1.transfer(inputImg, function(err, result) {
     createImg(result.src).parent('styleA');
   });
