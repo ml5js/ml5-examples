@@ -17,7 +17,7 @@ function setup() {
   createCanvas(320, 240);
   video = createCapture(VIDEO);
   video.size(320, 240);
-  console.log('starting');
+
 
   // Create a YOLO method
   yolo = ml5.YOLO(video, startDetecting);
@@ -43,7 +43,7 @@ function draw() {
 
 function startDetecting() {
   status.html('Model loaded!');
-  detect();
+  //detect();
 }
 
 function detect() {

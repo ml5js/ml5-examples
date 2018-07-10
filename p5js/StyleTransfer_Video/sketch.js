@@ -15,7 +15,7 @@ let isTransferring = false;
 let resultImg;
 
 function setup() {
-  createCanvas(300, 300).parent('canvasContainer');
+  createCanvas(800, 800).parent('canvasContainer');
 
   video = createCapture(VIDEO);
   video.hide();
@@ -35,9 +35,9 @@ function setup() {
 function draw(){
   // Switch between showing the raw camera or the style
   if (isTransferring) {
-    image(resultImg, 0, 0, 300, 300);
+    image(resultImg, 0, 0, 800, 800);
   } else {
-    image(video, 0, 0, 300, 300);
+    image(video, 0, 0, 800, 800);
   }
 }
 
