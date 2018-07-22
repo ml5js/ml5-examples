@@ -5,18 +5,18 @@
 
 /* ===
 ml5 Example
-Pix2pix Edges2Pikachu example with p5.js
+Pix2pix Edges2Pikachu example with p5.js using promises
 This uses a pre-trained model on Pikachu images
 For more models see: https://github.com/ml5js/ml5-data-and-training/tree/master/models/pix2pix
 === */
 
+// The pre-trained Edges2Pikachu model is trained on 256x256 images
+// So the input images can only be 256x256 or 512x512, or multiple of 256
 const SIZE = 256;
-let inputImg, inputCanvas, outputContainer, statusMsg;
-
-const pix2pix = ml5.pix2pix('/models/edges2pikachu_AtoB.pict', modelLoaded);
+let inputImg, inputCanvas, outputContainer, statusMsg, pix2pix;
 
 function setup() {
-  // Create canvas
+  // Create a canvas
   inputCanvas = createCanvas(SIZE, SIZE);
   inputCanvas.class('border-box').parent('canvasContainer');
 
@@ -26,7 +26,6 @@ function setup() {
 
   // Display initial input image
   inputImg = loadImage('images/input.png', drawImage);
-
 
   // Set stroke to black
   stroke(0);
@@ -40,14 +39,21 @@ function draw() {
   }
 }
 
-// A function to be called when the models have loaded
-function modelLoaded() {
-  if (!statusMsg) statusMsg = select('#status');
-  statusMsg.html('Model Loaded!');
-}
-
+// Draw the input image to the canvas
 function drawImage() {
   image(inputImg, 0, 0);
+
+  // After input image is loaded, initialize a pix2pix method with a pre-trained model
+  ml5.pix2pix('models/edges2pikachu_AtoB.pict')
+    .then(model => {
+      pix2pix = model;
+
+      // Show 'Model Loaded!' message
+      statusMsg.html('Model Loaded!');
+
+      // Call transfer function after the model is loaded
+      transfer();
+    })
 }
 
 // Clear the canvas
@@ -61,13 +67,15 @@ function transfer() {
 
   // Select canvas DOM element
   let canvasElement = document.getElementById('defaultCanvas0');
-  // Apply pix2pix transformation
-  pix2pix.transfer(canvasElement, function(result) {
-    // Clear output container
-    outputContainer.html('');
-    // Create an image based result
-    createImg(result.src).class('border-box').parent('output');
-  });
 
-  statusMsg.html('Done!');
+  // Apply pix2pix transformation
+  pix2pix.transfer(canvasElement)
+    .then(result => {
+      // Clear output container
+      outputContainer.html('');
+      // Create an image based result
+      createImg(result.src).class('border-box').parent('output');
+      // Show 'Done!' message
+      statusMsg.html('Done!');
+    });
 }
