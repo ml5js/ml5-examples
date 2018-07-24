@@ -15,7 +15,7 @@ let isTransferring = false;
 let resultImg;
 
 function setup() {
-  createCanvas(300, 300).parent('canvasContainer');
+  createCanvas(320, 240).parent('canvasContainer');
 
   video = createCapture(VIDEO);
   video.hide();
@@ -35,9 +35,9 @@ function setup() {
 function draw(){
   // Switch between showing the raw camera or the style
   if (isTransferring) {
-    image(resultImg, 0, 0, 300, 300);
+    image(resultImg, 0, 0, 320, 240);
   } else {
-    image(video, 0, 0, 300, 300);
+    image(video, 0, 0, 320, 240);
   }
 }
 
@@ -59,7 +59,7 @@ function startStop() {
 }
 
 // When we get the results, update the result image src
-function gotResult(img) {
+function gotResult(err, img) {
   resultImg.attribute('src', img.src);
   if (isTransferring) {
     style.transfer(gotResult); 
