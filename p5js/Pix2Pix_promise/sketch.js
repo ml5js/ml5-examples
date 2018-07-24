@@ -66,7 +66,7 @@ function transfer() {
   statusMsg.html('Applying Style Transfer...!');
 
   // Select canvas DOM element
-  let canvasElement = document.getElementById('defaultCanvas0');
+  const canvasElement = select('canvas').elt;
 
   // Apply pix2pix transformation
   pix2pix.transfer(canvasElement)
