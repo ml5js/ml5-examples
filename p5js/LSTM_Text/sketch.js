@@ -10,20 +10,17 @@ This uses a pre-trained model on a corpus of Virginia Woolf
 For more models see: https://github.com/ml5js/ml5-data-and-training/tree/master/models/lstm
 === */
 
-// Create the LSTM Generator passing it the model directory
-const lstm = ml5.LSTMGenerator('models/woolf/', modelReady);
-
+let lstm;
 let textInput;
 let lengthSlider;
 let tempSlider;
 let button;
 
-function modelReady() {
-  select('#status').html('Model Loaded');
-}
-
 function setup() {
   noCanvas();
+
+  // Create the LSTM Generator passing it the model directory
+  lstm = ml5.LSTMGenerator('./models/woolf/', modelReady);
 
   // Grab the DOM elements
   textInput = select('#textInput');
@@ -35,12 +32,16 @@ function setup() {
   button.mousePressed(generate);
   lengthSlider.input(updateSliders);
   tempSlider.input(updateSliders);
+}
 
-  // Update the slider values
-  function updateSliders() {
-    select('#length').html(lengthSlider.value());
-    select('#temperature').html(tempSlider.value());
-  }
+// Update the slider values
+function updateSliders() {
+  select('#length').html(lengthSlider.value());
+  select('#temperature').html(tempSlider.value());
+}
+
+function modelReady() {
+  select('#status').html('Model Loaded');
 }
 
 // Generate new text
@@ -68,10 +69,10 @@ function generate() {
     lstm.generate(data, gotData);
 
     // When it's done
-    function gotData(result) {
+    function gotData(err, result) {
       // Update the status log
       select('#status').html('Ready!');
-      select('#result').html(txt + result.generated);
+      select('#result').html(txt + result);
     }
   }
 }
