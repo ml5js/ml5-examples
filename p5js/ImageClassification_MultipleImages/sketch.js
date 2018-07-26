@@ -1,5 +1,5 @@
 // Copyright (c) 2018 ml5
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
@@ -67,12 +67,16 @@ function removeImage() {
 
 // When we get the results
 function gotResult(err, results) {
+  // If there is an error, show in the console
+  if (err) {
+    console.error(err);
+  }
+
   information = {
     "name": allImages[currentIndex],
     "result": results,
   }
   predictions.push(information);
-  console.log(results);
   if (display) {
     // The results are in an array ordered by probability.
     select('#result').html(results[0].className);
