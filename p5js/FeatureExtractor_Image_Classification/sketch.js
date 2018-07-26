@@ -84,6 +84,10 @@ function setupButtons() {
 
 // Show the results
 function gotResults(err, result) {
+  // Display any error
+  if (err) {
+    console.error(err);
+  }
   select('#result').html(result);
   classify();
 }

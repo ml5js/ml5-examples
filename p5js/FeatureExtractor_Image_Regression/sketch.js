@@ -43,7 +43,7 @@ function modelReady() {
 }
 
 // A function to be called when the video has loaded
-function videoReady () {
+function videoReady() {
   select('#videoStatus').html('Video ready!');
 }
 
@@ -80,6 +80,9 @@ function setupButtons() {
 
 // Show the results
 function gotResults(err, result) {
+  if (err) {
+    console.error(err);
+  }
   positionX = map(result, 0, 1, 0, width);
   slider.value(result);
   predict();
