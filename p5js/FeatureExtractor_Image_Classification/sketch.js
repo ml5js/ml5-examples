@@ -26,8 +26,8 @@ function setup() {
   featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
   // Create a new classifier using those features and give the video we want to use
   classifier = featureExtractor.classification(video, videoReady);
-  // Create the UI buttons
-  createButtons();
+  // Set up the UI buttons
+  setupButtons();
 }
 
 // A function to be called when the model has been loaded
@@ -47,7 +47,7 @@ function classify() {
 }
 
 // A util function to create UI buttons
-function createButtons() {
+function setupButtons() {
   // When the Cat button is pressed, add the current frame
   // from the video with a label of "cat" to the classifier
   buttonA = select('#catButton');
