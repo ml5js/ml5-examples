@@ -1,5 +1,5 @@
 // Copyright (c) 2018 ml5
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
@@ -37,6 +37,10 @@ function imageReady() {
 
 // A function to run when we get any errors and the results
 function gotResult(err, results) {
+  // Display error in the console
+  if (err) {
+    console.error(err);
+  }
   // The results are in an array ordered by probability.
   select('#result').html(results[0].className);
   select('#probability').html(nf(results[0].probability, 0, 2));
