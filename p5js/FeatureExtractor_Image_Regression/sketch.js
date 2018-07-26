@@ -27,7 +27,7 @@ function setup() {
   // Create a new regressor using those features and give the video we want to use
   regressor = featureExtractor.regression(video, videoReady);
   // Create the UI buttons
-  createButtons();
+  setupButtons();
 }
 
 function draw() {
@@ -43,7 +43,7 @@ function modelReady() {
 }
 
 // A function to be called when the video has loaded
-function videoReady () {
+function videoReady() {
   select('#videoStatus').html('Video ready!');
 }
 
@@ -53,7 +53,7 @@ function predict() {
 }
 
 // A util function to create UI buttons
-function createButtons() {
+function setupButtons() {
   slider = select('#slider');
   // When the Dog button is pressed, add the current frame
   // from the video with a label of "dog" to the classifier
@@ -80,6 +80,9 @@ function createButtons() {
 
 // Show the results
 function gotResults(err, result) {
+  if (err) {
+    console.error(err);
+  }
   positionX = map(result, 0, 1, 0, width);
   slider.value(result);
   predict();
