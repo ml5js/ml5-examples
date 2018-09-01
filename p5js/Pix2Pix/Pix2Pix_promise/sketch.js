@@ -54,7 +54,7 @@ function drawImage() {
   image(inputImg, 0, 0);
 
   // After input image is loaded, initialize a pix2pix method with a pre-trained model
-  ml5.pix2pix('models/edges2pikachu_AtoB.pict')
+  ml5.pix2pix('models/edges2pikachu.pict')
     .then(model => {
       // Show 'Model Loaded!' message
       statusMsg.html('Model Loaded!');
