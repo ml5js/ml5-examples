@@ -53,7 +53,7 @@ function setup() {
     });
   });
 
-  // Findind the average of two words
+  // Finding the average of two words
   betweenButton.mousePressed(() => {
     let word1 = betweenWordInput1.value();
     let word2 = betweenWordInput2.value();
