@@ -8,11 +8,10 @@ ml5 Example
 KNN Classification on Webcam Images with mobileNet. Built with p5.js
 === */
 
-const K = 3;
 const labels = ['A', 'B', 'C'];
-let mobileNet;
-let knnClassifier;
 let video;
+let featureExtractor;
+let knnClassifier;
 
 function setup() {
   noCanvas();
@@ -20,8 +19,8 @@ function setup() {
   video = createCapture(VIDEO);
   // Append it to the videoContainer DOM element
   video.parent('videoContainer');
-  // Extract the already learned features from MobileNet
-  mobileNet = ml5.imageClassifier('MobileNet', modelReady);
+  // Create a featureExtractorthat can extract the already learned features from MobileNet
+  featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
   // Create a KNN classifier
   knnClassifier = ml5.KNNClassifier();
   // Create the UI buttons
@@ -29,17 +28,13 @@ function setup() {
 }
 
 function modelReady(){
-  console.log('mobileNet model loaded')
-}
-
-function getVideoFeatures() {
-  return mobileNet.getFeatures(video);
+  console.log('FeatureExtractor(mobileNet model) loaded')
 }
 
 // Add the current frame from the video to the classifier
 function addExample(classIndex) {
   // Get the features of the input video
-  const features = getVideoFeatures();
+  const features = featureExtractor.getFeatures(video);
   knnClassifier.addExample(features, classIndex);
   updateExampleCounts();
 }
@@ -52,8 +47,8 @@ async function predictClass() {
     return;
   }
   // Get the features of the input video
-  let features = getVideoFeatures();
-  let res = await knnClassifier.predictClass(features, K);
+  let features = featureExtractor.getFeatures(video);
+  let res = await knnClassifier.predictClass(features);
   gotResults(res);
 }
 
