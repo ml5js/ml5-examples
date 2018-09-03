@@ -21,11 +21,15 @@ function setup() {
   // Append it to the videoContainer DOM element
   video.parent('videoContainer');
   // Extract the already learned features from MobileNet
-  mobileNet = ml5.imageClassifier('MobileNet');
+  mobileNet = ml5.imageClassifier('MobileNet', modelReady);
   // Create a KNN classifier
   knnClassifier = ml5.KNNClassifier();
   // Create the UI buttons
   createButtons();
+}
+
+function modelReady(){
+  console.log('mobileNet model loaded')
 }
 
 function getVideoFeatures() {
