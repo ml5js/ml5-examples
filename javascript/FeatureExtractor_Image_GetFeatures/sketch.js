@@ -9,7 +9,6 @@ Get Features as an Array of Numbers using Feature Extraction with MobileNet.
 === */
 
 const img = document.getElementById('img');
-const resContainer = document.getElementById('result');
 
 // Create a featureExtractor based MobileNet model
 const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
@@ -18,6 +17,9 @@ const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
 function modelLoaded() {
   // Get features of the image
   const features = featureExtractor.getFeatures(img);
-  // Show the results
-  resContainer.innerHTML = features;
+  console.log('features: ', features);
+
+  // Convert tensor values to an array
+  const values = features.dataSync();
+  console.log('values: ', values);
 }
