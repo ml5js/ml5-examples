@@ -17,14 +17,7 @@ const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
 // A function to be called when the model has been loaded
 function modelLoaded() {
   // Get features of the image
-  featureExtractor.get(img, gotFeatures);
-}
-
-// Show the results
-function gotFeatures(err, result) {
-  // Display any error
-  if (err) {
-    console.error(err);
-  }
-  resContainer.innerHTML = result;
+  const features = featureExtractor.getFeatures(img);
+  // Show the results
+  resContainer.innerHTML = features;
 }
