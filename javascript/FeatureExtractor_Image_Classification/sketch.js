@@ -10,6 +10,7 @@ Image Classification using Feature Extractor with MobileNet
 
 // Grab all the DOM elements
 var video = document.getElementById('video');
+var videoStatus = document.getElementById('videoStatus');
 var loading = document.getElementById('loading');
 var catButton = document.getElementById('catButton');
 var dogButton = document.getElementById('dogButton');
@@ -39,11 +40,16 @@ function modelLoaded() {
 // Extract the already learned features from MobileNet
 const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
 // Create a new classifier using those features
-const classifier = featureExtractor.asClassifier(video);
+const classifier = featureExtractor.classification(video, videoReady);
 
 // Predict the current frame.
 function predict() {
   classifier.predict(gotResults);
+}
+
+// A function to be called when the video is finished loading
+function videoReady() {
+  videoStatus.innerText = 'Video ready!';
 }
 
 // When the Cat button is pressed, add the current frame
@@ -73,8 +79,12 @@ train.onclick = function () {
   });
 }
 
-// A function to show the results and loop
-function gotResults(data) {
+// Show the results
+function gotResults(err, data) {
+  // Display any error
+  if (err) {
+    console.error(err);
+  }
   result.innerText = data;
   classifier.classify(gotResults);
 }
@@ -83,4 +93,3 @@ function gotResults(data) {
 predict.onclick = function () {
   classifier.classify(gotResults);
 }
-
