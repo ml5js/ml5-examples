@@ -14,6 +14,7 @@ let lstm;
 let textInput;
 let tempSlider;
 let lengthSlider;
+let runningInference = false;
 
 function setup() {
   noCanvas();
@@ -37,39 +38,46 @@ function modelReady() {
 }
 
 function generate() {
-  // Update the status log
-  select('#status').html('Generating...');
+  // prevent starting inference if we've already started another instance
+  // TODO: is there better JS way of doing this?
+ if(!runningInference) {
+   runningInference = true;
 
-  // Update the length and temperature span elements
-  select('#length').html(lengthSlider.value());
-  select('#temperature').html(tempSlider.value());
+    // Update the status log
+    select('#status').html('Generating...');
 
-  // Grab the original text
-  let original = textInput.value();
-  // Make it to lower case
-  let txt = original.toLowerCase();
+    // Update the length and temperature span elements
+    select('#length').html(lengthSlider.value());
+    select('#temperature').html(tempSlider.value());
 
-  // Check if there's something
-  if (txt.length > 0) {
-    // Here is the data for the LSTM generator
-    let data = {
-      seed: txt,
-      temperature: tempSlider.value(),
-      length: lengthSlider.value()
-    };
+    // Grab the original text
+    let original = textInput.value();
+    // Make it to lower case
+    let txt = original.toLowerCase();
 
-    // Generate text with the lstm
-    lstm.generate(data, gotData);
+    // Check if there's something
+    if (txt.length > 0) {
+      // Here is the data for the LSTM generator
+      let data = {
+        seed: txt,
+        temperature: tempSlider.value(),
+        length: lengthSlider.value()
+      };
 
-    // Update the DOM elements with typed and generated text
-    function gotData(err, result) {
-      select('#status').html('Ready!');
-      select('#original').html(original);
-      select('#prediction').html(result);
+      // Generate text with the lstm
+      lstm.generate(data, gotData);
+
+      // Update the DOM elements with typed and generated text
+      function gotData(err, result) {
+        select('#status').html('Ready!');
+        select('#original').html(original);
+        select('#prediction').html(result.sample);
+        runningInference = false;
+      }
+    } else {
+      // Clear everything
+      select('#original').html('');
+      select('#prediction').html('');
     }
-  } else {
-    // Clear everything
-    select('#original').html('');
-    select('#prediction').html('');
   }
 }

@@ -15,6 +15,7 @@ let textInput;
 let lengthSlider;
 let tempSlider;
 let button;
+let runningInference = false;
 
 function setup() {
   noCanvas();
@@ -46,33 +47,40 @@ function modelReady() {
 
 // Generate new text
 function generate() {
-  // Update the status log
-  select('#status').html('Generating...');
+  // prevent starting inference if we've already started another instance
+  // TODO: is there better JS way of doing this?
+ if(!runningInference) {
+    runningInference = true;
 
-  // Grab the original text
-  let original = textInput.value();
-  // Make it to lower case
-  let txt = original.toLowerCase();
+    // Update the status log
+    select('#status').html('Generating...');
 
-  // Check if there's something to send
-  if (txt.length > 0) {
-    // This is what the LSTM generator needs
-    // Seed text, temperature, length to outputs
-    // TODO: What are the defaults?
-    let data = {
-      seed: txt,
-      temperature: tempSlider.value(),
-      length: lengthSlider.value()
-    };
+    // Grab the original text
+    let original = textInput.value();
+    // Make it to lower case
+    let txt = original.toLowerCase();
 
-    // Generate text with the lstm
-    lstm.generate(data, gotData);
+    // Check if there's something to send
+    if (txt.length > 0) {
+      // This is what the LSTM generator needs
+      // Seed text, temperature, length to outputs
+      // TODO: What are the defaults?
+      let data = {
+        seed: txt,
+        temperature: tempSlider.value(),
+        length: lengthSlider.value()
+      };
 
-    // When it's done
-    function gotData(err, result) {
-      // Update the status log
-      select('#status').html('Ready!');
-      select('#result').html(txt + result);
+      // Generate text with the lstm
+      lstm.generate(data, gotData);
+
+      // When it's done
+      function gotData(err, result) {
+        // Update the status log
+        select('#status').html('Ready!');
+        select('#result').html(txt + result.sample);
+        runningInference = false;
+      }
     }
   }
 }
