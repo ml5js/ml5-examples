@@ -20,8 +20,11 @@ let autoGenerating = false;
 
 let currentText = ''; // full generated text
 
+let canvasHeight = 100;
+
 function setup() {
-  noCanvas();
+  inputCanvas = createCanvas(windowWidth, canvasHeight);
+  inputCanvas.parent('canvasContainer');
 
   // Create the LSTM Generator passing it the model directory
   lstm = ml5.LSTMGenerator('./models/woolf/', modelReady);
@@ -37,6 +40,10 @@ function setup() {
   select('#single').mousePressed(onSingleButton);
 
   tempSlider.input(updateSliders);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, canvasHeight);
 }
 
 // Update the slider values
@@ -129,5 +136,47 @@ function generate(seed, stateful) {
 }
 
 function draw() {
-    if(autoGenerating && modelIsReady) generateWithSingleChar();
+  background(230);
+  if(modelIsReady) {
+    if(autoGenerating) generateWithSingleChar();
+
+    // if we have probabilities, and same number as vocabulary...
+    if(lstm.probabilities.length > 0) {
+      if(lstm.probabilities.length == lstm.vocabSize) {
+        barWidth = width/lstm.vocabSize;
+        maxBarHeight = height - 15;
+
+        // loop through all probabilities and draw
+        let hiProbColor = color(255, 0, 0);  // color for high probabilities
+        let loProbColor = color(100, 150, 255);  // color for high probabilities
+        textSize(10);
+        for(let i = 0; i < lstm.vocabSize; i++) {
+          let prob = lstm.probabilities[i];
+          let char = Object.keys(lstm.vocab).find(key => lstm.vocab[key] === i);
+          let x = i * (width - barWidth) / (lstm.vocabSize - 1);
+          fill(lerpColor(loProbColor, hiProbColor, prob));
+          rect(x, maxBarHeight, barWidth, -prob * maxBarHeight);
+          fill(0, 255);
+          text(char, x + 1, height - 5);
+        }
+
+        // if mouse is over canvas...
+        if(mouseY > 0 && mouseY < height) {
+          // draw character for probability under mouse
+          let i = Math.floor(mouseX / barWidth); // index of probability bin under mouse
+          textSize(32);
+          fill(0, 255);
+          let char = Object.keys(lstm.vocab).find(key => lstm.vocab[key] === i);
+          text(char, mouseX + 5, mouseY);
+
+          // draw rectangle stroke around probability bin under mouse
+          noFill();
+          let x = i * (width - barWidth) / (lstm.vocabSize - 1);
+          rect(x, 0, barWidth, height);
+        }
+      } else {
+        console.log('WARNING: lstm.probabilities.length != lstm.vocabSize. How is that possible!?', lstm.probabilities.length, lstm.vocabSize)
+      }
+    }
+  }
 }
