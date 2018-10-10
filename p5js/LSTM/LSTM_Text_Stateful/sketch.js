@@ -74,8 +74,11 @@ function onResetButton() {
 
 // start autogenerating
 function onStartButton() {
-  if(currentText == '') generateWithFullInputText();
-  else generateWithSingleChar();
+  if(currentText == '') {
+    generateWithFullInputText();
+  } else {
+    generateWithSingleChar();
+  }
   autoGenerating = true;
 }
 
