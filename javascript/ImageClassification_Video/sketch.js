@@ -29,6 +29,6 @@ const loop = (classifier) => {
     .then(results => {
       result.innerText = results[0].className;
       probability.innerText = results[0].probability.toFixed(4);
-      startLoop(classifier) // Call again to create a loop
+      loop(classifier) // Call again to create a loop
     })
 }
