@@ -18,8 +18,9 @@
 
   <style>
   button {
-    margin: 2px;
+    margin: 6px 6px 6px 0;
     padding: 4px;
+    font-size: 14px;
   }
   video {
     width: 300;
@@ -27,13 +28,10 @@
   }
   p {
     display: inline;
-    font-size: 14px;
+    /* font-size: 14px; */
   }
-  h6 {
-    margin: 4px;
-    font-weight: lighter;
-    font-size: 14px;
-    margin-bottom: 10px;
+  .emoji {
+    font-size: 24px;
   }
   </style>
 </head>
@@ -41,32 +39,30 @@
 <body>
   <h2>KNN Classification on Webcam Images with mobileNet. Built with p5.js</h2>
   <div id="videoContainer"></div>
+  <p id="status">Loading Model...</p>
   <div>
     <button id="load">Load Dataset</button><br>
-    <p>If you load this saved classifer dataset.<br>
-      For Class A: cover your webcam completely to make it all black;<br>
-      For Class B: present anything in front of webcam other than complete black.<br>
-      There is no saved dataset for Class C.<br>
-      If this saved dataset doesn't work well for you, you could train your own classifier,<br>
+    <p>If you load this sample classifer dataset. Try to make rock, paper, or scissor gestures to see if the classifier can class them.<br>
+      If this sample dataset doesn't work well for you, you could train your own classifier,<br>
       and use the 'Save Dataset' button below to create your own myKNNDataset.json file,<br>
-      and place the json file in the same directory as 'sketch.js'
+      and replace the myKNNDataset.json in this folder.'
     </p>
   </div>
   <br><p>
-    <button id="addClassA">Add an Example to Class A</button>
-    <button id="resetA">Reset Class A</button>
-    <p><span id="exampleA">0</span> A examples</p>
-    <p>| Confidence in A is: <span id="confidenceA">0</span></p>
+    <span class="emoji"> ✊ </span><button id="addClassRock">Add an Example to Class Rock</button>
+    <button id="resetRock">Reset Class Rock</button>
+    <p><span id="exampleRock">0</span> Rock examples</p>
+    <p>| Confidence in Rock is: <span id="confidenceRock">0</span></p>
 
-    <br><button id="addClassB">Add an Example to Class B</button>
-    <button id="resetB">Reset Class B</button>
-    <p><span id="exampleB">0</span> B examples</p>
-    <p>| Confidence in B is: <span id="confidenceB">0</span></p>
+    <br><span class="emoji"> 🖐 </span><button id="addClassPaper">Add an Example to Class Paper</button>
+    <button id="resetPaper">Reset Class Paper</button>
+    <p><span id="examplePaper">0</span> Paper examples</p>
+    <p>| Confidence in Paper is: <span id="confidencePaper">0</span></p>
 
-    <br><button id="addClassC">Add an Example to Class C</button>
-    <button id="resetC">Reset Class C</button>
-    <p><span id="exampleC">0</span> C examples</p>
-    <p>| Confidence in C is: <span id="confidenceC">0</span></p>
+    <br><span class="emoji"> ✌️ </span><button id="addClassScissor">Add an Example to Class Scissor</button>
+    <button id="resetScissor">Reset Class Scissor</button>
+    <p><span id="exampleScissor">0</span> Scissor examples</p>
+    <p>| Confidence in Scissor is: <span id="confidenceScissor">0</span></p>
   </p>
   <br/>
   <p>
