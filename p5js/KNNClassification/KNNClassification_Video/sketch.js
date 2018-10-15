@@ -90,17 +90,17 @@ function createButtons() {
   // Reset buttons
   resetBtnA = select('#resetRock');
   resetBtnA.mousePressed(function() {
-    clearClass(0);
+    clearClass('Rock');
   });
 	
   resetBtnB = select('#resetPaper');
   resetBtnB.mousePressed(function() {
-    clearClass(1);
+    clearClass('Paper');
   });
 	
   resetBtnC = select('#resetScissor');
   resetBtnC.mousePressed(function() {
-    clearClass(2);
+    clearClass('Scissor');
   });
 
   // Predict button
@@ -152,8 +152,8 @@ function updateExampleCounts() {
 }
 
 // Clear the examples in one class
-function clearClass(classIndex) {
-  knnClassifier.clearClass(classIndex);
+function clearClass(classLabel) {
+  knnClassifier.clearClass(classLabel);
   updateExampleCounts();
 }
 
