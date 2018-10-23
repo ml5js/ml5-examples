@@ -42,7 +42,7 @@ function addExample(label) {
 }
 
 // Predict the current frame.
-function predictClass() {
+function classify() {
   // Get the total number of classes from knnClassifier
   const numClasses = knnClassifier.getNumClasses();
   if (numClasses <= 0) {
@@ -52,15 +52,15 @@ function predictClass() {
   // Get the features of the input video
   const features = featureExtractor.infer(video);
 
-  // Use knnClassifier to predict which class do these features belong to
-  // You can pass in a callback function `gotResults` to knnClassifier.predictClass function
-  knnClassifier.predictClass(features, gotResults);
+  // Use knnClassifier to classify which class do these features belong to
+  // You can pass in a callback function `gotResults` to knnClassifier.classify function
+  knnClassifier.classify(features, gotResults);
   // You can also pass in an optional K value, K default to 3
-  // knnClassifier.predictClass(features, 3, gotResults);
+  // knnClassifier.classify(features, 3, gotResults);
 
-  // You can also use the following async/await function to call knnClassifier.predictClass
+  // You can also use the following async/await function to call knnClassifier.classify
   // Remember to add `async` before `function predictClass()`
-  // const res = await knnClassifier.predictClass(features);
+  // const res = await knnClassifier.classify(features);
   // gotResults(null, res);
 }
 
@@ -105,7 +105,7 @@ function createButtons() {
 
   // Predict button
   buttonPredict = select('#buttonPredict');
-  buttonPredict.mousePressed(predictClass);
+  buttonPredict.mousePressed(classify);
 
   // Clear all classes button
   buttonClearAll = select('#clearAll');
@@ -129,9 +129,10 @@ function gotResults(err, result) {
 
   if (result.confidencesByLabel) {
     const confideces = result.confidencesByLabel;
-    if (result.classLabel) {
-      select('#result').html(result.classLabel);
-      select('#confidence').html(`${confideces[result.classLabel] * 100} %`);
+    // result.label is the label that has the highest confidence
+    if (result.label) {
+      select('#result').html(result.label);
+      select('#confidence').html(`${confideces[result.label] * 100} %`);
     }
 
     select('#confidenceRock').html(`${confideces['Rock'] ? confideces['Rock'] * 100 : 0} %`);
@@ -139,7 +140,7 @@ function gotResults(err, result) {
     select('#confidenceScissor').html(`${confideces['Scissor'] ? confideces['Scissor'] * 100 : 0} %`);
   }
 
-  predictClass();
+  classify();
 }
 
 // Update the example count for each class	
