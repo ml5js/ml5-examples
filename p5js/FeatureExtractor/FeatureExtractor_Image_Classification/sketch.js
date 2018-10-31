@@ -33,13 +33,13 @@ function setup() {
 // A function to be called when the model has been loaded
 function modelReady() {
   select('#modelStatus').html('Base Model (MobileNet) loaded!');
+  //classifier.load('/p5js/FeatureExtractor/FeatureExtractor_Image_Classification/model/model.json', () => console.log('done!') );
 }
 
 // A function to be called when the video has loaded
 function videoReady () {
   select('#videoStatus').html('Video ready!');
 }
-
 
 // Classify the current frame.
 function classify() {
@@ -80,6 +80,18 @@ function setupButtons() {
   // Predict Button
   buttonPredict = select('#buttonPredict');
   buttonPredict.mousePressed(classify);
+
+  // Save model
+  saveBtn = select('#save');
+  saveBtn.mousePressed(function() {
+    classifier.save();
+  });
+
+  // Load model
+  loadBtn = select('#load');
+  loadBtn.changed(function() {
+    classifier.load(loadBtn.elt.files, () => console.log('loaded'));
+  });
 }
 
 // Show the results
