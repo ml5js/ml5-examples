@@ -10,16 +10,73 @@ SketchRNN
 
 var model;
 var dx, dy; // offsets of the pen strokes, in pixels
-var pen_down, pen_up, pen_end; // keep track of whether pen is touching paper
 var x, y; // absolute coordinates on the screen of where the pen is
-var prevPen = [1, 0, 0]; // group all p0, p1, p2 together
-var temperature = 0.45; // controls the amount of uncertainty of the model
+var prevPen = {
+  dx: 0,
+  dy: 0,
+  pen: 'down'
+};
 var modelLoaded = false;
 var runningStep = false;
 var initialStroke = true;
+const options = {
+  temperature: 0.1
+}
 
 // Initial Strokes: this create a circle
-var initialStrokes = [[-4,0,1,0,0],[-15,9,1,0,0],[-10,17,1,0,0],[-1,28,1,0,0],[14,13,1,0,0],[12,4,1,0,0],[22,1,1,0,0],[14,-11,1,0,0],[5,-12,1,0,0],[2,-19,1,0,0],[-12,-23,1,0,0],[-13,-7,1,0,0],[-14,-1,0,1,0]];
+const initialStrokes = [{
+  dx: -4,
+  dy: 0,
+  pen: "down"
+}, {
+  dx: -15,
+  dy: 9,
+  pen: "down"
+}, {
+  dx: -10,
+  dy: 17,
+  pen: "down"
+}, {
+  dx: -1,
+  dy: 28,
+  pen: "down"
+},{
+  dx: 14,
+  dy: 13,
+  pen: "down"
+},{
+  dx: 12,
+  dy: 4,
+  pen: "down"
+},{
+  dx: 22,
+  dy: 1,
+  pen: "down"
+},{
+  dx: 14,
+  dy: -11,
+  pen: "down"
+},{
+  dx: 5,
+  dy: -12,
+  pen: "down"
+},{
+  dx: 2,
+  dy: -19,
+  pen: "down"
+},{
+  dx: -12,
+  dy: -23,
+  pen: "down"
+},{
+  dx: -13,
+  dy: -7,
+  pen: "down"
+},{
+  dx: -14,
+  dy: -1,
+  pen: "up"
+}];
 
 function setup() {
   createCanvas(500, 500);
@@ -33,32 +90,29 @@ function modelReady() {
 }
 
 function draw() {
-  if (!modelLoaded) {
-    return;
-  }
-  if (prevPen[2] === 1) {
-    restart();
-  }
+  if (modelLoaded) {
+    if (prevPen.pen === "end") {
+      restart();
+    }
   
-  if (!runningStep) {
-    runningStep = true;
-    model.generate({ temperature }, initialStroke ? initialStrokes : [],gotResult);
-    initialStroke = false;
+    if (!runningStep) {
+      runningStep = true;
+      model.generate(options, initialStroke ? initialStrokes : [], gotResult);
+      initialStroke = false;
+    }
   }
 }
 
 function gotResult(err, result) {
-  [dx, dy, pen_down, pen_up, pen_end] = result;
-  if (prevPen[0] == 1) {
-    stroke(255,0,0)
+  if (prevPen.pen === "down") {
+    stroke(255, 0, 0)
     strokeWeight(3.0);
-    line(x, y, x+dx, y+dy);
+    line(x, y, x + result.dx, y + result.dy);
   }
 
-  x+=dx;
-  y+=dy;
-  prevPen = [pen_down, pen_up, pen_end];
-
+  x += result.dx;
+  y += result.dy;
+  prevPen = result; 
   runningStep = false;
 }
 
@@ -68,38 +122,34 @@ function clearScreen() {
 };
 
 // A function to draw the initial strokes
-function drawStartingStrokes() { 
-  for(let i=0; i <initialStrokes.length; i++) {
-    [dx, dy, pen_down, pen_up, pen_end] = initialStrokes[i];
-
-    if (prevPen[2] == 1) {
+function drawStartingStrokes() {
+  for (let i = 0; i < initialStrokes.length; i++) {
+    if (initialStrokes[i].pen === 'end') {
       break;
     }
-
     // only draw on the paper if the pen is touching the paper
-    if (prevPen[0] == 1) {
+    if (initialStrokes[i].pen === 'down') {
       strokeWeight(4.0);
-      line(x, y, x+dx, y+dy); // draw line connecting prev point to current point.
+      line(x, y, x + initialStrokes[i].dx, y + initialStrokes[i].dy); // draw line connecting prev point to current point.
     }
-
     // update the absolute coordinates from the offsets
-    x += dx;
-    y += dy;
-
+    x += initialStrokes[i].dx;
+    y += initialStrokes[i].dy;
     // update the previous pen's state to the current one we just sampled
-    prev_pen = [pen_down, pen_up, pen_end];
+    prev_pen = initialStrokes[i];
   }
 }
 
-function restart () {
+function restart() {
   model.reset();
-
-  x = width/2.0;
-  y = height/3.0;
-
-  prevPen = [1, 0, 0];
+  x = width / 2.0;
+  y = height / 3.0;
+  prevPen = {
+    dx: 0,
+    dy: 0,
+    pen: 'down'
+  };
   initialStroke = true;
-
   clearScreen();
   drawStartingStrokes();
 }
