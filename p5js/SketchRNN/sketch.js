@@ -51,7 +51,7 @@ function gotSketch(err, s) {
 }
 
 function modelReady() {
-  console.log('model ready');
+  select('#status').html('Model Loaded');
   startDrawing();
 }
 
