@@ -18,6 +18,8 @@ let resetBtn;
 let singleBtn;
 let generating = false;
 
+let canvasHeight = 100;
+
 function setup() {
   noCanvas();
   // Create the LSTM Generator passing it the model directory
@@ -34,6 +36,10 @@ function setup() {
   resetBtn.mousePressed(resetModel);
   singleBtn.mousePressed(predict);
   tempSlider.input(updateSliders);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, canvasHeight);
 }
 
 // Update the slider values
