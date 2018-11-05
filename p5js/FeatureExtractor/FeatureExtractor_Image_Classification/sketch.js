@@ -32,8 +32,10 @@ function setup() {
 
 // A function to be called when the model has been loaded
 function modelReady() {
-  select('#modelStatus').html('Base Model (MobileNet) loaded!');
-  //classifier.load('/p5js/FeatureExtractor/FeatureExtractor_Image_Classification/model/model.json', () => console.log('done!') );
+  select('#modelStatus').html('Base Model (MobileNet) Loaded!');
+  classifier.load('./model/model.json', function() {
+    select('#modelStatus').html('Custom Model Loaded!');
+  });
 }
 
 // A function to be called when the video has loaded
@@ -90,7 +92,9 @@ function setupButtons() {
   // Load model
   loadBtn = select('#load');
   loadBtn.changed(function() {
-    classifier.load(loadBtn.elt.files, () => console.log('loaded'));
+    classifier.load(loadBtn.elt.files, function(){
+      select('#modelStatus').html('Custom Model Loaded!');
+    });
   });
 }
 
