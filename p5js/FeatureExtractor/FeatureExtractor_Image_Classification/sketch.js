@@ -43,7 +43,6 @@ function videoReady () {
   select('#videoStatus').html('Video ready!');
 }
 
-
 // Classify the current frame.
 function classify() {
   classifier.classify(gotResults);
