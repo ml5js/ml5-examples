@@ -7,10 +7,10 @@
 ML5 Example
 Interactive LSTM Text Generation Example using p5.js
 This uses a pre-trained model on a corpus of Virginia Woolf
-For more models see: https://github.com/ml5js/ml5-data-and-training/tree/master/models/lstm
+For more models see: https://github.com/ml5js/ml5-data-and-training/tree/master/models/charRNN
 === */
 
-let lstm;
+let charRNN;
 let textInput;
 let tempSlider;
 let lengthSlider;
@@ -20,7 +20,7 @@ function setup() {
   noCanvas();
 
   // Create the LSTM Generator passing it the model directory
-  lstm = ml5.LSTMGenerator('models/woolf/', modelReady);
+  charRNN = ml5.charRNN('models/woolf/', modelReady);
 
   // Grab the DOM elements
   textInput = select('#textInput');
@@ -64,8 +64,8 @@ function generate() {
         length: lengthSlider.value()
       };
 
-      // Generate text with the lstm
-      lstm.generate(data, gotData);
+      // Generate text with the charRNN
+      charRNN.generate(data, gotData);
 
       // Update the DOM elements with typed and generated text
       function gotData(err, result) {
