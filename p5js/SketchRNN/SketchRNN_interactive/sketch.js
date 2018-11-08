@@ -16,31 +16,69 @@ let previous_pen = 'down';
 let x, y;
 // The current "stroke" of the drawing
 let strokePath;
+let seedStrokes = [];
+
+// Storing a reference to the canvas
+let canvas;
 
 function setup() {
-  createCanvas(640, 480);
+  canvas = createCanvas(640, 480);
+  // Hide the canvas until the model is ready
+  canvas.hide();
+
   background(220);
   // Load the model
   // See a list of all supported models: https://github.com/ml5js/ml5-library/blob/master/src/SketchRNN/models.js
   model = ml5.SketchRNN('cat', modelReady);
 
   // Button to start drawing
-  let button = select('#draw');
-  button.mousePressed(startDrawing);
+  let button = select('#clear');
+  button.mousePressed(clearDrawing);
+}
+
+// The model is ready
+function modelReady() {
+  canvas.show();
+  // sketchRNN will begin when the mouse is released
+  canvas.mouseReleased(startSketchRNN);
+  select('#status').html('model ready - sketchRNN will begin after you draw with the mouse');
 }
 
 // Reset the drawing
-function startDrawing() {
+function clearDrawing() {
   background(220);
-  // Start in the middle
-  x = width / 2;
-  y = height / 2;
+  // clear seed strokes
+  seedStrokes = [];
+  // Reset model
   model.reset();
-  // Generate the first stroke path
-  model.generate(gotStroke);
+}
+
+// sketchRNN takes over
+function startSketchRNN() {
+  // Start where the mouse left off
+  x = mouseX;
+  y = mouseY;
+  // Generate with the seedStrokes
+  model.generate(seedStrokes, gotStroke);
 }
 
 function draw() {
+  // If the mosue is pressed capture the user strokes 
+  if (mouseIsPressed) {
+    // Draw line
+    stroke(0);
+    strokeWeight(3.0);
+    line(pmouseX, pmouseY, mouseX, mouseY);
+    // Create a "stroke path" with dx, dy, and pen
+    let userStroke = {
+      dx: mouseX - pmouseX,
+      dy: mouseY - pmouseY,
+      pen: 'down'
+    };
+    // Add to the array
+    seedStrokes.push(userStroke);
+  }
+
   // If something new to draw
   if (strokePath) {
     // If the pen is down, draw a line
@@ -68,8 +106,3 @@ function gotStroke(err, s) {
   strokePath = s;
 }
 
-// The model is ready
-function modelReady() {
-  select('#status').html('model ready');
-  startDrawing();
-}
