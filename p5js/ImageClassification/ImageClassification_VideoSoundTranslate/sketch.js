@@ -23,16 +23,15 @@ const translateAPIKey = 'Xxxxxxxxxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxx';
 const myVoice = new p5.Speech();
 
 function setup() {
+  // Select a default voice and langauge
+  myVoice.setLang('zh-CN');
+  myVoice.setVoice(63);
+
   noCanvas();
   // Create a camera input
   video = createCapture(VIDEO);
   // Initialize the Image Classifier method with MobileNet and the video as the second argument
   classifier = ml5.imageClassifier('MobileNet', video, modelReady);
-
-  // List all the voices from p5.speech.js
-  myVoice.listVoices();
-  // Select a default voice
-  myVoice.setVoice(63);
 
   langDropdown = select('#lang');
   langDropdown.changed(langChangedEvent);
@@ -56,8 +55,11 @@ function gotResult(err, results) {
   const resultText = results[0].className;
   select('#result').html(resultText);
   select('#probability').html(nf(results[0].probability, 0, 2));
+
+  // Get the first word of the result
+  const resultWord = resultText.split(',')[0];
   // Translate the result to another language using Google translate API
-  const url = `https://www.googleapis.com/language/translate/v2/?key=${translateAPIKey}&target=${selectedLang}&source=en&q=${resultText}`;
+  const url = `https://www.googleapis.com/language/translate/v2/?key=${translateAPIKey}&target=${selectedLang}&source=en&q=${resultWord}`;
   loadJSON(url, gotTranslation);
 }
 
@@ -75,6 +77,8 @@ function gotTranslation(result) {
 
 function langChangedEvent() {
   selectedLang = langDropdown.value();
+  // Set language
+  myVoice.setLang(selectedLang);
   switch (selectedLang) {
     case 'zh-CN':
       myVoice.setVoice(63);
@@ -86,6 +90,6 @@ function langChangedEvent() {
       myVoice.setVoice(54);
       break;
     default:
-      myVoice.setVoice(default_voice);
+      myVoice.setVoice(63);
   }
 }
