@@ -30,7 +30,7 @@ function modelReady() {
 }
 
 function draw() {
-  if(poses){
+  if(poses.length > 0){
     image(img, 0, 0, width, height);
     drawSkeleton(poses)
     drawKeypoints(poses)
