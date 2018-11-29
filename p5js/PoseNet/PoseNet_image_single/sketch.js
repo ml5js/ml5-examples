@@ -34,7 +34,7 @@ function draw() {
     image(img, 0, 0, width, height);
     drawSkeleton(poses)
     drawKeypoints(poses)
-    // noLoop();
+    noLoop();
   }
   
 }
