@@ -58,8 +58,8 @@ function modelReady() {
 function draw() {
     if (poses.length > 0) {
         image(img, 0, 0, width, height);
-        drawSkeleton(poses)
-        drawKeypoints(poses)
+        drawSkeleton(poses);
+        drawKeypoints(poses);
         noLoop(); // stop looping when the poses are estimated
     }
 
@@ -78,7 +78,7 @@ function drawKeypoints() {
             // Only draw an ellipse is the pose probability is bigger than 0.2
             if (keypoint.score > 0.2) {
                 fill(255);
-                stroke(20)
+                stroke(20);
                 strokeWeight(4);
                 ellipse(round(keypoint.position.x), round(keypoint.position.y), 8, 8);
             }
