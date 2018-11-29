@@ -25,6 +25,11 @@ function imageReady(){
     
     // assign poseNet
     poseNet = ml5.poseNet(modelReady, options);
+    // This sets up an event that listens to 'pose' events
+    poseNet.on('pose', function (results) {
+        poses = results;
+    });
+
 }
 
 // when poseNet is ready, do the detection
@@ -41,17 +46,12 @@ function modelReady() {
     //     console.log(res)
     //     poses = res;
     // });
-
-
-    // // call the single pose on our image
-    poseNet.singlePose(img).then( (res) => {
-        // when we get a response, store the results to our poses[] array
-        // then draw will do it's thing
-        poses = res;
-    }).catch( (err) => {
-        return err;
-    });
-
+    
+    /** 
+    * call the singlePose function 
+    * poseNet.on('pose', ...) will be listening for the detection results 
+    */
+    poseNet.singlePose(img)
 }
 
 // draw() will not show anything until poses are found
