@@ -21,6 +21,27 @@ etc..
 
 Please refer to [#1](https://github.com/ml5js/ml5-examples/issues/1) (thanks [@dariusk](https://github.com/dariusk)), to see why we settle for this. 
 
+
+## Organizing Examples of different features
+
+If you're interested to make example, you can organize them as heirarchy like so:
+
+```
+/FeatureName
+    /Example_1
+    /Example_2
+```
+
+For example, the `PoseNet` directory contains 3 subdirectories, one for each example.
+
+```
+/PoseNet
+    /PoseNet_image
+    /PoseNet_video
+    /PoseNet_webcam
+```
+
+
 # Getting Started
 
 Since all the example are self contained, if you want to contribute by fixing bugs, adding documentation or adding new examples, just start by cloning or [downloading this repository](https://github.com/ml5js/ml5-examples/archive/master.zip):
