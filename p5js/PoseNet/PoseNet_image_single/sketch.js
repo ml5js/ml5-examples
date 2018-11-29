@@ -1,3 +1,4 @@
+let img;
 let poseNet;
 let poses = [];
 
@@ -6,36 +7,54 @@ function setup() {
 
     // create an image using the p5 dom library
     // call modelReady() when it is loaded
-    img = createImg('data/runner.jpg', modelReady);
+    img = createImg('data/runner.jpg', imageReady);
     // set the image size to the size of the canvas
     img.size(width, height);
-
-    // set some options
-    let options = {
-        imageScaleFactor: 1,
-        minConfidence: 0.1
-    }
-
-    // assign poseNet
-    poseNet = ml5.poseNet(modelReady, options);
 
     img.hide(); // hide the image in the browser
     frameRate(1); // set the frameRate to 1 since we don't need it to be running quickly in this case
 }
 
+// when the image is ready, then load up poseNet
+function imageReady(){
+    // set some options
+    let options = {
+        imageScaleFactor: 1,
+        minConfidence: 0.1
+    }
+    
+    // assign poseNet
+    poseNet = ml5.poseNet(modelReady, options);
+}
+
+// when poseNet is ready, do the detection
 function modelReady() {
     select('#status').html('Model Loaded');
 
+
+    // TODO: add support for callback - https://github.com/ml5js/ml5-examples/issues/80
     // call the single pose on our image
-    poseNet.singlePose(img).then(res => {
+    // poseNet.singlePose(img, function(err, res) {
+    //     if(err) return err
+    //     // when we get a response, store the results to our poses[] array
+    //     // then draw will do it's thing
+    //     console.log(res)
+    //     poses = res;
+    // });
+
+
+    // // call the single pose on our image
+    poseNet.singlePose(img).then( (res) => {
         // when we get a response, store the results to our poses[] array
-        poses = res
-    }).catch(err => {
-        console.log(err);
+        // then draw will do it's thing
+        poses = res;
+    }).catch( (err) => {
         return err;
     });
+
 }
 
+// draw() will not show anything until poses are found
 function draw() {
     if (poses.length > 0) {
         image(img, 0, 0, width, height);
