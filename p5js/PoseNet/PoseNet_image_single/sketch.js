@@ -4,24 +4,31 @@ let poses = [];
 function setup() {
   createCanvas(640, 360);
 
+  // create an image using the p5 dom library
+  // call modelReady() when it is loaded
   img = createImg('data/runner.jpg', modelReady);
+  // set the image size to the size of the canvas
   img.size(width, height);
 
+  // set some options
   let options = {
     imageScaleFactor: 1,
     minConfidence: 0.1
   }
 
+  // assign poseNet
   poseNet = ml5.poseNet(modelReady,options);
   
-  img.hide();
-  frameRate(1);
+  img.hide(); // hide the image in the browser
+  frameRate(1); // set the frameRate to 1 since we don't need it to be running quickly in this case
 }
 
 function modelReady() {
   select('#status').html('Model Loaded');
 
+  // call the single pose on our image
   poseNet.singlePose(img).then( res =>{
+    // when we get a response, store the results to our poses[] array
     poses = res
   }).catch(err => {
     console.log(err);
@@ -34,11 +41,12 @@ function draw() {
     image(img, 0, 0, width, height);
     drawSkeleton(poses)
     drawKeypoints(poses)
-    noLoop();
+    noLoop(); // stop looping when the poses are estimated
   }
   
 }
 
+// The following comes from https://ml5js.org/docs/posenet-webcam
 // A function to draw ellipses over the detected keypoints
 function drawKeypoints()  {
   // Loop through all the poses detected
@@ -50,12 +58,9 @@ function drawKeypoints()  {
       let keypoint = pose.keypoints[j];
       // Only draw an ellipse is the pose probability is bigger than 0.2
       if (keypoint.score > 0.2) {
-        // fill(255);
-        // noStroke();
         fill(255);
         stroke(20)
         strokeWeight(4);
-        // console.log(round(keypoint.position.x), round(keypoint.position.y))
         ellipse( round(keypoint.position.x), round(keypoint.position.y), 8, 8);
       }
     }
@@ -72,7 +77,6 @@ function drawSkeleton() {
       let partA = skeleton[j][0];
       let partB = skeleton[j][1];
       stroke(255);
-      // stroke(255);
       strokeWeight(1);
       line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
     }
