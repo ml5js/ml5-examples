@@ -25,33 +25,20 @@ function imageReady(){
     
     // assign poseNet
     poseNet = ml5.poseNet(modelReady, options);
+    // This sets up an event that listens to 'pose' events
+    poseNet.on('pose', function (results) {
+        poses = results;
+    });
 }
 
 // when poseNet is ready, do the detection
 function modelReady() {
     select('#status').html('Model Loaded');
-
-
-    // TODO: add support for callback - https://github.com/ml5js/ml5-examples/issues/80
-    // call the single pose on our image
-    // poseNet.singlePose(img, function(err, res) {
-    //     if(err) return err
-    //     // when we get a response, store the results to our poses[] array
-    //     // then draw will do it's thing
-    //     console.log(res)
-    //     poses = res;
-    // });
-
-
-    // // call the single pose on our image
-    poseNet.singlePose(img).then( (res) => {
-        // when we get a response, store the results to our poses[] array
-        // then draw will do it's thing
-        poses = res;
-    }).catch( (err) => {
-        return err;
-    });
-
+     
+    // When the model is ready, run the singlePose() function...
+    // If/When a pose is detected, poseNet.on('pose', ...) will be listening for the detection results 
+    // in the draw() loop, if there are any poses, then carry out the draw commands
+    poseNet.singlePose(img)
 }
 
 // draw() will not show anything until poses are found
