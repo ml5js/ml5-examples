@@ -29,7 +29,6 @@ function imageReady(){
     poseNet.on('pose', function (results) {
         poses = results;
     });
-
 }
 
 // when poseNet is ready, do the detection
