@@ -10,10 +10,11 @@ KNN Classification on Webcam Images with mobileNet. Built with p5.js
 let video;
 // Create a KNN classifier
 const knnClassifier = ml5.KNNClassifier();
-// Create a featureExtractor that can extract the already learned features from MobileNet
-const featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
+let featureExtractor;
 
 function setup() {
+  // Create a featureExtractor that can extract the already learned features from MobileNet
+  featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
   noCanvas();
   // Create a video element
   video = createCapture(VIDEO);
