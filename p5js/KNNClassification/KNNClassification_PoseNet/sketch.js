@@ -50,11 +50,8 @@ function addExample(label) {
   // Convert poses results to a 2d array [[score0, x0, y0],...,[score16, x16, y16]]
   const poseArray = poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y]);
 
-  // Create a tensor2d from 2d array
-  const logits = ml5.tf.tensor2d(poseArray);
-
   // Add an example with a label to the classifier
-  knnClassifier.addExample(logits, label);
+  knnClassifier.addExample(poseArray, label);
   updateExampleCounts();
 }
 
@@ -69,12 +66,9 @@ function classify() {
   // Convert poses results to a 2d array [[score0, x0, y0],...,[score16, x16, y16]]
   const poseArray = poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y]);
 
-  // Create a tensor2d from 2d array
-  const logits = ml5.tf.tensor2d(poseArray);
-
   // Use knnClassifier to classify which class do these features belong to
   // You can pass in a callback function `gotResults` to knnClassifier.classify function
-  knnClassifier.classify(logits, gotResults);
+  knnClassifier.classify(poseArray, gotResults);
 }
 
 // A util function to create UI buttons
