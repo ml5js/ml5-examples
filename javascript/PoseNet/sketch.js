@@ -20,7 +20,7 @@ let poses = [];
 // Create a webcam capture
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
   navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-    video.src = window.URL.createObjectURL(stream);
+    video.srcObject=stream;
     video.play();
   });
 }
@@ -41,13 +41,16 @@ function drawCameraIntoCanvas() {
 drawCameraIntoCanvas();
 
 // Create a new poseNet method with a single detection
-const poseNet = ml5.poseNet(video, 'single', gotPoses);
-// You can optionally call it for multiple poses 
-//const poseNet = new ml5.PoseNet(video, 'multiple', gotPoses);
+const poseNet = ml5.poseNet(video, modelReady);
+poseNet.on('pose', gotPoses);
 
 // A function that gets called every time there's an update from the model
 function gotPoses(results) {
   poses = results;
+}
+
+function modelReady() {
+  console.log("model ready")
 }
 
 // A function to draw ellipses over the detected keypoints
