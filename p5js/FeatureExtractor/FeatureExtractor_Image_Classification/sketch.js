@@ -99,11 +99,14 @@ function setupButtons() {
 }
 
 // Show the results
-function gotResults(err, result) {
+function gotResults(err, results) {
   // Display any error
   if (err) {
     console.error(err);
   }
-  select('#result').html(result);
-  classify();
+  if (results && results[0]) {
+    select('#result').html(results[0].label);
+    select('#confidence').html(results[0].confidence);
+    classify();
+  }
 }

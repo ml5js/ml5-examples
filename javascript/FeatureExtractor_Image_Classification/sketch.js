@@ -19,6 +19,7 @@ var amountOfDogImages = document.getElementById('amountOfDogImages');
 var train = document.getElementById('train');
 var loss = document.getElementById('loss');
 var result = document.getElementById('result');
+var confidence = document.getElementById('confidence');
 var predict = document.getElementById('predict');
 
 // A variable to store the total loss
@@ -80,13 +81,16 @@ train.onclick = function () {
 }
 
 // Show the results
-function gotResults(err, data) {
+function gotResults(err, results) {
   // Display any error
   if (err) {
     console.error(err);
   }
-  result.innerText = data;
-  classifier.classify(gotResults);
+  if (results && results[0]) {
+    select('#result').html(results[0].label);
+    select('#confidence').html(results[0].confidence);
+    classify();
+  }
 }
 
 // Start predicting when the predict button is clicked
