@@ -17,6 +17,6 @@ const probability = document.getElementById('probability'); // The probability t
 ml5.imageClassifier('MobileNet')
   .then(classifier => classifier.predict(image))
   .then(results => {
-    result.innerText = results[0].className;
-    probability.innerText = results[0].probability.toFixed(4);
+    result.innerText = results[0].label;
+    probability.innerText = results[0].confidence.toFixed(4);
   });

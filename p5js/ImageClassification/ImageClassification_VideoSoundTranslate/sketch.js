@@ -46,15 +46,15 @@ function modelReady() {
 
 // Get a prediction for the current video frame
 function classifyVideo() {
-  classifier.predict(gotResult);
+  classifier.classify(gotResult);
 }
 
 // When we get a result
 function gotResult(err, results) {
-  // The results are in an array ordered by probability.
-  const resultText = results[0].className;
+  // The results are in an array ordered by confidence.
+  const resultText = results[0].label;
   select('#result').html(resultText);
-  select('#probability').html(nf(results[0].probability, 0, 2));
+  select('#probability').html(nf(results[0].confidence, 0, 2));
 
   // Get the first word of the result
   const resultWord = resultText.split(',')[0];

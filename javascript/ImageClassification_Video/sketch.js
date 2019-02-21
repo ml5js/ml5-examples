@@ -27,8 +27,8 @@ ml5.imageClassifier('MobileNet', video)
 const loop = (classifier) => {
   classifier.predict()
     .then(results => {
-      result.innerText = results[0].className;
-      probability.innerText = results[0].probability.toFixed(4);
+      result.innerText = results[0].label;
+      probability.innerText = results[0].confidence.toFixed(4);
       loop(classifier) // Call again to create a loop
     })
 }
