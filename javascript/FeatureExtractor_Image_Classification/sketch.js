@@ -26,12 +26,11 @@ var predict = document.getElementById('predict');
 let totalLoss = 0;
 
 // Create a webcam capture
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-    video.src = window.URL.createObjectURL(stream);
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    video.srcObject = stream;
     video.play();
-  });
-}
+  })
 
 // A function to be called when the model has been loaded
 function modelLoaded() {
@@ -87,9 +86,9 @@ function gotResults(err, results) {
     console.error(err);
   }
   if (results && results[0]) {
-    select('#result').html(results[0].label);
-    select('#confidence').html(results[0].confidence);
-    classify();
+    result.innerText = results[0].label;
+    confidence.innerText = results[0].confidence;
+    classifier.classify(gotResults);
   }
 }
 
