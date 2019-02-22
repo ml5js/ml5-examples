@@ -46,7 +46,7 @@ function drawNextImage() {
 // When the image has been loaded,
 // get a prediction for that image
 function imageReady() {
-  classifier.predict(img, gotResult);
+  classifier.classify(img, gotResult);
 }
 
 function savePredictions() {
@@ -78,9 +78,9 @@ function gotResult(err, results) {
   }
   predictions.push(information);
   if (display) {
-    // The results are in an array ordered by probability.
-    select('#result').html(results[0].className);
-    select('#probability').html(nf(results[0].probability, 0, 2));
+    // The results are in an array ordered by confidence.
+    select('#result').html(results[0].label);
+    select('#probability').html(nf(results[0].confidence, 0, 2));
     // Can be changed with the displayTime variable.
     setTimeout(removeImage, displayTime);
   } else {

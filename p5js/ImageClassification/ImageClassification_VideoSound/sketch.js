@@ -33,14 +33,14 @@ function modelReady() {
 
 // Get a prediction for the current video frame
 function classifyVideo() {
-  classifier.predict(gotResult);
+  classifier.classify(gotResult);
 }
 
 // When we get a result
 function gotResult(err, results) {
-  // The results are in an array ordered by probability.
-  select('#result').html(results[0].className);
-  select('#probability').html(nf(results[0].probability, 0, 2));
-  myVoice.speak(`I see ${results[0].className}`);
+  // The results are in an array ordered by confidence.
+  select('#result').html(results[0].label);
+  select('#probability').html(nf(results[0].confidence, 0, 2));
+  myVoice.speak(`I see ${results[0].label}`);
   classifyVideo();
 }
