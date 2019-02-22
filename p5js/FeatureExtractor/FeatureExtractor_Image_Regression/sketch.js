@@ -83,7 +83,9 @@ function gotResults(err, result) {
   if (err) {
     console.error(err);
   }
-  positionX = map(result, 0, 1, 0, width);
-  slider.value(result);
-  predict();
+  if (result && result.value) {
+    positionX = map(result.value, 0, 1, 0, width);
+    slider.value(result.value);
+    predict();
+  }
 }
