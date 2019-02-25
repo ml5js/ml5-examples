@@ -17,7 +17,7 @@ let img;
 
 function preload() {
   // Initialize the Image Classifier method with MobileNet.
-  classifier = ml5.imageClassifier('mobilenet');
+  classifier = ml5.imageClassifier('MobileNet');
   // Set Status after the model is loaded
   select('#status').html('Model Loaded');
   // Load the image
