@@ -18,14 +18,14 @@ let img;
 function preload() {
   // Initialize the Image Classifier method with MobileNet.
   classifier = ml5.imageClassifier('MobileNet');
-  // Set Status after the model is loaded
-  select('#status').html('Model Loaded');
   // Load the image
   img = loadImage('bird.jpg');
 }
 
 function setup() {
-  noCanvas();
+  // Display the image
+  image(img, 0, 0);
+  // Execute the classification
   classifier.classify(img, gotResult);
 }
 
@@ -35,7 +35,6 @@ function gotResult(err, results) {
   if (err) {
     console.error(err);
   }
-  // The results are in an array ordered by confidence.
-  select('#result').html(results[0].label);
-  select('#probability').html(nf(results[0].confidence, 0, 2));
+  // Create a P element and display the result.
+  createP('The result of the classification is: ' + results[0].label + ', and the probability is: ' + nf(results[0].confidence, 0, 2));
 }
