@@ -1,4 +1,4 @@
-// Copyright (c) 2018 ml5
+// Copyright (c) 2019 ml5
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
@@ -30,9 +30,9 @@ function modelReady(){
 // When the image has been loaded,
 // get a prediction for that image
 function imageReady() {
-  classifier.classify(img, gotResult);
+  classifier.predict(img, gotResult);
   // You can also specify the amount of classes you want
-  // classifier.classify(img, 10, gotResult);
+  // classifier.predict(img, 10, gotResult);
 }
 
 // A function to run when we get any errors and the results
@@ -42,6 +42,6 @@ function gotResult(err, results) {
     console.error(err);
   }
   // The results are in an array ordered by confidence.
-  select('#result').html(results[0].label);
-  select('#probability').html(nf(results[0].confidence, 0, 2));
+  select('#result').html(results[0].className);
+  select('#probability').html(nf(results[0].probability, 0, 2));
 }
