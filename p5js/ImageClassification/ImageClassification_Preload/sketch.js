@@ -19,14 +19,16 @@ function preload() {
   // Initialize the Image Classifier method with MobileNet.
   classifier = ml5.imageClassifier('MobileNet');
   // Load the image
-  img = loadImage('bird.jpg');
+  img = loadImage('images/bird.jpg');
 }
 
 function setup() {
+  createCanvas(400, 400)
   // Display the image
-  image(img, 0, 0);
+  image(img, 0,0, 400, 400);
   // Execute the classification
   classifier.classify(img, gotResult);
+
 }
 
 // A function to run when we get any errors and the results
