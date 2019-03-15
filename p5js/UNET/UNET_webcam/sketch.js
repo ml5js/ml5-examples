@@ -22,7 +22,7 @@ function setup() {
   video.hide(); // Hide the video element, and just show the canvas
 
   // using video
-  uNet = ml5.uNet('face', video, modelReady);
+  uNet = ml5.uNet('face', modelReady);
 
   // add an image to the dom to mirror the unet results to
   // img = createImg('');
