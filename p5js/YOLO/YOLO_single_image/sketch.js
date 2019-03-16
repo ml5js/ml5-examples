@@ -6,11 +6,11 @@ let objects = [];
 let status;
 
 function setup() {
-  // createCanvas(400, 266);
   createCanvas(640, 420);
   img = createImg('images/cat2.JPG', imageReady);
   img.hide();
   img.size(640, 420);
+
 }
 
 // Change the status when the model loads.
@@ -50,6 +50,5 @@ function draw() {
       stroke(0, 255, 0);
       rect(objects[i].x * width, objects[i].y * height, objects[i].w * width, objects[i].h * height);
     }
-
   }
 }
