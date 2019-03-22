@@ -13,14 +13,11 @@ let classifier;
 let video;
 let resultsP;
 
-function preload() {
-  // Initialize the Image Classifier method with MobileNet and the video as the second argument
-}
-
 function setup() {
   noCanvas();
   // Create a camera input
   video = createCapture(VIDEO);
+  // Initialize the Image Classifier method with MobileNet and the video as the second argument
   classifier = ml5.imageClassifier('MobileNet', video, modelReady);
   resultsP = createP('Loading model and video...');
 }
@@ -38,6 +35,6 @@ function classifyVideo() {
 // When we get a result
 function gotResult(err, results) {
   // The results are in an array ordered by confidence.
-  resultsP.html(results[0].label + '<br /> ' + nf(results[0].confidence, 0, 2));
+  resultsP.html(results[0].label + ' ' + nf(results[0].confidence, 0, 2));
   classifyVideo();
 }
