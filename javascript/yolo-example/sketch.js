@@ -1,5 +1,7 @@
 let MEDIA_READY_TO_DETECT = false;
 let IS_DETECTING = false;
+let IS_PAGE_VISIBLE = true;
+let IS_TRACK_STOPED = false;
 // configs
 const cameraconfig = {
     audio: false,
@@ -13,7 +15,7 @@ const cameraconfig = {
         }
     }
 }
-const yoloConfig = {
+const tinyyolov2Config = {
     modelURL: 'models/yolov2-tiny/model.json',
     modelSize: 224,
     iouThreshold: 0.5,
@@ -25,6 +27,15 @@ const yoloLiteConfig = {
     iouThreshold: 0.7,
     classProbThreshold: 0.3,
     anchors:[[1.08,1.19],[3.42,4.41],[6.63,11.38],[9.42,5.11],[16.62,10.52]],
+}
+const tinyyolov3Config = {
+    modelURL: 'models/yolov3-tiny/model.json',
+    version: 'v3',
+    modelSize: 224,
+    iouThreshold: 0.5,
+    classProbThreshold: 0.5,
+    anchors: [[10, 14],[23, 27],[37, 58],[81, 82],[135, 169],[344, 319]],
+    masks: [[3, 4, 5],[0, 1, 2]],
 }
 
 visibilityChanged = () => {
@@ -92,7 +103,7 @@ toogleDetection = () =>  {
 loadModel = () =>{
     if (yolo == null ) {
         loadBtn.innerHTML = "Loading...."
-        yolo = ml5.YOLO(videoSource, yoloLiteConfig, yoloLoaded);
+        yolo = ml5.YOLO(videoSource, tinyyolov3Config, yoloLoaded);
     }else{
         alert('YOLO is Already Loaded')
     }
@@ -132,5 +143,3 @@ setCameraToVideoElement(videoSource).then(()=>{
 const resizeObserver = new ResizeObserver(videoSizeChanged).observe(videoSource)
 document.addEventListener("visibilitychange",visibilityChanged);
 /////////////////////////////////////////////////////////////////////////////////////
-
-
