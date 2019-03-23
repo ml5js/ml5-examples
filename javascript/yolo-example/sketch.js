@@ -115,9 +115,11 @@ yoloLoaded = () =>{
     toogleDetectionBtn.disabled = false
 }
 detect = () => {
+    stats.begin();
     yolo.detect(function(err, results) {
         clearCanvas()
         yolo.draw(results,outputCanvas)
+        stats.end()
         console.log(results)
         if (IS_DETECTING && MEDIA_READY_TO_DETECT) {
          detect();
@@ -135,7 +137,13 @@ const toogleDetectionBtn = document.getElementById('detectBtn')
 const videoSource = document.getElementById('videoElem')
 const outputCanvas = document.getElementById('detection')
 const ctx = outputCanvas.getContext('2d');
+const controlslayer = document.getElementById("fps-meter-layer")
+
 let yolo = null;
+// stats
+const stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+controlslayer.appendChild(stats.dom);
 setCameraToVideoElement(videoSource).then(()=>{
     MEDIA_READY_TO_DETECT = true;
 })
