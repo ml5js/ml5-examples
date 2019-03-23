@@ -1,0 +1,91 @@
+html {
+    scroll-behavior: smooth;
+  }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: lighter;
+    font-size: 13px;
+}
+label {
+    margin-bottom: 0
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    /* remove scrollbar space */
+    background: transparent;
+    /* optional: just make scrollbar invisible */
+}
+
+
+.app-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 853px 1fr;
+    grid-template-rows: 1fr 480px 100px 1fr;
+
+    background-image: url("assets/concrete-texture.png");
+    background-repeat: repeat;
+}
+.demo-wrap {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-wrap-fullscreen {
+    grid-template-columns: 1fr!important;
+    grid-template-rows: 1fr!important;
+}
+.demo-wrap-fullscreen {
+    grid-column: 1/2!important;
+    grid-row: 1/2!important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.controls-wrap-fullscreen{
+    display: none!important;;
+}
+.controls-wrap{
+    margin: 25px 0px;
+    grid-column: 2/3;
+    grid-row: 3/4;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.layer {
+    top: 0;
+    left: 0;
+}
+.layer-videoElem{
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+
+}
+.layer-canvas{
+    position: absolute;
+    z-index: 11;
+    pointer-events: none;
+}
+.layer-controls{
+    z-index: 15;
+    width: 100%;
+    height: 100%;
+}
+.btn-spaceout{
+    margin: 0 10px;
+}
