@@ -29,7 +29,7 @@ function setup() {
   background(220);
   // Load the model
   // See a list of all supported models: https://github.com/ml5js/ml5-library/blob/master/src/SketchRNN/models.js
-  model = ml5.SketchRNN('cat', modelReady);
+  model = ml5.sketchRNN('cat', modelReady);
 
   // Button to start drawing
   let button = select('#clear');
@@ -105,4 +105,3 @@ function draw() {
 function gotStroke(err, s) {
   strokePath = s;
 }
-
