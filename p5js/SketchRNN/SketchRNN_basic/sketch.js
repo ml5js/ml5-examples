@@ -18,23 +18,21 @@ let x, y;
 let strokePath;
 
 // For when SketchRNN is fixed
-// function preload() {
-//   // See a list of all supported models: https://github.com/ml5js/ml5-library/blob/master/src/SketchRNN/models.js
-//   model = ml5.sketchRNN('cat');
-// }
+function preload() {
+  // See a list of all supported models: https://github.com/ml5js/ml5-library/blob/master/src/SketchRNN/models.js
+  model = ml5.sketchRNN('cat');
+}
 
 function setup() {
   createCanvas(640, 480);
   background(220);
 
-  // Remove for v0.2.3
-  model = ml5.SketchRNN('cat', modelReady);
-
   // Button to reset drawing
   let button = createButton('clear');
   button.mousePressed(startDrawing);
-  // For when SketchRNN is fixed!
-  // startDrawing();
+  
+  // run sketchRNN
+  startDrawing();
 }
 
 function modelReady() {
