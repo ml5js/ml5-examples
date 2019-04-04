@@ -19,18 +19,18 @@ var amountOfDogImages = document.getElementById('amountOfDogImages');
 var train = document.getElementById('train');
 var loss = document.getElementById('loss');
 var result = document.getElementById('result');
+var confidence = document.getElementById('confidence');
 var predict = document.getElementById('predict');
 
 // A variable to store the total loss
 let totalLoss = 0;
 
 // Create a webcam capture
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-    video.src = window.URL.createObjectURL(stream);
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    video.srcObject = stream;
     video.play();
-  });
-}
+  })
 
 // A function to be called when the model has been loaded
 function modelLoaded() {
@@ -80,13 +80,16 @@ train.onclick = function () {
 }
 
 // Show the results
-function gotResults(err, data) {
+function gotResults(err, results) {
   // Display any error
   if (err) {
     console.error(err);
   }
-  result.innerText = data;
-  classifier.classify(gotResults);
+  if (results && results[0]) {
+    result.innerText = results[0].label;
+    confidence.innerText = results[0].confidence;
+    classifier.classify(gotResults);
+  }
 }
 
 // Start predicting when the predict button is clicked
