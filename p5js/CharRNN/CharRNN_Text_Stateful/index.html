@@ -9,7 +9,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Stateful LSTM Text Generation Example using p5.js</title>
+  <title>Stateful CharRNN Text Generation Example using p5.js</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
@@ -21,8 +21,8 @@
 </head>
 
 <body>
-  <h1>Stateful LSTM Text Generation Example using p5.js</h1>
-  <p>Instead of feeding every single character every frame to predict the next character, we feed only the last character, and instruct the LSTM to remember its internal state.</p>
+  <h1>Stateful CharRNN Text Generation Example using p5.js</h1>
+  <p>Instead of feeding every single character every frame to predict the next character, we feed only the last character, and instruct the CharRNN to remember its internal state.</p>
   <p>This example uses a pre-trained model on a corpus of <a href="https://en.wikipedia.org/wiki/Virginia_Woolf">Virginia Woolf</a></p>
   <p>seed text:
     <input id="textInput" value="The sky was blue and " />
