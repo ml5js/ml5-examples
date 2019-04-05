@@ -5,12 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
-    "update-ml5": "node scripts/update-ml5-reference.js"
-=======
     "update-ml5": "node scripts/update-ml5-reference.js",
     "update-ml5-dev": "NODE_ENV=dev node scripts/update-ml5-reference.js"
->>>>>>> release
   },
   "repository": {
     "type": "git",
