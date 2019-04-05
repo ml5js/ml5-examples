@@ -1,10 +1,3 @@
-<!--
- Copyright (c) 2018 ml5
-
- This software is released under the MIT License.
- https://opensource.org/licenses/MIT
--->
-
 <html>
 
 <head>
@@ -13,20 +6,9 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
-  <script src="https://unpkg.com/ml5@0.2.2/dist/ml5.min.js" type="text/javascript"></script>
+  <script src="https://unpkg.com/ml5@0.2.3/dist/ml5.min.js" type="text/javascript"></script>
 
-  <style>
-  #original {
-    background-color: #EEE;
-    padding: 4px 0px 4px 4px
-  }
-
-  #prediction {
-    background-color: #CCC;
-    padding: 4px 0px 4px 0px
-  }
-
-  </style>
+  <style></style>
 </head>
 
 <script src="sketch.js"></script>
@@ -35,10 +17,10 @@
     <h1>Interactive CharRNN Text Generation Example using p5.js</h1>
     <h2>This example uses a pre-trained model on a corpus of <a href="https://en.wikipedia.org/wiki/Virginia_Woolf">Virginia Woolf</a></h2>
   <textarea id="textInput" style="width: 300px; height: 50px;" placeholder="type here"></textarea>
-  <br/> length:
-  <input id="lenSlider" type="range" min="1" max="100" value="20"> <span id="length">20</span>
-  <br/> temperature:
-  <input id="tempSlider" type="range" min="0" max="1" step="0.01"><span id="temperature">0.5</span>
+  <br /> length:
+  <input id="lenSlider" type="range" min="1" max="100" value="20"                  /> <span id="length">20</span>
+  <br /> temperature:
+  <input id="tempSlider" type="range" min="0" max="1" step="0.01"                  /><span id="temperature">0.5</span>
   <p id="status">Loading Model</p>
   <p id="result">
     <span id="original"></span><span id="prediction"></span>
