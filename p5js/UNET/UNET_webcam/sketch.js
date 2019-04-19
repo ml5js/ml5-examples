@@ -27,6 +27,9 @@ function setup() {
 
   // initial segmentation
   uNet.segment(video, gotResult);
+
+  // Set lower frame rate for segmentation
+  frameRate(5)
 }
 
 function gotResult(error, result) {
