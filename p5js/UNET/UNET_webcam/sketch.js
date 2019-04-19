@@ -50,5 +50,5 @@ function gotResult(error, result) {
 }
 
 function draw() {
-  image(segmentation.image, 0, 0, width, height)
+  image(segmentationImage, 0, 0, width, height)
 }
