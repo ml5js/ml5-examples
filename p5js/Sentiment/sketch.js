@@ -1,36 +1,39 @@
 let sentiment;
+let statusEl;
+let submitBtn;
+let inputBox;
+let sentimentResult;
 
 function setup() {
-
-
-    // updaye all html elements
-    console.log('init');
-    document.getElementById("status").innerHTML = 'Loading Model...';
-
+    // update all html elements
+    statusEl = createP('Loading Model...');
     // initialize sentiment
     sentiment = ml5.sentiment('movieReviews', modelReady);
 
-    let predictSentiment = select('#submit');
-    let inputText = select('#inputText');
-    let sentimentResult = select('#sentiment-res');
+    // setup the html environment
+    submitBtn = createButton('submit').parent('myForm');
+    inputBox = select('#inputBox');
+    sentimentResult = createP('sentiment score:').parent('myForm');
 
-    // predicting the sentiment
-    predictSentiment.mousePressed(() => {
-        let text = inputText.value();
-        const prediction = sentiment.predict(text);
+    // predicting the sentiment on mousePressed()
+    submitBtn.mousePressed(getSentiment);
 
-        console.log('score', prediction.score);
+}
 
-        // display sentiment result on html page
-        sentimentResult.html('Sentiment score: ' + prediction.score);
-    });
+function getSentiment(){
+    // get the values from the input
+    const text = inputBox.value();
+    
+    // make the prediction
+    const prediction = sentiment.predict(text);
 
+    // display sentiment result on html page
+    sentimentResult.html('Sentiment score: ' + prediction.score);
 }
 
 function modelReady() {
     // model is ready
-    console.log('model is ready');
-    document.getElementById("status").innerHTML = 'model loaded';
+    statusEl.html('model loaded');
 }
 
 
