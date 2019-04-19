@@ -11,7 +11,11 @@ UNET example using p5.js
 let video;
 let uNet;
 let segmentation;
-// let img;
+
+// load uNet model
+function preload(){
+  uNet = ml5.uNet('face')
+}
 
 function setup() {
   createCanvas(640, 480);
@@ -21,51 +25,24 @@ function setup() {
   video.size(width, height);
   video.hide(); // Hide the video element, and just show the canvas
 
-  // using video
-  uNet = ml5.uNet('face', modelReady);
-
-  // add an image to the dom to mirror the unet results to
-  // img = createImg('');
-  // img.size(width, height)
-  
-}
-
-function modelReady() {
-  select('#status').html('Model Loaded');
-  
-  // apply the segmentation on the video
+  // initial segmentation
   uNet.segment(video, gotResult);
 }
 
 function gotResult(error, result) {
   // if there's an error return it
   if(error) return error;
-
   // set the result to the global segmentation variable
   segmentation = result;
-  // // set the src of our image to the result
-  // img.elt.src = result.src;
-
-  // use the loadImage function to convert base64 src to 
-  // p5 image then render that on the canvas
-  // using the renderImage() function
-  loadImage(segmentation.src, renderImage);
-}
-
-// callback that takes the segmented result from uNet and 
-// renders to canvas
-function renderImage(segmentedImage){
-  image(segmentedImage, 0, 0, width, height)
 }
 
 function draw() {
   // only draw to the canvas if there's a result
-  
   if(segmentation){
+    image(segmentation.image, 0, 0, width, height)
     uNet.segment(video, gotResult);
   } else {
-    text("image processing...", width/2, height/2)
+    text("Loading Model...", width/2, height/2)
   }
-  
 
 }
