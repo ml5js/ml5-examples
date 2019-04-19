@@ -10,7 +10,7 @@ UNET example using p5.js
 
 let video;
 let uNet;
-let segmentation;
+let segmentationImage;
 
 // load uNet model
 function preload(){
@@ -24,28 +24,31 @@ function setup() {
   video = createCapture(VIDEO);
   video.size(width, height);
   video.hide(); // Hide the video element, and just show the canvas
+  
+  // Start with a blank image
+  segmentationImage = createImage(width, height);
 
   // initial segmentation
   uNet.segment(video, gotResult);
 
   // Set lower frame rate for segmentation
-  frameRate(5)
+  frameRate(5);
 }
 
 function gotResult(error, result) {
   // if there's an error return it
-  if(error) return error;
+  if (error) {
+    console.error(error);
+    return;
+  }
   // set the result to the global segmentation variable
-  segmentation = result;
+  segmentationImage = result.image;
+  
+  // Continue asking for a segmentation image
+  uNet.segment(video, gotResult);
+
 }
 
 function draw() {
-  // only draw to the canvas if there's a result
-  if(segmentation){
-    image(segmentation.image, 0, 0, width, height)
-    uNet.segment(video, gotResult);
-  } else {
-    text("Loading Model...", width/2, height/2)
-  }
-
+  image(segmentation.image, 0, 0, width, height)
 }
