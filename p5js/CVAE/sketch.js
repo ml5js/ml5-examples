@@ -8,47 +8,34 @@ ml5 Example
 CVAE example using p5.js
 === */
 let cvae;
-let labelElement;
-let generatedImage;
-let labelToDraw = 0; // apple
+let labelP;
+let button;
+
+// Note CVAE not working in preload?
+// function preload() {
+// }
 
 function setup() {
-    createCanvas(400, 400);
-
-    labelName = createP('')
-    //Create a new instance with pretrained model
-    cvae = ml5.CVAE('./model/quick_draw/manifest.json', generateImage)
+  createCanvas(200, 200);
+  // Create a new instance with pretrained model
+  cvae = ml5.CVAE('model/quick_draw/manifest.json', modelReady);
+  labelP = createP('apple');
+  button = createButton('generate');
+  button.mousePressed(generateImage);
 }
 
-// Generate a new image on mouseMoved()
-function mouseMoved() {
-    generateImage()
+function gotImage(error, result) {
+  image(result.image, 0, 0, width, height);
 }
 
-function keyPressed(){
-    if(keyCode === UP_ARROW && labelToDraw < cvae.labels.length - 1){
-        labelToDraw++;
-        generateImage()
-    }
-    if(keyCode === DOWN_ARROW && labelToDraw > 0){
-        labelToDraw--;
-        generateImage()
-    }
+function modelReady() {
+  // All the possible labeles
+  console.log(cvae.labels);
+  cvae.generate('apple', gotImage);
 }
 
 function generateImage() {
-    // label 6: apple
-    cvae.generate(cvae.labels[labelToDraw], (err, res) => {
-        generatedImage = res.image;
-    });
-}
-
-function draw() {
-    background(200)
-    if (generatedImage) {
-        labelName.html(cvae.labels[labelToDraw])
-        image(generatedImage, 0, 0, height, height)
-
-    }
-
+  let label = random(cvae.labels);
+  labelP.html(label);
+  cvae.generate(label, gotImage);
 }
