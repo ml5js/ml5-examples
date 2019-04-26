@@ -13,39 +13,31 @@ let button;
 let statusMsg;
 
 function setup() {
-
+    createCanvas(400, 400)
     //load the model
     //we can have multiple pre-trained models (e.g. cats, flowers, etc.), just like SketchRNN
-    dcgan = ml5.DCGAN('people', modelReady);
-
-    
-
-    // //status message
-    // statusMsg = createP('status');
+    dcgan = ml5.DCGAN('face', modelReady);
 
     // //button to generate an image
-    // button = createButton('generate');
-    // button.mousePressed(generate);
+    button = createButton('generate');
+    button.mousePressed(generate);
 
-    // //canvas for the output image
-    // outputCanvas = select('#canvas');
 }
 
 function generate() {
     //the generate function takes an output canvas to draw on
     //and a callback with possible info like time elapsed to generate the image
-    dcgan.generate(outputCanvas, (err, result) => {
+    dcgan.generate((err, result) => {
         //some callback
         if(err){
             console.log(err);
             return
         }
-        console.log(result)
+        image(result.image, 0, 0, 400, 400)
     });
 }
 
 function modelReady() {
     console.log(dcgan)
-    // select('#status').html('model ready');
-    // generate();
+    generate();
 }
