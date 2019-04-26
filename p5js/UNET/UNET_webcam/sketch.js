@@ -13,26 +13,23 @@ let uNet;
 let segmentationImage;
 
 // load uNet model
-function preload(){
-  uNet = ml5.uNet('face')
+function preload() {
+  uNet = ml5.uNet('face');
 }
 
 function setup() {
-  createCanvas(640, 480);
+  createCanvas(320, 240);
 
   // load up your video
   video = createCapture(VIDEO);
   video.size(width, height);
   video.hide(); // Hide the video element, and just show the canvas
-  
+
   // Start with a blank image
   segmentationImage = createImage(width, height);
 
   // initial segmentation
   uNet.segment(video, gotResult);
-
-  // Set lower frame rate for segmentation
-  frameRate(5);
 }
 
 function gotResult(error, result) {
@@ -43,12 +40,11 @@ function gotResult(error, result) {
   }
   // set the result to the global segmentation variable
   segmentationImage = result.image;
-  
+
   // Continue asking for a segmentation image
   uNet.segment(video, gotResult);
-
 }
 
 function draw() {
-  image(segmentationImage, 0, 0, width, height)
+  image(segmentationImage, 0, 0, width, height);
 }
