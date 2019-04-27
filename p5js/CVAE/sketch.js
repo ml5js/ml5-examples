@@ -8,20 +8,20 @@ ml5 Example
 CVAE example using p5.js
 === */
 let cvae;
-let labelP;
 let button;
+let dropdown;
 
-// Note CVAE not working in preload?
 // function preload() {
+//   cvae = ml5.CVAE('model/quick_draw/manifest.json');
 // }
 
 function setup() {
   createCanvas(200, 200);
-  // Create a new instance with pretrained model
   cvae = ml5.CVAE('model/quick_draw/manifest.json', modelReady);
-  labelP = createP('apple');
+  // Create a new instance with pretrained model
   button = createButton('generate');
   button.mousePressed(generateImage);
+  background(0);
 }
 
 function gotImage(error, result) {
@@ -30,12 +30,13 @@ function gotImage(error, result) {
 
 function modelReady() {
   // All the possible labeles
-  console.log(cvae.labels);
-  cvae.generate('apple', gotImage);
+  dropdown = createSelect();
+  for (let label of cvae.labels) {
+    dropdown.option(label);
+  }
 }
 
 function generateImage() {
-  let label = random(cvae.labels);
-  labelP.html(label);
+  let label = dropdown.value();
   cvae.generate(label, gotImage);
 }
