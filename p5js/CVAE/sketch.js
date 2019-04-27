@@ -17,8 +17,10 @@ let dropdown;
 
 function setup() {
   createCanvas(200, 200);
-  cvae = ml5.CVAE('model/quick_draw/manifest.json', modelReady);
   // Create a new instance with pretrained model
+  cvae = ml5.CVAE('model/quick_draw/manifest.json', modelReady);
+
+  // Create a generate button
   button = createButton('generate');
   button.mousePressed(generateImage);
   background(0);
@@ -29,7 +31,7 @@ function gotImage(error, result) {
 }
 
 function modelReady() {
-  // All the possible labeles
+  // Create dropdown with all possible labels
   dropdown = createSelect();
   for (let label of cvae.labels) {
     dropdown.option(label);
