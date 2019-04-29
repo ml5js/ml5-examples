@@ -26,15 +26,17 @@ function setup() {
 
 function generate() {
     //the generate function takes an output canvas to draw on
-    //and a callback with possible info like time elapsed to generate the image
-    dcgan.generate((err, result) => {
-        //some callback
-        if(err){
-            console.log(err);
-            return
-        }
-        image(result.image, 0, 0, 400, 400)
-    });
+    // and a callback with possible info like time elapsed to generate the image
+    dcgan.generate(displayImage);
+}
+
+function displayImage(err, result){
+    //some callback
+    if(err){
+        console.log(err);
+        return
+    }
+    image(result.image, 0, 0, 400, 400)
 }
 
 function modelReady() {
