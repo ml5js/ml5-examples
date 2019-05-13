@@ -40,6 +40,5 @@ function displayImage(err, result){
 }
 
 function modelReady() {
-    console.log(dcgan)
     generate();
 }
