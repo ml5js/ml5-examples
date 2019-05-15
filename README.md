@@ -14,7 +14,7 @@ If you need to run the examples offline you can [download the p5.js libraries he
 
 Download or clone this repository:
 ```
-git clone https://github.com/ml5jshttps://ml5js.github.io/ml5-examples.git
+git clone https://github.com/ml5-examples.git
 ```
 
 Change directory into the new folder and start a server.
@@ -81,7 +81,7 @@ ml5.js does not require p5.js, however as ml5.js and p5.js have been designed to
 
 ## p5.js web editor examples
 
-The p5.js examples can also be run using the [p5.js web editor](https://alpha.editor.p5js.org). We are [in the process of porting](https://github.com/ml5jshttps://ml5js.github.io/ml5-examples/issues/6) and would welcome any contributions!
+The p5.js examples can also be run using the [p5.js web editor](https://alpha.editor.p5js.org). We are [in the process of porting](https://github.com/ml5-examples/issues/6) and would welcome any contributions!
 
 You can find all of our examples here:
 * [ml5 on editor.p5js.org](https://editor.p5js.org/ml5/sketches)
