@@ -1,0 +1,25 @@
+{
+  "name": "ml5-examples",
+  "version": "0.0.1",
+  "description": "ml5-examples repo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update-ml5": "node scripts/update-ml5-reference.js",
+    "update-ml5-dev": "NODE_ENV=dev node scripts/update-ml5-reference.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ml5js/ml5-examples.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ml5js/ml5-examples/issues"
+  },
+  "homepage": "https://github.com/ml5js/ml5-examples#readme",
+  "dependencies": {
+    "node-html-parser": "^1.1.14",
+    "recursive-readdir": "^2.2.2"
+  }
+}
