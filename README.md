@@ -37,6 +37,14 @@ Below is the current `release` examples index:
 
 ### javascript
 
+ml5.js does not require p5.js, however as ml5.js and p5.js have been designed to play nicely with eachother, most of our examples currently are developed together with p5.js. The following "vanilla" javascript examples showcase the use of ml5 without p5.js.
+
+* [FeatureExtractor_Image_Classification](/ml5-examples/javascript/FeatureExtractor_Image_Classification)
+* [ImageClassification_Video](/ml5-examples/javascript/ImageClassification_Video)
+* [ImageClassification](/ml5-examples/javascript/ImageClassification)
+* [StyleTransfer_Image](/ml5-examples/javascript/StyleTransfer_Image)
+* [PoseNet](/ml5-examples/javascript/PoseNet)
+
 ### p5js
 
 * [Word2Vec](/ml5-examples/p5js/Word2Vec)
