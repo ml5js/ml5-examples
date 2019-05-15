@@ -78,7 +78,6 @@ ml5.js does not require p5.js, however as ml5.js and p5.js have been designed to
 * [PoseNet_webcam](https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_webcam)
 * [PoseNet_part_selection](https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_part_selection)
 
-
 ## p5.js web editor examples
 
 The p5.js examples can also be run using the [p5.js web editor](https://alpha.editor.p5js.org). We are [in the process of porting](https://github.com/ml5js/ml5-examples/issues/6) and would welcome any contributions!
