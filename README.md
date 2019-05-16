@@ -54,6 +54,7 @@ ml5.js does not require p5.js, however as ml5.js and p5.js have been designed to
 * [StyleTransfer_Image](https://ml5js.github.io/ml5-examples/p5js/StyleTransfer/StyleTransfer_Image)
 * [ImageClassification_Video](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_Video)
 * [ImageClassification_VideoScavengerHunt](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_VideoScavengerHunt)
+* [ImageClassification](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification)
 * [ImageClassification_VideoSoundTranslate](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_VideoSoundTranslate)
 * [ImageClassification_VideoSound](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_VideoSound)
 * [ImageClassification_MultipleImages](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_MultipleImages)
