@@ -15,6 +15,7 @@ let video;
 let loss;
 let dogImages = 0;
 let catImages = 0;
+let badgerImages = 0;
 
 function setup() {
   noCanvas();
@@ -25,7 +26,8 @@ function setup() {
   // Extract the already learned features from MobileNet
   featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
   // Create a new classifier using those features and give the video we want to use
-  classifier = featureExtractor.classification(video, videoReady);
+  // const options = {numLabels: 3};
+  classifier = featureExtractor.classification(video, 3, videoReady);
   // Set up the UI buttons
   setupButtons();
 }
@@ -64,6 +66,14 @@ function setupButtons() {
   buttonB.mousePressed(function() {
     classifier.addImage('dog');
     select('#amountOfDogImages').html(dogImages++);
+  });
+
+  // When the Dog button is pressed, add the current frame
+  // from the video with a label of "dog" to the classifier
+  buttonC = select('#badgerButton');
+  buttonC.mousePressed(function() {
+    classifier.addImage('badger');
+    select('#amountOfBadgerImages').html(badgerImages++);
   });
 
   // Train Button
