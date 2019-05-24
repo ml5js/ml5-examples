@@ -48,6 +48,10 @@ ml5.js does not require p5.js, however as ml5.js and p5.js have been designed to
 
 ### p5js
 
+* [CVAE](https://ml5js.github.io/ml5-examples/p5js/CVAE)
+* [DCGAN](https://ml5js.github.io/ml5-examples/p5js/DCGAN)
+* [Sentiment](https://ml5js.github.io/ml5-examples/p5js/Sentiment)
+* [UNET](https://ml5js.github.io/ml5-examples/p5js/UNET/UNET_webcam)
 * [Word2Vec](https://ml5js.github.io/ml5-examples/p5js/Word2Vec)
 * [FeatureExtractor_Image_Classification](https://ml5js.github.io/ml5-examples/p5js/FeatureExtractor/FeatureExtractor_Image_Classification)
 * [FeatureExtractor_Image_Regression](https://ml5js.github.io/ml5-examples/p5js/FeatureExtractor/FeatureExtractor_Image_Regression)
