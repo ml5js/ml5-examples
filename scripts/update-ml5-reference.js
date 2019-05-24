@@ -9,11 +9,7 @@ const ml5version = process.argv[2] || '0.2.3'
 let ml5src;
 if(process.env.NODE_ENV && ['development', 'dev', 'DEVELOPMENT'].includes(process.env.NODE_ENV) === true ){
     console.log(`setting src for ${process.env.NODE_ENV}`)
-<<<<<<< HEAD
     ml5src = `src="http://localhost:8080/ml5.js" type="text/javascript"`
-=======
-    ml5src = `src="localhost:8080/ml5.js" type="text/javascript"`
->>>>>>> f9e7503f6114cfaeaac90600a96fd131dc1ed5a9
 } else {
     console.log(`setting src for production`)
     ml5src = `src="https://unpkg.com/ml5@${ml5version}/dist/ml5.min.js" type="text/javascript"`
