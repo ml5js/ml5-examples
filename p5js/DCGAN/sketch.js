@@ -7,38 +7,39 @@
 ml5 Example
 DCGAN example
 === */
+
 let dcgan;
-let outputCanvas; 
-let button; 
-let statusMsg;
+let outputCanvas;
+let button;
 
 function setup() {
-    createCanvas(400, 400)
-    //load the model
-    //we can have multiple pre-trained models (e.g. cats, flowers, etc.), just like SketchRNN
-    dcgan = ml5.DCGAN('face', modelReady);
+  createCanvas(400, 400);
+  // Load the model
+  // There can be multiple pre-trained models (e.g. cats, flowers, etc.), just like SketchRNN
+  dcgan = ml5.DCGAN('face', modelReady);
 
-    // //button to generate an image
-    button = createButton('generate');
-    button.mousePressed(generate);
-
+  // Button to generate an image
+  button = createButton('generate');
+  button.mousePressed(generate);
+  // Hiding button until model is ready
+  button.hide();
 }
 
 function generate() {
-    //the generate function takes an output canvas to draw on
-    // and a callback with possible info like time elapsed to generate the image
-    dcgan.generate(displayImage);
+  // Generate function receives a callback for when image is ready
+  dcgan.generate(displayImage);
 }
 
-function displayImage(err, result){
-    //some callback
-    if(err){
-        console.log(err);
-        return
-    }
-    image(result.image, 0, 0, 400, 400)
+function displayImage(err, result) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  image(result.image, 0, 0, 400, 400);
 }
 
 function modelReady() {
-    generate();
+  console.log('model is ready');
+  button.show();
+  generate();
 }
