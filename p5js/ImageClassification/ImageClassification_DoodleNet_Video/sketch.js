@@ -33,8 +33,10 @@ function preload() {
 }
 
 function setup() {
-  // Create a div to hold results
-  createResDiv();
+  // Create a 'label' and 'confidence' div to hold results
+  label = createDiv('Label: ...');
+  confidence = createDiv('Confidence: ...');
+
   classifyVideo();
 }
 
@@ -51,17 +53,9 @@ function gotResult(error, results) {
   }
   // The results are in an array ordered by confidence.
   console.log(results);
-  // Get all top 10 labels
-  const labels = results.map(r => r.label);
-  // Get all top 10 confidences, round to 0.01
-  const confidences = results.map(r => nf(r.confidence, 0, 2));
-  label.html('Label: ' + labels);
-  confidence.html('Confidence: ' + confidences);
+  // Show the first label and confidence
+  label.html('Label: ' + results[0].label);
+  confidence.html('Confidence: ' + nf(results[0].confidence, 0, 2)); // Round the confidence to 0.01
   // Call classifyVideo again
   classifyVideo();
-}
-
-function createResDiv() {
-  label = createDiv('Label: ...');
-  confidence = createDiv('Confidence: ...');
 }
