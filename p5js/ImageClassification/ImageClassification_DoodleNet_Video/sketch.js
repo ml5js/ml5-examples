@@ -40,7 +40,7 @@ function setup() {
 
 // Get a prediction for the current video frame
 function classifyVideo() {
-  classifier.classify(video, gotResult);
+  classifier.classify(gotResult);
 }
 
 // A function to run when we get any errors and the results
