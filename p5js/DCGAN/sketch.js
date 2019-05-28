@@ -9,15 +9,12 @@ DCGAN example
 === */
 
 let dcgan;
-let outputCanvas;
 let button;
 
 function setup() {
   createCanvas(400, 400);
-  // Load the model
-  // There can be multiple pre-trained models (e.g. cats, flowers, etc.), just like SketchRNN
-  dcgan = ml5.DCGAN('face', modelReady);
-
+  // load DCGAN and send in URL path to a JSON file with the pre-trained model info 
+  dcgan = ml5.DCGAN('model/face/manifest.json', modelReady);
   // Button to generate an image
   button = createButton('generate');
   button.mousePressed(generate);
