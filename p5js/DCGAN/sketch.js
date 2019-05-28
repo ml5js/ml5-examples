@@ -11,15 +11,20 @@ DCGAN example
 let dcgan;
 let button;
 
+function preload(){
+
+  dcgan = ml5.DCGAN('model/face/manifest.json');
+
+}
+
 function setup() {
   createCanvas(400, 400);
-  // load DCGAN and send in URL path to a JSON file with the pre-trained model info 
-  dcgan = ml5.DCGAN('model/face/manifest.json', modelReady);
   // Button to generate an image
   button = createButton('generate');
   button.mousePressed(generate);
-  // Hiding button until model is ready
-  button.hide();
+
+  // generate an image on load
+  generate()
 }
 
 function generate() {
@@ -33,10 +38,4 @@ function displayImage(err, result) {
     return;
   }
   image(result.image, 0, 0, 400, 400);
-}
-
-function modelReady() {
-  console.log('model is ready');
-  button.show();
-  generate();
 }
