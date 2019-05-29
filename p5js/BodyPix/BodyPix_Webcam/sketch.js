@@ -30,10 +30,13 @@ function gotResults(err, result){
     // console.log(result);
     segmentation = result;
     
-    background(255);
+    background(0);
 
+    // console.log(segmentation.maskPerson)
     // TODO: image seems to be repeating 4x
-    image(segmentation.image, 0, 0, width, height)
+    image(video, 0,0, width, height)
+    image(segmentation.maskBackground, 0, 0, width, height)
+    
 
     bodypix.segment(video, gotResults)
     
