@@ -19,7 +19,7 @@ function setup(){
 function modelReady(){
     console.log('ready!')
     console.log(bodypix)
-    bodypix.segment(video, gotResults)
+    bodypix.segment(gotResults)
 }
 
 function gotResults(err, result){
@@ -38,6 +38,6 @@ function gotResults(err, result){
     image(segmentation.maskBackground, 0, 0, width, height)
     
 
-    bodypix.segment(video, gotResults)
+    bodypix.segment(gotResults)
     
 }
