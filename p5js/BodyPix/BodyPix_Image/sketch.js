@@ -6,11 +6,11 @@ let segmentation;
 let img;
 
 function preload(){
-    img = loadImage('data/ada.jpg');
+    img = loadImage('data/harriet.jpg');
 }
 
 function setup(){
-    createCanvas(480, 640);
+    createCanvas(480, 560);
 
     // video.hide(); // Hide the video element, and just show the canvas
     bodypix = ml5.bodyPix(modelReady)
