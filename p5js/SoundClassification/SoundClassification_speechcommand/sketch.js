@@ -5,21 +5,21 @@
 
 /* ===
 ml5 Example
-Sound classification using speech-commands and p5.js
+Sound classification using SpeechCommands18w and p5.js
 This example uses a callback pattern to create the classifier
 === */
 
-// Initialize a sound classifier method with speech-commands model. A callback needs to be passed.
+// Initialize a sound classifier method with SpeechCommands18w model. A callback needs to be passed.
 let classifier;
-// Options for the speech-commands model, the default probabilityThreshold is 0
+// Options for the SpeechCommands18w model, the default probabilityThreshold is 0
 const options = { probabilityThreshold: 0.7 };
 // Two variable to hold the label and confidence of the result
 let label;
 let confidence;
 
 function preload() {
-  // Load speech-commands sound classifier model
-  classifier = ml5.soundClassifier('speech-commands', options);
+  // Load SpeechCommands18w sound classifier model
+  classifier = ml5.soundClassifier('SpeechCommands18w', options);
 }
 
 function setup() {
