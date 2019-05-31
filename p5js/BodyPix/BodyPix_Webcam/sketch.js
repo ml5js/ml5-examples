@@ -5,6 +5,12 @@ let bodypix;
 let video;
 let segmentation;
 let img;
+
+const options = {
+    outputStride: 8, // 8, 16, or 32, default is 16
+    segmentationThreshold: 0.3 // 0 - 1, defaults to 0.5 
+}
+
 function setup(){
     createCanvas(320, 240);
 
@@ -13,13 +19,11 @@ function setup(){
     video.size(width, height);
     // video.hide(); // Hide the video element, and just show the canvas
     bodypix = ml5.bodyPix(video, modelReady)
-    // background(0);
 }
 
 function modelReady(){
     console.log('ready!')
-    console.log(bodypix)
-    bodypix.segment(gotResults)
+    bodypix.segment(gotResults, options)
 }
 
 function gotResults(err, result){
@@ -31,13 +35,9 @@ function gotResults(err, result){
     segmentation = result;
     
     background(0);
-
-    // console.log(segmentation.maskPerson)
-    // TODO: image seems to be repeating 4x
     image(video, 0,0, width, height)
     image(segmentation.maskBackground, 0, 0, width, height)
     
-
-    bodypix.segment(gotResults)
+    bodypix.segment(gotResults, options)
     
 }
