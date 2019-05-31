@@ -13,12 +13,12 @@ let button;
 
 function preload(){
 
-  dcgan = ml5.DCGAN('model/face/manifest.json');
+  dcgan = ml5.DCGAN('model/geo/manifest.json');
 
 }
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(200, 200);
   // Button to generate an image
   button = createButton('generate');
   button.mousePressed(generate);
@@ -37,5 +37,5 @@ function displayImage(err, result) {
     console.log(err);
     return;
   }
-  image(result.image, 0, 0, 400, 400);
+  image(result.image, 0, 0, 200, 200);
 }
