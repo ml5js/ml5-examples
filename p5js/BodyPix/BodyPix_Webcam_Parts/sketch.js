@@ -4,34 +4,82 @@ let segmentation;
 let img;
 
 const options = {
-    palette: [
-        [127, 103, 14], //  leftFace
-        [222, 9, 77], //  rightFace
-        [17, 223, 92], //  rightUpperLegFront
-        [95, 107, 62], //  rightLowerLegBack
-        [112, 173, 9], //  rightUpperLegBack
-        [189, 161, 46], //  leftLowerLegFront
-        [239, 196, 5], //  leftUpperLegFront
-        [155, 143, 78], //  leftUpperLegBack
-        [134, 165, 84], //  leftLowerLegBack
-        [153, 124, 215], //  rightFeet
-        [111, 60, 183], //  rightLowerLegFront
-        [203, 51, 155], //  leftFeet
-        [68, 245, 152], //  torsoFront
-        [70, 160, 237], //  torsoBack
-        [195, 148, 225], //  rightUpperArmFront
-        [165, 160, 237], //  rightUpperArmBack
-        [4, 24, 186], //  rightLowerArmBack
-        [120, 210, 162], //  leftLowerArmFront
-        [141, 253, 217], //  leftUpperArmFront
-        [117, 61, 51], //  leftUpperArmBack
-        [244, 184, 186], //  leftLowerArmBack
-        [57, 162, 173], //  rightHand
-        [7, 252, 62], //  rightLowerArmFront
-        [47, 180, 5] //  leftHand
-    ],
     outputStride: 8, // 8, 16, or 32, default is 16
-    segmentationThreshold: 0.3 // 0 - 1, defaults to 0.5 
+    segmentationThreshold: 0.3, // 0 - 1, defaults to 0.5 
+    palette: {
+        "leftFace": {
+            "color": [1, 86, 169]
+        },
+        "rightFace": {
+            "color": [253, 144, 158]
+        },
+        "rightUpperLegFront": {
+            "color": [33, 81, 39]
+        },
+        "rightLowerLegBack": {
+            "color": [131, 36, 128]
+        },
+        "rightUpperLegBack": {
+            "color": [55, 213, 211]
+        },
+        "leftLowerLegFront": {
+            "color": [71, 168, 165]
+        },
+        "leftUpperLegFront": {
+            "color": [143, 68, 233]
+        },
+        "leftUpperLegBack": {
+            "color": [184, 254, 110]
+        },
+        "leftLowerLegBack": {
+            "color": [5, 77, 79]
+        },
+        "rightFeet": {
+            "color": [123, 232, 194]
+        },
+        "rightLowerLegFront": {
+            "color": [34, 249, 217]
+        },
+        "leftFeet": {
+            "color": [176, 249, 74]
+        },
+        "torsoFront": {
+            "color": [9, 200, 165]
+        },
+        "torsoBack": {
+            "color": [193, 219, 156]
+        },
+        "rightUpperArmFront": {
+            "color": [39, 9, 249]
+        },
+        "rightUpperArmBack": {
+            "color": [162, 120, 123]
+        },
+        "rightLowerArmBack": {
+            "color": [43, 213, 217]
+        },
+        "leftLowerArmFront": {
+            "color": [78, 83, 154]
+        },
+        "leftUpperArmFront": {
+            "color": [54, 73, 83]
+        },
+        "leftUpperArmBack": {
+            "color": [208, 200, 164]
+        },
+        "leftLowerArmBack": {
+            "color": [88, 36, 41]
+        },
+        "rightHand": {
+            "color": [55, 5, 128]
+        },
+        "rightLowerArmFront": {
+            "color": [134, 198, 101]
+        },
+        "leftHand": {
+            "color": [65, 234, 109]
+        }
+    }
 }
 
 function setup() {
@@ -69,29 +117,32 @@ function gotResults(err, result) {
 }
 
 function createSimplePalette() {
-    options.palette = [];
-    for (let i = 0; i < 25; i++) {
-        let r = floor(random(255));
-        let g = floor(random(255));
-        let b = floor(random(255));
-        options.palette.push([r, g, b])
-    }
+    Object.keys(options.palette).forEach(part => {
+        const r = floor(random(255));
+        const g = floor(random(255));
+        const b = floor(random(255));
+        options.palette[part].color = [r, g, b]
+    });
 }
 
 function createHSBPalette() {
-    options.palette = [];
-    colorMode(HSB)
-    for (let i = 0; i < 25; i++) {
-        let c = color(random(360), random(100), random(100));
-        options.palette.push(c)
-    }
+    colorMode(HSB);
+    Object.keys(options.palette).forEach(part => {
+        const h = floor(random(360));
+        const s = floor(random(100));
+        const b = floor(random(100));
+        const c = color(h, s, b)
+        options.palette[part].color = c;
+    });
 }
 
-function createRGBPalette() {
-    options.palette = [];
-    colorMode(RGB)
-    for (let i = 0; i < 25; i++) {
-        let c = color(random(255), random(255), random(255));
-        options.palette.push(c)
-    }
+function createHSBPalette() {
+    colorMode(RGB);
+    Object.keys(options.palette).forEach(part => {
+        const r = floor(random(255));
+        const g = floor(random(255));
+        const b = floor(random(255));
+        const c = color(r, g, b)
+        options.palette[part].color = c;
+    });
 }
