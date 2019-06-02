@@ -9,28 +9,22 @@ Sound classification using pre-trained custom SpeechCommands18w and p5.js
 This example uses a callback pattern to create the classifier
 === */
 
+const modelJson = 'https://storage.googleapis.com/tm-speech-commands/eye-test-sound-yining/model.json';
 // Two variable to hold the label and confidence of the result
 let label;
 let confidence;
-// Initialize a sound classifier method with SpeechCommands18w model. A callback needs to be passed.
+// Initialize a sound classifier method.
 let classifier;
-// Options for the pre-trianed custom SpeechCommands18w model
-const options = {
-  probabilityThreshold: 0.5,
-  overlapFactor: 0.75,
-  modelJson: 'https://storage.googleapis.com/tm-speech-commands/eye-test-sound-yining/model.json',
-  metadataJson: 'https://storage.googleapis.com/tm-speech-commands/eye-test-sound-yining/metadata.json'
-};
 
 function preload() {
-  // Load SpeechCommands18w sound classifier model
-  classifier = ml5.soundClassifier('SpeechCommands18w', options);
+  // Load the pre-trianed custom SpeechCommands18w sound classifier model
+  classifier = ml5.soundClassifier(modelJson);
 }
 
 function setup() {
   noCanvas();
   // ml5 also supports using callback pattern to create the classifier
-  // classifier = ml5.soundClassifier('SpeechCommands18w', options, modelReady);
+  // classifier = ml5.soundClassifier(modelJson, modelReady);
 
   // Create 'label' and 'confidence' div to hold results
   label = createDiv('Label: ...');
