@@ -6,7 +6,7 @@
 /* ===
 ml5 Example
 Webcam Image Classification using a pre-trianed customized model and p5.js
-This example uses a callback pattern to create the classifier
+This example uses p5 preload function to create the classifier
 === */
 
 const checkpoint = 'https://storage.googleapis.com/tm-pro-a6966.appspot.com/eyeo-test-yining/model.json';
@@ -14,26 +14,33 @@ let classifier;
 let video;
 let resultsP;
 
+function preload() {
+  // Create a camera input
+  // Initialize the Image Classifier method with a pre-trained customized model and the video as the second argument
+  video = createCapture(VIDEO);
+  classifier = ml5.imageClassifier(checkpoint, video);
+}
+
 function setup() {
   noCanvas();
-  // Create a camera input
-  video = createCapture(VIDEO);
-  // Initialize the Image Classifier method with a pre-trained customized model and the video as the second argument
-  classifier = ml5.imageClassifier(checkpoint, video, modelReady);
+  // ml5 also supports using callback pattern to create the classifier
+  // classifier = ml5.imageClassifier(checkpoint, video, modelReady);
   // If you would like to load the model from local files
   // classifier = ml5.imageClassifier('model/image-model.json', video, modelReady);
   resultsP = createP('Loading model and video...');
-}
-
-function modelReady() {
-  console.log('Model Ready');
   classifyVideo();
 }
 
 // Get a prediction for the current video frame
 function classifyVideo() {
-  classifier.classify(gotResult);
+  classifier.classify(video, gotResult);
 }
+
+// If you use callback pattern to create the classifier, you can use the following callback function
+// function modelReady() {
+//   console.log('Model Ready');
+//   classifyVideo();
+// }
 
 // When we get a result
 function gotResult(err, results) {
