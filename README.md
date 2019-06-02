@@ -48,7 +48,7 @@ ml5.js does not require p5.js, however as ml5.js and p5.js have been designed to
 ### p5js
 
 * [CVAE](https://ml5js.github.io/ml5-examples/p5js/CVAE)
-* [BodyPix_Image](https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Image)
+* [BodyPix_Image](https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Image/)
 * [BodyPix_Webcam](https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Webcam)
 * [BodyPix_Webcam_Parts](https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Webcam_Parts)
 * [DCGAN](https://ml5js.github.io/ml5-examples/p5js/DCGAN)
