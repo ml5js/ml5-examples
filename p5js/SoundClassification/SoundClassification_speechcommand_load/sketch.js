@@ -29,12 +29,20 @@ function preload() {
 
 function setup() {
   noCanvas();
+  // ml5 also supports using callback pattern to create the classifier
+  // classifier = ml5.soundClassifier('SpeechCommands18w', options, modelReady);
+
   // Create 'label' and 'confidence' div to hold results
   label = createDiv('Label: ...');
   confidence = createDiv('Confidence: ...');
   // Classify the sound from microphone in real time
   classifier.classify(gotResult);
 }
+
+// If you use callback pattern to create the classifier, you can use the following callback function
+// function modelReady() {
+//   classifier.classify(gotResult);
+// }
 
 // A function to run when we get any errors and the results
 function gotResult(error, results) {
