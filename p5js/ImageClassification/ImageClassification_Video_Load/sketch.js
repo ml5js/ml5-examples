@@ -16,8 +16,8 @@ let resultsP;
 
 function preload() {
   // Create a camera input
-  // Initialize the Image Classifier method with a pre-trained customized model and the video as the second argument
   video = createCapture(VIDEO);
+  // Initialize the Image Classifier method with a pre-trained customized model and the video as the second argument
   classifier = ml5.imageClassifier(checkpoint, video);
 }
 
