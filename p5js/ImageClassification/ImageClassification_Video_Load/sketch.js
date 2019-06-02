@@ -20,6 +20,8 @@ function setup() {
   video = createCapture(VIDEO);
   // Initialize the Image Classifier method with a pre-trained customized model and the video as the second argument
   classifier = ml5.imageClassifier(checkpoint, video, modelReady);
+  // If you would like to load the model from local files
+  // classifier = ml5.imageClassifier('model/image-model.json', video, modelReady);
   resultsP = createP('Loading model and video...');
 }
 
