@@ -22,7 +22,7 @@ function setup() {
 function modelReady() {
     console.log('ready!')
     console.log(faceapi)
-    faceapi.classifyExpressions(gotResults)
+    faceapi.classifyExpressionsMultiple(gotResults)
 
 }
 
@@ -50,5 +50,5 @@ function gotResults(err, result) {
         }
 
     }
-    faceapi.classifyExpressions(gotResults)
+    faceapi.classifyExpressionsMultiple(gotResults)
 }
