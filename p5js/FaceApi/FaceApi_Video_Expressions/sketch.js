@@ -1,12 +1,6 @@
 let faceapi;
 let video;
 let detections;
-let img;
-
-const options = {
-    outputStride: 8, // 8, 16, or 32, default is 16
-    segmentationThreshold: 0.3 // 0 - 1, defaults to 0.5 
-}
 
 function setup() {
     createCanvas(400, 240);
