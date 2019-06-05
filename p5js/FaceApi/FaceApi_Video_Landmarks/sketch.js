@@ -1,15 +1,9 @@
 let faceapi;
 let video;
 let detections;
-let img;
-
-const options = {
-    outputStride: 8, // 8, 16, or 32, default is 16
-    segmentationThreshold: 0.3 // 0 - 1, defaults to 0.5 
-}
 
 function setup() {
-    createCanvas(480, 360);
+    createCanvas(360, 270);
 
     // load up your video
     video = createCapture(VIDEO);
@@ -39,7 +33,7 @@ function gotResults(err, result) {
     if (detections) {
         if (detections.length > 0) {
             // console.log(detections)
-            // drawBox(detections)
+            drawBox(detections)
             drawLandmarks(detections)
         }
 
@@ -58,17 +52,14 @@ function drawBox(detections){
 }
 
 function drawLandmarks(detections){
-    const {landmarks} = detections[0]
-    const {alignedRect} = detections[0]
+    const {landmarks, alignedRect} = detections[0];
     const {_width, _height} = alignedRect._box;
-
-
-    const mouth = landmarks.getMouth()
-    const nose = landmarks.getNose()
-    const leftEye = landmarks.getLeftEye()
-    const leftEyeBrow = landmarks.getLeftEyeBrow()
-    const rightEye = landmarks.getRightEye()
-    const rightEyeBrow = landmarks.getRightEyeBrow()
+    const mouth = landmarks.getMouth();
+    const nose = landmarks.getNose();
+    const leftEye = landmarks.getLeftEye();
+    const leftEyeBrow = landmarks.getLeftEyeBrow();
+    const rightEye = landmarks.getRightEye();
+    const rightEyeBrow = landmarks.getRightEyeBrow();
     
     noFill();
     stroke(0, 0, 0)
@@ -121,8 +112,5 @@ function drawLandmarks(detections){
     endShape();
 
     pop();
-
-    
-
 
 }
