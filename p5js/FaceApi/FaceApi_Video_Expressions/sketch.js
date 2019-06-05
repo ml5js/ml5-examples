@@ -15,7 +15,7 @@ function setup() {
     video = createCapture(VIDEO);
     video.size(width, height);
     // video.hide(); // Hide the video element, and just show the canvas
-    faceapi = ml5.faceApi('/models', video, modelReady)
+    faceapi = ml5.faceApi( video, modelReady)
     textAlign(RIGHT);
 }
 
