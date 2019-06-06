@@ -4,6 +4,9 @@ let detections;
 
 // relative path to your models from window.location.pathname
 const options = {
+    withFaceLandmarks: true,
+    withFaceExpressions: false,
+    withFaceDescriptors: false,
     Mobilenetv1Model: 'models',
     FaceLandmarkModel: 'models',
     FaceRecognitionModel: 'models',
@@ -24,7 +27,7 @@ function setup() {
 function modelReady() {
     console.log('ready!')
     console.log(faceapi)
-    faceapi.classifyMultiple(gotResults)
+    faceapi.detect(gotResults)
 
 }
 
@@ -46,7 +49,7 @@ function gotResults(err, result) {
         }
 
     }
-    faceapi.classifyMultiple(gotResults)
+    faceapi.detect(gotResults)
 }
 
 function drawBox(detections){

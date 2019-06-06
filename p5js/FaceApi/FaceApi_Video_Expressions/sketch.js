@@ -2,6 +2,13 @@ let faceapi;
 let video;
 let detections;
 
+// by default all options are set to true
+const detection_options = {
+    withLandMarks: false,
+    withFaceExpressions: true,
+    withFaceDescriptors: false,
+}
+
 function setup() {
     createCanvas(400, 240);
 
@@ -9,14 +16,15 @@ function setup() {
     video = createCapture(VIDEO);
     video.size(width, height);
     // video.hide(); // Hide the video element, and just show the canvas
-    faceapi = ml5.faceApi( video, modelReady)
+    faceapi = ml5.faceApi( video, detection_options, modelReady)
     textAlign(RIGHT);
 }
 
 function modelReady() {
     console.log('ready!')
     console.log(faceapi)
-    faceapi.classifyMultiple(gotResults)
+    
+    faceapi.detect( gotResults)
 
 }
 
@@ -44,5 +52,5 @@ function gotResults(err, result) {
         }
 
     }
-    faceapi.classifyMultiple(gotResults)
+    faceapi.detect( gotResults)
 }
