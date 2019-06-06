@@ -58,7 +58,6 @@ function drawBox(detections){
     noFill();
     stroke(255, 0, 0)
     strokeWeight(2)
-    rectMode(CENTER);
     rect(_x, _y, _width, _height)
 }
 
@@ -77,8 +76,6 @@ function drawLandmarks(detections){
     strokeWeight(2)
     
     push()
-    // correct the landmarks position using the bounding box
-    translate(-_width/2, -_height/2)
 
     // mouth
     beginShape();
