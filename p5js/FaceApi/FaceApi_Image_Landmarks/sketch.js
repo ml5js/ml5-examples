@@ -24,7 +24,7 @@ function setup() {
 function modelReady() {
     console.log('ready!')
     console.log(faceapi)
-    faceapi.detect(img, gotResults)
+    faceapi.detectSingle(img, gotResults)
 
 }
 
@@ -40,17 +40,14 @@ function gotResults(err, result) {
     background(255);
     image(img, 0,0, width, height)
     if (detections) {
-        if (detections.length > 0) {
-            // console.log(detections)
-            drawBox(detections)
-            drawLandmarks(detections)
-        }
-
+        // console.log(detections)
+        drawBox(detections)
+        drawLandmarks(detections)
     }
 }
 
 function drawBox(detections){
-    const {alignedRect} = detections[0]
+    const {alignedRect} = detections;
     const {_x, _y, _width, _height} = alignedRect._box;
     noFill();
     stroke(255, 0, 0)
@@ -59,7 +56,7 @@ function drawBox(detections){
 }
 
 function drawLandmarks(detections){
-    const {landmarks} = detections[0];
+    const {landmarks} = detections;
     const mouth = landmarks.getMouth();
     const nose = landmarks.getNose();
     const leftEye = landmarks.getLeftEye();
