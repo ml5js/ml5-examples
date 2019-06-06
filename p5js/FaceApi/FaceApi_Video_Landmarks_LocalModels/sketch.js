@@ -24,7 +24,7 @@ function setup() {
 function modelReady() {
     console.log('ready!')
     console.log(faceapi)
-    faceapi.classifyExpressionsMultiple(gotResults)
+    faceapi.classifyMultiple(gotResults)
 
 }
 
@@ -46,7 +46,7 @@ function gotResults(err, result) {
         }
 
     }
-    faceapi.classifyExpressionsMultiple(gotResults)
+    faceapi.classifyMultiple(gotResults)
 }
 
 function drawBox(detections){
