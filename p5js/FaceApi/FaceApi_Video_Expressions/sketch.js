@@ -39,16 +39,16 @@ function gotResults(err, result) {
     background(255);
     if (detections) {
         if (detections.length > 0) {
-            const {expressions} = detections[0]
-            let keys = Object.keys(expressions);
-            keys.forEach( (item, idx) => {
+            const expressions = detections[0].expressions;
+
+            let keys = Object.keys(expressions);      
+            for(let i = 0; i < keys.length; i++){
                 fill(0)
-                // text(`${expression}: ${probability}`, 20, idx*20 )
                 textSize(12)
-                text(`${item}:`, 70, idx * 20 + 20)
-                const val = map(expressions[item], 0, 1, 0, width / 2)
-                rect(80, idx * 20 + 10, val, 15)
-            })
+                text(`${keys[i]}:`, 70, i * 20 + 20)
+                const val = map(expressions[keys[i]], 0, 1, 0, width / 2)
+                rect(80, i * 20 + 10, val, 15)
+            }
         }
 
     }
