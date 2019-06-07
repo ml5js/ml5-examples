@@ -50,14 +50,14 @@ function drawBox(detections){
     const alignedRect = detections.alignedRect;
     const {_x, _y, _width, _height} = alignedRect._box;
     noFill();
-    stroke(255, 0, 0)
+    stroke(161, 95, 251);
     strokeWeight(2)
     rect(_x, _y, _width, _height)
 }
 
 function drawLandmarks(detections){
     noFill();
-    stroke(0, 0, 0)
+    stroke(161, 95, 251);
     strokeWeight(2)
     
     push()

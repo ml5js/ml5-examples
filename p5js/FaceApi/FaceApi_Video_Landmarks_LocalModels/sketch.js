@@ -3,7 +3,7 @@ let video;
 let detections;
 
 // relative path to your models from window.location.pathname
-const options = {
+const detection_options = {
     withFaceLandmarks: true,
     withFaceExpressions: false,
     withFaceDescriptors: false,
@@ -20,7 +20,7 @@ function setup() {
     video = createCapture(VIDEO);
     video.size(width, height);
     // video.hide(); // Hide the video element, and just show the canvas
-    faceapi = ml5.faceApi(video, options, modelReady)
+    faceapi = ml5.faceApi(video, detection_options, modelReady)
     textAlign(RIGHT);
 }
 
@@ -41,6 +41,7 @@ function gotResults(err, result) {
 
     // background(220);
     background(255);
+    image(video, 0,0, width, height)
     if (detections) {
         if (detections.length > 0) {
             // console.log(detections)
@@ -53,72 +54,58 @@ function gotResults(err, result) {
 }
 
 function drawBox(detections){
-    const {alignedRect} = detections[0]
-    const {_x, _y, _width, _height} = alignedRect._box;
-    noFill();
-    stroke(255, 0, 0)
-    strokeWeight(2)
-    rect(_x, _y, _width, _height)
+    for(let i = 0; i < detections.length; i++){
+        const alignedRect = detections[i].alignedRect;
+        const x = alignedRect._box._x
+        const y = alignedRect._box._y
+        const boxWidth = alignedRect._box._width
+        const boxHeight  = alignedRect._box._height
+        
+        noFill();
+        stroke(161, 95, 251);
+        strokeWeight(2);
+        rect(x, y, boxWidth, boxHeight);
+    }
+    
 }
 
 function drawLandmarks(detections){
-    const {landmarks, alignedRect} = detections[0];
-    const {_width, _height} = alignedRect._box;
-    const mouth = landmarks.getMouth();
-    const nose = landmarks.getNose();
-    const leftEye = landmarks.getLeftEye();
-    const leftEyeBrow = landmarks.getLeftEyeBrow();
-    const rightEye = landmarks.getRightEye();
-    const rightEyeBrow = landmarks.getRightEyeBrow();
-    
     noFill();
-    stroke(0, 0, 0)
+    stroke(161, 95, 251)
     strokeWeight(2)
+
+    for(let i = 0; i < detections.length; i++){
+        const mouth = detections[i].parts.mouth; 
+        const nose = detections[i].parts.nose;
+        const leftEye = detections[i].parts.leftEye;
+        const rightEye = detections[i].parts.rightEye;
+        const rightEyeBrow = detections[i].parts.rightEyeBrow;
+        const leftEyeBrow = detections[i].parts.leftEyeBrow;
+
+        drawPart(mouth, true);
+        drawPart(nose, false);
+        drawPart(leftEye, true);
+        drawPart(leftEyeBrow, false);
+        drawPart(rightEye, true);
+        drawPart(rightEyeBrow, false);
+
+    }
+
+}
+
+function drawPart(feature, closed){
     
-    push()
-
-    // mouth
     beginShape();
-    mouth.forEach(item => {
-        vertex(item._x, item._y)
-    })
-    endShape(CLOSE);
-
-    // nose
-    beginShape();
-    nose.forEach(item => {
-        vertex(item._x, item._y)
-    })
-    endShape(CLOSE);
-
-    // left eye
-    beginShape();
-    leftEye.forEach(item => {
-        vertex(item._x, item._y)
-    })
-    endShape(CLOSE);
-
-    // right eye
-    beginShape();
-    rightEye.forEach(item => {
-        vertex(item._x, item._y)
-    })
-    endShape(CLOSE);
-
-    // right eyebrow
-    beginShape();
-    rightEyeBrow.forEach(item => {
-        vertex(item._x, item._y)
-    })
-    endShape();
-
-    // left eye
-    beginShape();
-    leftEyeBrow.forEach(item => {
-        vertex(item._x, item._y)
-    })
-    endShape();
-
-    pop();
-
+    for(let i = 0; i < feature.length; i++){
+        const x = feature[i]._x
+        const y = feature[i]._y
+        vertex(x, y)
+    }
+    
+    if(closed === true){
+        endShape(CLOSE);
+    } else {
+        endShape();
+    }
+    
 }
