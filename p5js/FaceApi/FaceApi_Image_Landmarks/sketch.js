@@ -47,7 +47,7 @@ function gotResults(err, result) {
 }
 
 function drawBox(detections){
-    const {alignedRect} = detections;
+    const alignedRect = detections.alignedRect;
     const {_x, _y, _width, _height} = alignedRect._box;
     noFill();
     stroke(255, 0, 0)
@@ -56,14 +56,6 @@ function drawBox(detections){
 }
 
 function drawLandmarks(detections){
-    const {landmarks} = detections;
-    const mouth = landmarks.getMouth();
-    const nose = landmarks.getNose();
-    const leftEye = landmarks.getLeftEye();
-    const leftEyeBrow = landmarks.getLeftEyeBrow();
-    const rightEye = landmarks.getRightEye();
-    const rightEyeBrow = landmarks.getRightEyeBrow();
-    
     noFill();
     stroke(0, 0, 0)
     strokeWeight(2)
@@ -71,42 +63,42 @@ function drawLandmarks(detections){
     push()
     // mouth
     beginShape();
-    mouth.forEach(item => {
+    detections.parts.mouth.forEach(item => {
         vertex(item._x, item._y)
     })
     endShape(CLOSE);
 
     // nose
     beginShape();
-    nose.forEach(item => {
+    detections.parts.nose.forEach(item => {
         vertex(item._x, item._y)
     })
     endShape(CLOSE);
 
     // left eye
     beginShape();
-    leftEye.forEach(item => {
+    detections.parts.leftEye.forEach(item => {
         vertex(item._x, item._y)
     })
     endShape(CLOSE);
 
     // right eye
     beginShape();
-    rightEye.forEach(item => {
+    detections.parts.rightEye.forEach(item => {
         vertex(item._x, item._y)
     })
     endShape(CLOSE);
 
     // right eyebrow
     beginShape();
-    rightEyeBrow.forEach(item => {
+    detections.parts.rightEyeBrow.forEach(item => {
         vertex(item._x, item._y)
     })
     endShape();
 
     // left eye
     beginShape();
-    leftEyeBrow.forEach(item => {
+    detections.parts.leftEyeBrow.forEach(item => {
         vertex(item._x, item._y)
     })
     endShape();
