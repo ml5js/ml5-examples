@@ -4,9 +4,9 @@ let detections;
 
 // relative path to your models from window.location.pathname
 const detection_options = {
-    withFaceLandmarks: true,
-    withFaceExpressions: false,
-    withFaceDescriptors: false,
+    withLandmarks: true,
+    withExpressions: false,
+    withDescriptors: false,
     Mobilenetv1Model: 'models',
     FaceLandmarkModel: 'models',
     FaceRecognitionModel: 'models',

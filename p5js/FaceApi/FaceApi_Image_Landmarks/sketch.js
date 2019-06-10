@@ -4,9 +4,9 @@ let detections;
 
 // by default all options are set to true
 const detection_options = {
-    withFaceLandmarks: true,
-    withFaceExpressions: false,
-    withFaceDescriptors: false,
+    withLandmarks: true,
+    withExpressions: false,
+    withDescriptors: false,
 }
 
 function preload(){

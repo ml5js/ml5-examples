@@ -4,9 +4,9 @@ let detections;
 
 // by default all options are set to true
 const detection_options = {
-    withLandMarks: false,
-    withFaceExpressions: true,
-    withFaceDescriptors: false,
+    withLandmarks: false,
+    withExpressions: true,
+    withDescriptors: true,
 }
 
 function setup() {
