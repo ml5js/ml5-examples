@@ -6,9 +6,9 @@ This repository contains a collection of  examples using [ml5.js](https://github
 
 Examples are organized into folders according to their integration with other JavaScript libraries.
 
-For example, the `/p5js` folder holds examples of using [ml5.js](https:/ml5js.github.io) with [p5.js](https://p5js.org/). All examples are self-contained and can be run independently. Libraries are loaded through a Content Delivery Network (CDN) and certain examples (indicated in code comments) download a machine learning model from a "cloud" url.
+For example, the `/p5js` folder holds examples of using [ml5.js](https://github.com/ml5js/ml5-library) with [p5.js](https://p5js.org/). All examples are self-contained and can be run independently. Libraries are loaded through a Content Delivery Network (CDN) and certain examples (indicated in code comments) download a machine learning model from a "cloud" url.
 
-If you need to run the examples offline you can [download the p5.js libraries here](https://p5js.org/download/) and [ml5 library here](https://github.com/ml5js/ml5-library/releases).
+If you need to run the examples offline you can [download the p5.js libraries here](https://github.com/processing/p5.js/releases) and [ml5 library here](https://github.com/ml5js/ml5-library/releases).
 
 ## Usage
 
@@ -80,9 +80,7 @@ ml5.js does not require p5.js, however as ml5.js and p5.js have been designed to
 * [Pix2Pix_promise](https://ml5js.github.io/ml5-examples/p5js/Pix2Pix/Pix2Pix_promise)
 * [YOLO_webcam](https://ml5js.github.io/ml5-examples/p5js/YOLO/YOLO_webcam)
 * [YOLO_single_image](https://ml5js.github.io/ml5-examples/p5js/YOLO/YOLO_single_image)
-* [images](https://ml5js.github.io/ml5-examples/p5js/YOLO/YOLO_single_image/images)
 * [PoseNet_image_single](https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_image_single)
-* [data](https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_image_single/data)
 * [PoseNet_webcam](https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_webcam)
 * [PoseNet_part_selection](https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_part_selection)
 
