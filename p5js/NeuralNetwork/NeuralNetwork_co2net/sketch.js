@@ -79,9 +79,18 @@ function setup() {
     const y = mapToCanvas(data.normalized_target[idx], height, 0);
     ellipse(x, y, 10, 10)
   })
+
   // x: population_cdp
   // y: scope1_ghg_emissions_tons_co2e
-  trainModel()
+  // trainModel()
+
+  neuralNetwork.load('model/model.json', function() {
+    console.log('model loaded')
+    predict(Math.log10(10000));
+    predict(Math.log10(100000));
+    predict(Math.log10(1000000));
+    predict(Math.log10(10000000));
+  });
 
 }
 
@@ -153,16 +162,16 @@ function predict(val) {
   // console.log('output: ', output);
 }
 
-function gotResults(error, results) {
-  if (error) console.log(error);
-  if (results) {
+// function gotResults(error, results) {
+//   if (error) console.log(error);
+//   if (results) {
 
-    console.log(results.output);
+//     console.log(results.output);
 
-    // const unNormalized = results.output.map(item => {
-    //   return (item * data.stats.y_max - data.stats.y_min) + data.stats.y_min;
-    // })
+//     // const unNormalized = results.output.map(item => {
+//     //   return (item * data.stats.y_max - data.stats.y_min) + data.stats.y_min;
+//     // })
 
-    // console.log(unNormalized)
-  }
-}
+//     // console.log(unNormalized)
+//   }
+// }
