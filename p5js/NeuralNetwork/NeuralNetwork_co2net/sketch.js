@@ -81,6 +81,35 @@ function inspectData(_x, _y){
     const y = mapToCanvas(yData, height - margins, margins);
     ellipse(x, y, 10, 10)
   }
+
+  // y
+  stroke(0);
+  line(margins, margins, margins, height - margins);
+  // x
+  stroke(0);
+  line(margins, height - margins, width - margins, height - margins);
+
+  
+  const xd = width - margins;
+  for(let i = margins; i < xd; i+=40){
+    push()
+    translate(i + margins, height - margins);
+    rotate(radians(-90));
+    line(0,0, 10, 0);
+    rotate(radians(90));
+    // text( i , 0, 0)
+    pop();
+  }
+
+  const yd = height - margins;
+  for(let i = 0; i < yd; i+=40){
+    push()
+    translate(margins, i);
+    line(0,0, 10, 0);
+    // text( yd - i , 0, 0)
+    pop();
+  }
+  
 }
 
 // Train the model
@@ -173,6 +202,7 @@ function unNormalize(_item, _min, _max){
 function mapToCanvas(_val, _min, _max){
   return map(_val, 0, 1, _min, _max);
 }
+
 
 // Prepare the data
 function prepData(){
