@@ -88,7 +88,9 @@ function setup() {
     console.log('model loaded')
     predict(Math.log10(10000));
     predict(Math.log10(100000));
+    predict(Math.log10(603500));
     predict(Math.log10(1000000));
+    predict(Math.log10(8537673));
     predict(Math.log10(10000000));
   });
 
@@ -157,6 +159,8 @@ function predict(val) {
     const y = mapToCanvas(results.output[0], height,0);
     // console.log(x, y)
     ellipse(x, y, 10, 10)
+
+    console.log(`pop:${Math.pow(10,val)}, emissions:${Math.pow(10,unNormalize(results.output[0]))}`)
   });
   // const output = await neuralNetwork.predict(input);
   // console.log('output: ', output);
@@ -175,3 +179,8 @@ function predict(val) {
 //     // console.log(unNormalized)
 //   }
 // }
+
+
+function unNormalize(_item){
+      return (_item * (data.stats.y_max - data.stats.y_min)) + data.stats.y_min;
+}
