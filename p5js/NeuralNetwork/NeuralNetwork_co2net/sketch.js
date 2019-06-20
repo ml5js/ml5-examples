@@ -82,34 +82,50 @@ function inspectData(_x, _y){
     ellipse(x, y, 10, 10)
   }
 
+  // create axes
+  createAxes();
+  
+}
+
+function createAxes(){
   // y
   stroke(0);
   line(margins, margins, margins, height - margins);
   // x
   stroke(0);
   line(margins, height - margins, width - margins, height - margins);
-
   
-  const xd = width - margins;
-  for(let i = margins; i < xd; i+=40){
+  fill(0)
+  for(let i = 0.1; i <= 1; i+=0.1){
     push()
-    translate(i + margins, height - margins);
+    const x = mapToCanvas(i, margins, width - margins)
+    const y = height - margins;
+    translate(x, y);
     rotate(radians(-90));
+    stroke(0);
     line(0,0, 10, 0);
-    rotate(radians(90));
-    // text( i , 0, 0)
+    // rotate(radians(90));
+    textAlign(RIGHT)
+    const val = nfc(unNormalize(i, data.stats.x_min, data.stats.x_max), 1)
+    noStroke();
+    text( val, -2, 4)
     pop();
   }
 
-  const yd = height - margins;
-  for(let i = 0; i < yd; i+=40){
+  for(let i = 0.1; i <= 1; i+=0.1){
     push()
-    translate(margins, i);
+    const x = margins;
+    const y = mapToCanvas(i, height-margins, margins)
+    translate(x, y);
+    stroke(0);
     line(0,0, 10, 0);
-    // text( yd - i , 0, 0)
+    // rotate(radians(90));
+    textAlign(RIGHT)
+    const val = nfc(unNormalize(i, data.stats.y_min, data.stats.y_max), 1)
+    noStroke();
+    text( val, -2, 4)
     pop();
   }
-  
 }
 
 // Train the model
