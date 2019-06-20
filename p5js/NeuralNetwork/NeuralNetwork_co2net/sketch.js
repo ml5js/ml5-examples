@@ -13,8 +13,6 @@ This example uses a callback pattern to create the classifier
 let neuralNetwork;
 let data;
 let predictions = [];
-let legend_prediction;
-let legend_actual;
 const margins = 40;
 
 // Options for Neural Network
@@ -42,7 +40,6 @@ function setup() {
   // Step 3: inspect the data
   inspectData(data.normalized_input, data.normalized_target);
 
-  
   // Step 4A: Inspect the data
   // trainModel()
 
@@ -60,13 +57,6 @@ function setup() {
     // NYC
     predict(Math.log10(8537673));
   });
-
-  // add legend;
-  legend_prediction = createDiv('prediction').id('prediction-legend').class("legend-item")
-  createDiv().parent('#prediction-legend').class('prediction')
-
-  legend_actual =createDiv('actual').id('actual-legend').class("legend-item")
-  createDiv().parent('#actual-legend').class('actual')
 
 }
 
