@@ -5,36 +5,30 @@
 
 /* ===
 ml5 Example
-Webcam Image Classification using MobileNet and p5.js
-This example uses a callback pattern to create the classifier
+Webcam Image Classification using MobileNet
+This example uses promises to create the classifier
 === */
 
-let classifier;
-let video;
-let resultsP;
+// Grab elements, create settings, etc.
+const video = document.getElementById('video');
 
-function setup() {
-  noCanvas();
-  // Create a camera input
-  video = createCapture(VIDEO);
-  // Initialize the Image Classifier method with MobileNet and the video as the second argument
-  classifier = ml5.imageClassifier('MobileNet', video, modelReady);
-  resultsP = createP('Loading model and video...');
-}
+// Create a webcam capture
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    video.srcObject = stream;
+    video.play();
+  })
 
-function modelReady() {
-  console.log('Model Ready');
-  classifyVideo();
-}
+// Initialize the Image Classifier method with MobileNet passing the video as the
+// second argument and the getClassification function as the third
+ml5.imageClassifier('MobileNet', video)
+  .then(classifier => loop(classifier))
 
-// Get a prediction for the current video frame
-function classifyVideo() {
-  classifier.classify(gotResult);
-}
-
-// When we get a result
-function gotResult(err, results) {
-  // The results are in an array ordered by confidence.
-  resultsP.html(results[0].label + ' ' + nf(results[0].confidence, 0, 2));
-  classifyVideo();
+const loop = (classifier) => {
+  classifier.classify()
+    .then(results => {
+      result.innerText = results[0].label;
+      probability.innerText = results[0].confidence.toFixed(4);
+      loop(classifier) // Call again to create a loop
+    })
 }

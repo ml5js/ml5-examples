@@ -5,52 +5,28 @@
 
 /* ===
 ml5 Example
-Style Transfer Image Example using p5.js
+Style Transfer Image Example
 This uses a pre-trained model of The Great Wave off Kanagawa and Udnie (Young American Girl, The Dance)
 === */
 
-let inputImg;
-let statusMsg;
-let transferBtn;
-let style1;
-let style2;
+const inputImg = document.getElementById('inputImg'); // The image we want to transfer
+const statusMsg = document.getElementById('statusMsg'); // The status message
+const styleA = document.getElementById('styleA'); // The div contrianer that holds new style image A
+const styleB = document.getElementById('styleB'); // The div contrianer that holds new style image B
 
-function setup() {
-  noCanvas();
-  // Status Msg
-  statusMsg = select('#statusMsg');
-
-  // Get the input image
-  inputImg = select('#inputImg');
-
-  // Transfer Button
-  transferBtn = select('#transferBtn')
-  transferBtn.mousePressed(transferImages);
-
-  // Create two Style methods with different pre-trained models
-  style1 = ml5.styleTransfer('models/wave', modelLoaded);
-  style2 = ml5.styleTransfer('models/udnie', modelLoaded);
-}
-
-// A function to be called when the models have loaded
-function modelLoaded() {
-  // Check if both models are loaded
-  if(style1.ready && style2.ready){
-    statusMsg.html('Ready!')
-  }
-}
-
-// Apply the transfer to both images!
-function transferImages() {
-  statusMsg.html('Applying Style Transfer...!');
-  
-  style1.transfer(inputImg, function(err, result) {
-    createImg(result.src).parent('styleA');
+ml5.styleTransfer('models/wave')
+  .then(style1 => style1.transfer(inputImg))
+  .then(result => {
+    const newImage1 = new Image(250, 250);
+    newImage1.src = result.src;
+    styleA.appendChild(newImage1);
   });
 
-  style2.transfer(inputImg, function(err, result) {
-    createImg(result.src).parent('styleB');
+ml5.styleTransfer('models/udnie')
+  .then(style2 => style2.transfer(inputImg))
+  .then(result => {
+    const newImage2 = new Image(250, 250);
+    newImage2.src = result.src;
+    styleB.appendChild(newImage2);
+    statusMsg.innerHTML = 'Done!';
   });
-
-  statusMsg.html('Done!');
-}

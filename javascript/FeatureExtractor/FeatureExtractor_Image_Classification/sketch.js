@@ -5,104 +5,77 @@
 
 /* ===
 ml5 Example
-Image Classification using Feature Extraction with MobileNet. Built with p5.js
-This example uses a callback pattern to create the classifier
+Image Classification using Feature Extractor with MobileNet
 === */
 
-let featureExtractor;
-let classifier;
-let video;
-let loss;
-let dogImages = 0;
-let catImages = 0;
-let badgerImages = 0;
+// Grab all the DOM elements
+var video = document.getElementById('video');
+var videoStatus = document.getElementById('videoStatus');
+var loading = document.getElementById('loading');
+var catButton = document.getElementById('catButton');
+var dogButton = document.getElementById('dogButton');
+var amountOfCatImages = document.getElementById('amountOfCatImages');
+var amountOfDogImages = document.getElementById('amountOfDogImages');
+var train = document.getElementById('train');
+var loss = document.getElementById('loss');
+var result = document.getElementById('result');
+var confidence = document.getElementById('confidence');
+var predict = document.getElementById('predict');
 
-function setup() {
-  noCanvas();
-  // Create a video element
-  video = createCapture(VIDEO);
-  video.parent('videoContainer');
-  video.size(320, 240);
+// A variable to store the total loss
+let totalLoss = 0;
 
-  // Extract the already learned features from MobileNet
-  featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
-
-  // Create a new classifier using those features and give the video we want to use
-  const options = { numLabels: 3 };
-  classifier = featureExtractor.classification(video, options);
-  // Set up the UI buttons
-  setupButtons();
-}
+// Create a webcam capture
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    video.srcObject = stream;
+    video.play();
+  })
 
 // A function to be called when the model has been loaded
-function modelReady() {
-  select('#modelStatus').html('MobileNet Loaded!');
-  // If you want to load a pre-trained model at the start
-  // classifier.load('./model/model.json', function() {
-  //   select('#modelStatus').html('Custom Model Loaded!');
-  // });
+function modelLoaded() {
+  loading.innerText = 'Model loaded!';
 }
 
-// Classify the current frame.
-function classify() {
-  classifier.classify(gotResults);
+// Extract the already learned features from MobileNet
+const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
+// Create a new classifier using those features
+const classifier = featureExtractor.classification(video, videoReady);
+
+// Predict the current frame.
+function predict() {
+  classifier.predict(gotResults);
 }
 
-// A util function to create UI buttons
-function setupButtons() {
-  // When the Cat button is pressed, add the current frame
-  // from the video with a label of "cat" to the classifier
-  buttonA = select('#catButton');
-  buttonA.mousePressed(function() {
-    classifier.addImage('cat');
-    select('#amountOfCatImages').html(catImages++);
-  });
+// A function to be called when the video is finished loading
+function videoReady() {
+  videoStatus.innerText = 'Video ready!';
+}
 
-  // When the Dog button is pressed, add the current frame
-  // from the video with a label of "dog" to the classifier
-  buttonB = select('#dogButton');
-  buttonB.mousePressed(function() {
-    classifier.addImage('dog');
-    select('#amountOfDogImages').html(dogImages++);
-  });
+// When the Cat button is pressed, add the current frame
+// from the video with a label of cat to the classifier
+catButton.onclick = function () {
+  classifier.addImage('cat');
+  amountOfCatImages.innerText = Number(amountOfCatImages.innerText) + 1;
+}
 
-  // When the Dog button is pressed, add the current frame
-  // from the video with a label of "dog" to the classifier
-  buttonC = select('#badgerButton');
-  buttonC.mousePressed(function() {
-    classifier.addImage('badger');
-    select('#amountOfBadgerImages').html(badgerImages++);
-  });
+// When the Cat button is pressed, add the current frame
+// from the video with a label of cat to the classifier
+dogButton.onclick = function () {
+  classifier.addImage('dog');
+  amountOfDogImages.innerText = Number(amountOfDogImages.innerText) + 1;
+}
 
-  // Train Button
-  train = select('#train');
-  train.mousePressed(function() {
-    classifier.train(function(lossValue) {
-      if (lossValue) {
-        loss = lossValue;
-        select('#loss').html('Loss: ' + loss);
-      } else {
-        select('#loss').html('Done Training! Final Loss: ' + loss);
-      }
-    });
-  });
-
-  // Predict Button
-  buttonPredict = select('#buttonPredict');
-  buttonPredict.mousePressed(classify);
-
-  // Save model
-  saveBtn = select('#save');
-  saveBtn.mousePressed(function() {
-    classifier.save();
-  });
-
-  // Load model
-  loadBtn = select('#load');
-  loadBtn.changed(function() {
-    classifier.load(loadBtn.elt.files, function() {
-      select('#modelStatus').html('Custom Model Loaded!');
-    });
+// When the train button is pressed, train the classifier
+// With all the given cat and dog images
+train.onclick = function () {
+  classifier.train(function(lossValue) {
+    if (lossValue) {
+      totalLoss = lossValue;
+      loss.innerHTML = 'Loss: ' + totalLoss;
+    } else {
+      loss.innerHTML = 'Done Training! Final Loss: ' + totalLoss;
+    }
   });
 }
 
@@ -113,8 +86,13 @@ function gotResults(err, results) {
     console.error(err);
   }
   if (results && results[0]) {
-    select('#result').html(results[0].label);
-    select('#confidence').html(results[0].confidence.toFixed(2) * 100 + '%');
-    classify();
+    result.innerText = results[0].label;
+    confidence.innerText = results[0].confidence;
+    classifier.classify(gotResults);
   }
+}
+
+// Start predicting when the predict button is clicked
+predict.onclick = function () {
+  classifier.classify(gotResults);
 }
