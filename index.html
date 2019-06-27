@@ -1,0 +1,138 @@
+<html>
+    <head>
+        <title>ml5 examples index</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="ml5 examples index page">
+        <meta name="keywords" content="ml5, machine learning, friendly, javascript">
+        <meta name="author" content="@ml5js">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            * {
+                box-sizing: border-box;
+                margin:0;
+                font-family: monospace;
+                font-size: 16px;
+            }
+
+            body, html{
+                width:100%;
+                height:100%;
+                background-color: #FFDFDF;
+            }
+            .container {
+                display: grid;
+                grid-column-gap: 20px;
+                grid-row-gap: 20px;
+                grid-template-columns: auto auto auto auto;
+                padding-top:2rem;
+            }
+
+            .container > .item {
+                text-align: center;
+                padding:0.5rem;
+                border: 1px solid black;
+                box-shadow: 2px 2px black;
+                font-size:0.8rem;
+                background-color:white;
+            }
+
+            .container > .category-header {
+                grid-column: 1 / span 4;
+            }
+            .container > .category-header > h3 {
+                font-size: 1.5rem;
+            }
+
+            .container > .item:hover {
+                transform: scale(1.12)
+            }
+
+            
+
+            a, a:link, a:visited {
+                color:black;
+                font-size:0.8rem;
+            }
+
+            #app{
+                padding: 2rem;
+            }
+
+            #app > h1 {
+                font-size: 3rem;
+            }
+            
+            #app > p {
+                margin-top:1rem;
+                max-width:600px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+        <h1>ml5 examples</h1>
+        <p>Index page for ml5 examples.</p>
+        <div id="myLinks" class="container">loading... (if there's nothing here, something went wrong)</div>
+        </div>
+
+        <script>
+            // const ghUrl = `https://ml5js.github.io/ml5-examples/`
+            // const apiUrl = 'https://api.github.com/repos/ml5js/ml5-examples/contents/'
+            // const $container = document.getElementById("myLinks");
+
+            // async function getDirectories(_apiUrl, _title){
+                
+            //     // get the root directories
+            //     let roots = await fetch(_apiUrl)
+            //     roots = await roots.json();
+                
+            //     // get the specific urls for each root
+            //     // and filter out the undefined
+            //     const projectUrls = roots.map( (item) => {
+            //         if(item.type === "dir"){
+            //             return item.url
+            //         } else {
+            //             return undefined
+            //         }
+            //     }).filter(item => item !== undefined);
+
+            //     // this is where the magic happens
+            //     // ref: https://www.taniarascia.com/promise-all-with-async-await/
+            //     // if you're reading this, Tania Rascia has amazing tutorials & documentation
+            //     const allUrls = await Promise.all(
+            //         projectUrls.map( async (item) => {
+            //             let myPaths = await fetch(item)
+            //             myPaths = await myPaths.json();
+            //             return myPaths
+            //         })
+            //     )
+
+            //     // if there's stuff, then clear the loading text
+            //     // if(allUrls.length > 0 ){
+            //     //     // clear the container
+            //     //     $container.innerHTML = "";
+            //     // }
+
+            //     // add those links to the dom!
+            //     allUrls.forEach( root => {
+            //         // let cat = root[0].path.split('/')[0];
+            //         $container.innerHTML += `<div class="category-header"><h3>${_title}</h3></div>`;
+            //         // if(root.length > 0){
+            //             root.forEach(dir => {
+            //                 let $div = `<div class="item"> <a target="_blank" href="${ghUrl}${dir.path}">${dir.path}</a></div>`
+            //                 $container.innerHTML += $div;
+            //             })
+            //         // }
+                    
+                    
+            //     })
+            // }
+
+
+            // getDirectories( `${apiUrl}`, 'p5.js' )
+            // // getDirectories( `${apiUrl}/javascript`, 'plain javascript' )
+            
+        </script>
+    </body>
+</html>
