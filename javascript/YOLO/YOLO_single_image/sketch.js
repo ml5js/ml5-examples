@@ -1,54 +1,81 @@
-// Initialize the Image Classifier method with MobileNet. A callback needs to be passed.
-// Create a YOLO method
-const yolo = ml5.YOLO(modelReady);
-let img;
-let objects = [];
+// Copyright (c) 2018 ml5
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
+/* ===
+ml5 Example
+Real time Object Detection using YOLO
+=== */
+
+let yolo;
 let status;
+let objects = [];
+let canvas;
+let width = 640;
+let height = 420;
 
-function setup() {
-  createCanvas(640, 420);
-  img = createImg('images/cat2.JPG', imageReady);
-  img.hide();
-  img.size(640, 420);
+async function make() {
+    img = new Image();
+    img.src = 'images/cat2.JPG';
+    img.width = width;
+    img.height = height;
 
+    yolo = await ml5.YOLO(startDetecting)
+
+    canvas = createCanvas(width, height);
 }
 
-// Change the status when the model loads.
-function modelReady() {
-  console.log("model Ready!")
-  status = true;
+// when the dom is loaded, call make();
+window.addEventListener('DOMContentLoaded', function() {
+    make();
+});
+
+function startDetecting(){
+  console.log('model ready')
+  detect();
 }
 
-// When the image has been loaded,
-// get a prediction for that image
-function imageReady() {
-  console.log('Detecting') 
-  yolo.detect(img, gotResult);
-}
-
-// A function to run when we get any errors and the results
-function gotResult(err, results) {
-  if (err) {
-    console.log(err);
-  }
-  console.log(results)
-  objects = results;
-}
-
-
-function draw() {
-  // unless the model is loaded, do not draw anything to canvas
-  if (status != undefined) {
-    image(img, 0, 0)
-
-    for (let i = 0; i < objects.length; i++) {
-      noStroke();
-      fill(0, 255, 0);
-      text(objects[i].label + " " + nfc(objects[i].confidence * 100.0, 2) + "%", objects[i].x * width + 5, objects[i].y * height + 15);
-      noFill();
-      strokeWeight(4);
-      stroke(0, 255, 0);
-      rect(objects[i].x * width, objects[i].y * height, objects[i].w * width, objects[i].h * height);
+function detect() {
+  yolo.detect(img, function(err, results) {
+    if(err){
+      console.log(err);
+      return
     }
-  }
+    objects = results;
+
+    if(objects){
+      draw();
+    }
+  });
+}
+
+function draw(){
+    // Clear part of the canvas
+    canvas.fillStyle = "#000000"
+    canvas.fillRect(0,0, width, height);
+
+    canvas.drawImage(img, 0, 0);
+    for (let i = 0; i < objects.length; i++) {
+      
+      canvas.font = "16px Arial";
+      canvas.fillStyle = "green";
+      canvas.fillText(objects[i].label, objects[i].x * width + 4, objects[i].y * height + 16); 
+
+      canvas.beginPath();
+      canvas.rect(objects[i].x * width, objects[i].y * height, objects[i].w * width, objects[i].h * height);
+      canvas.strokeStyle = "green";
+      canvas.stroke();
+      canvas.closePath();
+    }
+}
+
+
+function createCanvas(w, h){
+    const canvasElement = document.createElement("canvas"); 
+    canvasElement.width  = w;
+    canvasElement.height = h;
+    document.body.appendChild(canvasElement);
+    const canvas = canvasElement.getContext("2d");
+    return canvas;
 }
