@@ -1,138 +1,20 @@
 <html>
-    <head>
-        <title>ml5 examples index</title>
-        <meta charset="UTF-8">
-        <meta name="description" content="ml5 examples index page">
-        <meta name="keywords" content="ml5, machine learning, friendly, javascript">
-        <meta name="author" content="@ml5js">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <style>
-            * {
-                box-sizing: border-box;
-                margin:0;
-                font-family: monospace;
-                font-size: 16px;
-            }
-
-            body, html{
-                width:100%;
-                height:100%;
-                background-color: #FFDFDF;
-            }
-            .container {
-                display: grid;
-                grid-column-gap: 20px;
-                grid-row-gap: 20px;
-                grid-template-columns: auto auto auto auto;
-                padding-top:2rem;
-            }
-
-            .container > .item {
-                text-align: center;
-                padding:0.5rem;
-                border: 1px solid black;
-                box-shadow: 2px 2px black;
-                font-size:0.8rem;
-                background-color:white;
-            }
-
-            .container > .category-header {
-                grid-column: 1 / span 4;
-            }
-            .container > .category-header > h3 {
-                font-size: 1.5rem;
-            }
-
-            .container > .item:hover {
-                transform: scale(1.12)
-            }
-
-            
-
-            a, a:link, a:visited {
-                color:black;
-                font-size:0.8rem;
-            }
-
-            #app{
-                padding: 2rem;
-            }
-
-            #app > h1 {
-                font-size: 3rem;
-            }
-            
-            #app > p {
-                margin-top:1rem;
-                max-width:600px;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="app">
-        <h1>ml5 examples</h1>
-        <p>Index page for ml5 examples.</p>
-        <div id="myLinks" class="container">loading... (if there's nothing here, something went wrong)</div>
-        </div>
-
-        <script>
-            // const ghUrl = `https://ml5js.github.io/ml5-examples/`
-            // const apiUrl = 'https://api.github.com/repos/ml5js/ml5-examples/contents/'
-            // const $container = document.getElementById("myLinks");
-
-            // async function getDirectories(_apiUrl, _title){
-                
-            //     // get the root directories
-            //     let roots = await fetch(_apiUrl)
-            //     roots = await roots.json();
-                
-            //     // get the specific urls for each root
-            //     // and filter out the undefined
-            //     const projectUrls = roots.map( (item) => {
-            //         if(item.type === "dir"){
-            //             return item.url
-            //         } else {
-            //             return undefined
-            //         }
-            //     }).filter(item => item !== undefined);
-
-            //     // this is where the magic happens
-            //     // ref: https://www.taniarascia.com/promise-all-with-async-await/
-            //     // if you're reading this, Tania Rascia has amazing tutorials & documentation
-            //     const allUrls = await Promise.all(
-            //         projectUrls.map( async (item) => {
-            //             let myPaths = await fetch(item)
-            //             myPaths = await myPaths.json();
-            //             return myPaths
-            //         })
-            //     )
-
-            //     // if there's stuff, then clear the loading text
-            //     // if(allUrls.length > 0 ){
-            //     //     // clear the container
-            //     //     $container.innerHTML = "";
-            //     // }
-
-            //     // add those links to the dom!
-            //     allUrls.forEach( root => {
-            //         // let cat = root[0].path.split('/')[0];
-            //         $container.innerHTML += `<div class="category-header"><h3>${_title}</h3></div>`;
-            //         // if(root.length > 0){
-            //             root.forEach(dir => {
-            //                 let $div = `<div class="item"> <a target="_blank" href="${ghUrl}${dir.path}">${dir.path}</a></div>`
-            //                 $container.innerHTML += $div;
-            //             })
-            //         // }
-                    
-                    
-            //     })
-            // }
-
-
-            // getDirectories( `${apiUrl}`, 'p5.js' )
-            // // getDirectories( `${apiUrl}/javascript`, 'plain javascript' )
-            
-        </script>
-    </body>
+  <head>
+    <title>ml5 examples index</title>
+    <meta charset="UTF-8" >
+    <meta name="description" content="ml5 examples index page" >
+    <meta name="keywords"
+      content="ml5, machine learning, friendly, javascript"
+    >
+    <meta name="author" content="@ml5js" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <link rel="stylesheet" href="assets/style.css"                                                  />
+  </head>
+  <body>
+    <div id="app">
+      <h1>ml5 examples</h1>
+      <p>Index page for ml5 examples.</p>
+      <div id="myLinks" class="container"><div class="category-header"><h2>ml5 examples with p5.js</h2></div><div class="category-header"><h3>BodyPix</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Image">BodyPix_Image</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Webcam">BodyPix_Webcam</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Webcam_Parts">BodyPix_Webcam_Parts</a></div><div class="category-header"><h3>CVAE</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/CVAE/CVAE_QuickDraw">CVAE_QuickDraw</a></div><div class="category-header"><h3>CharRNN</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/CharRNN/CharRNN_Interactive">CharRNN_Interactive</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/CharRNN/CharRNN_Text">CharRNN_Text</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/CharRNN/CharRNN_Text_Stateful">CharRNN_Text_Stateful</a></div><div class="category-header"><h3>DCGAN</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/DCGAN/DCGAN_Random">DCGAN_Random</a></div><div class="category-header"><h3>FaceApi</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/FaceApi/FaceApi_Image_Landmarks">FaceApi_Image_Landmarks</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/FaceApi/FaceApi_Video_Expressions">FaceApi_Video_Expressions</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/FaceApi/FaceApi_Video_Landmarks">FaceApi_Video_Landmarks</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/FaceApi/FaceApi_Video_Landmarks_LocalModels">FaceApi_Video_Landmarks_LocalModels</a></div><div class="category-header"><h3>FeatureExtractor</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/FeatureExtractor/FeatureExtractor_Image_Classification">FeatureExtractor_Image_Classification</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/FeatureExtractor/FeatureExtractor_Image_Regression">FeatureExtractor_Image_Regression</a></div><div class="category-header"><h3>ImageClassification</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification">ImageClassification</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_DoodleNet_Canvas">ImageClassification_DoodleNet_Canvas</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_DoodleNet_Video">ImageClassification_DoodleNet_Video</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_MultipleImages">ImageClassification_MultipleImages</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_Video">ImageClassification_Video</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_VideoScavengerHunt">ImageClassification_VideoScavengerHunt</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_VideoSound">ImageClassification_VideoSound</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_VideoSoundTranslate">ImageClassification_VideoSoundTranslate</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_Video_Load">ImageClassification_Video_Load</a></div><div class="category-header"><h3>KNNClassification</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/KNNClassification/KNNClassification_PoseNet">KNNClassification_PoseNet</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/KNNClassification/KNNClassification_Video">KNNClassification_Video</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/KNNClassification/KNNClassification_VideoSound">KNNClassification_VideoSound</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/KNNClassification/KNNClassification_VideoSquare">KNNClassification_VideoSquare</a></div><div class="category-header"><h3>NeuralNetwork</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/NeuralNetwork/NeuralNetwork_co2net">NeuralNetwork_co2net</a></div><div class="category-header"><h3>PitchDetection</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/PitchDetection/PitchDetection">PitchDetection</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/PitchDetection/PitchDetection_Game">PitchDetection_Game</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/PitchDetection/PitchDetection_Piano">PitchDetection_Piano</a></div><div class="category-header"><h3>Pix2Pix</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/Pix2Pix/Pix2Pix_callback">Pix2Pix_callback</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/Pix2Pix/Pix2Pix_promise">Pix2Pix_promise</a></div><div class="category-header"><h3>PoseNet</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_image_single">PoseNet_image_single</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_part_selection">PoseNet_part_selection</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_webcam">PoseNet_webcam</a></div><div class="category-header"><h3>Sentiment</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/Sentiment/Sentiment_Interactive">Sentiment_Interactive</a></div><div class="category-header"><h3>SketchRNN</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/SketchRNN/SketchRNN_basic">SketchRNN_basic</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/SketchRNN/SketchRNN_interactive">SketchRNN_interactive</a></div><div class="category-header"><h3>SoundClassification</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/SoundClassification/SoundClassification_speechcommand">SoundClassification_speechcommand</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/SoundClassification/SoundClassification_speechcommand_load">SoundClassification_speechcommand_load</a></div><div class="category-header"><h3>StyleTransfer</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/StyleTransfer/StyleTransfer_Image">StyleTransfer_Image</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/StyleTransfer/StyleTransfer_Video">StyleTransfer_Video</a></div><div class="category-header"><h3>UNET</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/UNET/UNET_webcam">UNET_webcam</a></div><div class="category-header"><h3>Word2Vec</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/Word2Vec/Word2Vec_Interactive">Word2Vec_Interactive</a></div><div class="category-header"><h3>YOLO</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/YOLO/YOLO_single_image">YOLO_single_image</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/p5js/YOLO/YOLO_webcam">YOLO_webcam</a></div><div class="category-header"><h2>ml5 examples with plain javascript</h2></div><div class="category-header"><h3>CVAE</h3></div><div class="category-header"><h3>DCGAN</h3></div><div class="category-header"><h3>FeatureExtractor</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/javascript/FeatureExtractor/FeatureExtractor_Image_Classification">FeatureExtractor_Image_Classification</a></div><div class="category-header"><h3>ImageClassification</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/javascript/ImageClassification/ImageClassification">ImageClassification</a></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/javascript/ImageClassification/ImageClassification_Video">ImageClassification_Video</a></div><div class="category-header"><h3>PoseNet</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/javascript/PoseNet/PoseNet">PoseNet</a></div><div class="category-header"><h3>Sentiment</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/javascript/Sentiment/Sentiment_Interactive">Sentiment_Interactive</a></div><div class="category-header"><h3>StyleTransfer</h3></div><div class="item"> <a target="_blank" href="https://ml5js.github.io/ml5-examples/javascript/StyleTransfer/StyleTransfer_Image">StyleTransfer_Image</a></div><div class="category-header"><h3>Word2Vec</h3></div></div>
+    </div>
+  </body>
 </html>
