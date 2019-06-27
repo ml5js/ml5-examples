@@ -6,9 +6,9 @@ This repository contains a collection of  examples using [ml5.js](https://github
 
 Examples are organized into folders according to their integration with other JavaScript libraries.
 
-For example, the `/p5js` folder holds examples of using [ml5.js](https://github.com/ml5js/ml5-library) with [p5.js](https://p5js.org/). All examples are self-contained and can be run independently. Libraries are loaded through a Content Delivery Network (CDN) and certain examples (indicated in code comments) download a machine learning model from a "cloud" url.
+For example, the `/p5js` folder holds examples of using [ml5.js](https://github.com/ml5js/ml5-library) with [p5.js](https://p5js.org/). All examples are self-contained and can be run independently. Libraries are loaded through a Content Delivery Network (CDN) and certain examples (indicated in code comments) download a machine learning model from a "cloud" url. This means that ml5 currently relies on an internet connection in order to retrieve pre-trained models (unless they are served locally). 
 
-If you need to run the examples offline you can [download the p5.js libraries here](https://github.com/processing/p5.js/releases) and [ml5 library here](https://github.com/ml5js/ml5-library/releases).
+Instead of using the CDN links to p5 and ml5, you can [download the p5.js libraries here](https://github.com/processing/p5.js/releases) and [ml5 library here](https://github.com/ml5js/ml5-library/releases).
 
 ## Usage
 
