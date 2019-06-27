@@ -1,4 +1,5 @@
 # ml5 Examples
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 ## Description
 
@@ -96,3 +97,15 @@ NOTE: not all of the ml5.js examples are currently working on the p5.js web edit
 ## Contributing
 
 See CONTRIBUTING.MD
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://wakatime.com/@barakplasma"><img src="https://avatars0.githubusercontent.com/u/62937?v=4" width="100px;" alt="Michael Salaverry"/><br /><sub><b>Michael Salaverry</b></sub></a><br /><a href="#content-barakplasma" title="Content">🖋</a> <a href="https://github.com/ml5js/ml5-examples/issues?q=author%3Abarakplasma" title="Bug reports">🐛</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
