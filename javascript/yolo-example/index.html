@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>YOLO ml5.js demo</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="index.css" />
+</head>
+<body id="app-wrap" class="app-wrap bg-light">
+    <div id="demo-wrap" class="demo-wrap bg-light shadow-lg">
+            <video id="videoElem" class="layer layer-videoElem" autoplay crossorigin="anonymous"></video>
+            <canvas id="detection" class="layer layer-canvas"></canvas>
+            <div id="fps-meter-layer" class="layer fps-meter-layer"></div>
+
+    </div>
+    <div id="controls-wrap" class="controls-wrap bg-light shadow-lg">
+        <div class="left">
+
+        </div>
+
+
+        <div class="right">
+            <button id="detectBtn"  onclick="toogleDetection()"  class="btn  btn-outline-success btn-spaceout" disabled>Start Detection</button>  
+            <button id="loadBtn"  onclick="loadModel()" class="btn btn-primary btn-spaceout">Load</button>
+            <button id="fullscreenBtn"  onclick="toogleFullscreen()" class="btn btn-warning btn-spaceout">Fullscreen</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/gh/TheHidden1/ml5-library@redid-yolo-object-detection/dist/ml5.min.js"></script>
+    <script src="helpers.js"></script>
+    <script src="stats.min.js"></script>
+    <script src="fullscreen.js"></script>
+
+
+    <script src="sketch.js"></script>
+
+</body>
+</html>
