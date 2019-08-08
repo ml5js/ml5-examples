@@ -6,7 +6,7 @@ const { parse } = require('node-html-parser');
 const baseurl = path.resolve(__dirname, "..");
 
 const ghUrl = 'https://ml5js.github.io/ml5-examples'
-const indexPath = `${baseurl}/index.html`
+const indexPath = `${baseurl}/public/index.html`
 
 let $index = parse(fs.readFileSync(indexPath, 'utf8'));
 let $myLinks = $index.querySelector('#myLinks')
@@ -15,22 +15,24 @@ $myLinks.set_content("")
 
 const p5Examples = getReferences(`${baseurl}/p5js`, 'p5js', ghUrl);
 const plainJsExamples = getReferences(`${baseurl}/javascript`, 'javascript', ghUrl);
+const d3Examples = getReferences(`${baseurl}/d3`, 'd3', ghUrl);
 
 
 const p5Header = `<div class="category-header"><h2>ml5 examples with p5.js</h2></div>`
 const jsHeader = `<div class="category-header"><h2>ml5 examples with plain javascript</h2></div>`
+const d3Header = `<div class="category-header"><h2>ml5 examples with d3</h2></div>`
 
+// p5 examples
 $myLinks.appendChild(p5Header);
 addToDom(p5Examples, $myLinks)
-
-
+// plain js examples
 $myLinks.appendChild(jsHeader);
 addToDom(plainJsExamples, $myLinks)
+// D3 examples
+$myLinks.appendChild(d3Header);
+addToDom(d3Examples, $myLinks)
 
-fs.writeFileSync(`${baseurl}/index.html`, $index, 'utf8');
-
-
-
+fs.writeFileSync(`${baseurl}/public/index.html`, $index, 'utf8');
 // ************************************
 /**
  * 
