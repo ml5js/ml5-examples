@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "update-ml5": "node scripts/update-ml5-reference.js",
-    "update-ml5-dev": "NODE_ENV=dev node scripts/update-ml5-reference.js"
+    "update-ml5-dev": "NODE_ENV=dev node scripts/update-ml5-reference.js",
+    "update-index": "node scripts/create-examples-index.js"
   },
   "repository": {
     "type": "git",
