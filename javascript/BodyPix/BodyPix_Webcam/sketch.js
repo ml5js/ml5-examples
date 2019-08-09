@@ -28,8 +28,11 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
 function gotImage(err, result){
-    canvas.drawImage(video, 0, 0);
-    canvas.putImageData(result.maskBackground, 0, 0);
+    segmentation = result;
+    canvas.drawImage(video, 0, 0, width, height);
+    let maskBackground = imageDataToCanvas(result.maskBackground.data, result.maskBackground.width, result.maskBackground.height)
+    canvas.drawImage(maskBackground, 0, 0, width, height);
+    
     bodypix.segment(gotImage, options);
 }
 
@@ -49,6 +52,25 @@ async function getVideo(){
 
     return videoElement
 }
+
+// Convert a ImageData to a Canvas
+function imageDataToCanvas(imageData, x, y) {
+    // console.log(raws, x, y)
+    const arr = Array.from(imageData)
+    const canvas = document.createElement('canvas'); // Consider using offScreenCanvas when it is ready?
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = x;
+    canvas.height = y;
+
+    const imgData = ctx.createImageData(x, y);
+    const { data } = imgData;
+
+    for (let i = 0; i < x * y * 4; i += 1 ) data[i] = arr[i];
+    ctx.putImageData(imgData, 0, 0);
+
+    return ctx.canvas;
+};
 
 function createCanvas(w, h){
     const canvasElement = document.createElement("canvas"); 

@@ -14,7 +14,9 @@ async function make() {
 
     canvas = createCanvas(width, height);
     canvas.drawImage(img, 0,0);
-    canvas.putImageData(segmentation.maskBackground, 50, 50);
+    // canvas.drawImage(segmentation.maskBackground, 0, 0);
+    let maskedBackground = await imageDataToCanvas(segmentation.maskBackground.data, segmentation.maskBackground.width, segmentation.maskBackground.height)
+    canvas.drawImage(maskedBackground, 0, 0);
 
 }
 
@@ -22,6 +24,25 @@ async function make() {
 window.addEventListener('DOMContentLoaded', function() {
     make();
 });
+
+// Convert a ImageData to a Canvas
+ function imageDataToCanvas(imageData, x, y) {
+    // console.log(raws, x, y)
+    const arr = Array.from(imageData)
+    const canvas = document.createElement('canvas'); // Consider using offScreenCanvas when it is ready?
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = x;
+    canvas.height = y;
+
+    const imgData = ctx.createImageData(x, y);
+    const { data } = imgData;
+
+    for (let i = 0; i < x * y * 4; i += 1 ) data[i] = arr[i];
+    ctx.putImageData(imgData, 0, 0);
+
+    return ctx.canvas;
+};
 
 function createCanvas(w, h){
     const canvasElement = document.createElement("canvas"); 
