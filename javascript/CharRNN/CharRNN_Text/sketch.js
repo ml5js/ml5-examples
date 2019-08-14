@@ -16,33 +16,45 @@ let lengthSlider;
 let tempSlider;
 let button;
 let runningInference = false;
+let status; 
+
+let lengthText;
+let temperatureText;
+
+let resultText;
+
 
 function setup() {
-  noCanvas();
 
   // Create the LSTM Generator passing it the model directory
   charRNN = ml5.charRNN('./models/woolf/', modelReady);
 
   // Grab the DOM elements
-  textInput = select('#textInput');
-  lengthSlider = select('#lenSlider');
-  tempSlider = select('#tempSlider');
-  button = select('#generate');
+  textInput = document.querySelector('#textInput');
+  lengthSlider = document.querySelector('#lenSlider');
+  tempSlider = document.querySelector('#tempSlider');
+  button = document.querySelector('#generate');
+  lengthText = document.querySelector('#length');
+  temperatureText = document.querySelector('#temperature');
+  status = document.querySelector('#status')
+  resultText = document.querySelector('#result')
 
   // DOM element events
-  button.mousePressed(generate);
-  lengthSlider.input(updateSliders);
-  tempSlider.input(updateSliders);
+  button.addEventListener('click', generate);
+  lengthSlider.addEventListener('change',updateSliders);
+  tempSlider.addEventListener('change',updateSliders);
 }
+
+setup();
 
 // Update the slider values
 function updateSliders() {
-  select('#length').html(lengthSlider.value());
-  select('#temperature').html(tempSlider.value());
+  lengthText.innerHTML = lengthSlider.value;
+  temperatureText.innerHTML = tempSlider.value;
 }
 
 function modelReady() {
-  select('#status').html('Model Loaded');
+  status.innerHTML = 'Model Loaded';
 }
 
 // Generate new text
@@ -53,10 +65,10 @@ function generate() {
     runningInference = true;
 
     // Update the status log
-    select('#status').html('Generating...');
+    status.innerHTML = 'Generating...';
 
     // Grab the original text
-    let original = textInput.value();
+    let original = textInput.value;
     // Make it to lower case
     let txt = original.toLowerCase();
 
@@ -67,8 +79,8 @@ function generate() {
       // TODO: What are the defaults?
       let data = {
         seed: txt,
-        temperature: tempSlider.value(),
-        length: lengthSlider.value()
+        temperature: tempSlider.value,
+        length: lengthSlider.value
       };
 
       // Generate text with the charRNN
@@ -77,8 +89,8 @@ function generate() {
       // When it's done
       function gotData(err, result) {
         // Update the status log
-        select('#status').html('Ready!');
-        select('#result').html(txt + result.sample);
+        status.innerHTML = 'Ready!';
+        resultText.innerHTML = txt + result.sample;
         runningInference = false;
       }
     }
