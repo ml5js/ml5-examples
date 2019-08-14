@@ -85,7 +85,6 @@ function gotResults(err, result) {
         }
 
     }
-
     faceapi.detect(gotResults)
 }
 

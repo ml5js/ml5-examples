@@ -16,56 +16,59 @@ let tempSlider;
 let startBtn;
 let resetBtn;
 let singleBtn;
+let status;
 let generating = false;
 
-let canvasHeight = 100;
+let resultText;
+let temperatureText;
 
-function setup() {
-  noCanvas();
+async function setup() {
   // Create the LSTM Generator passing it the model directory
   charRNN = ml5.charRNN('./models/woolf/', modelReady);
   // Grab the DOM elements
-  textInput = select('#textInput');
-  tempSlider = select('#tempSlider');
-  startBtn = select('#start');
-  resetBtn = select('#reset');
-  singleBtn = select('#single');
+  textInput = document.querySelector('#textInput');
+  tempSlider = document.querySelector('#tempSlider');
+  startBtn = document.querySelector('#start');
+  resetBtn = document.querySelector('#reset');
+  status = document.querySelector('#status');
+  singleBtn = document.querySelector('#single');
+  resultText = document.querySelector('#result')
+
+  temperatureText = document.querySelector('#temperature');
 
   // DOM element events
-  startBtn.mousePressed(generate);
-  resetBtn.mousePressed(resetModel);
-  singleBtn.mousePressed(predict);
-  tempSlider.input(updateSliders);
+  startBtn.addEventListener('click', generate);
+  resetBtn.addEventListener('click', resetModel);
+  singleBtn.addEventListener('click', predict);
+  tempSlider.addEventListener('change',updateSliders);
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, canvasHeight);
-}
+setup();
 
 // Update the slider values
 function updateSliders() {
-  select('#temperature').html(tempSlider.value());
+  temperatureText.innerHTML = tempSlider.value;
 }
 
 async function modelReady() {
-  select('#status').html('Model Loaded');
+  status.innerHTML = 'Model Loaded';
   resetModel();
 }
 
 function resetModel() {
   charRNN.reset();
-  const seed = select('#textInput').value();
+  const seed = textInput.value;
   charRNN.feed(seed);
-  select('#result').html(seed);
+  resultText.innerHTML = seed;
 }
 
 function generate() {
   if (generating) {
     generating = false;
-    startBtn.html('Start');
+    startBtn.innerHTML = 'Start';
   } else {
     generating = true;
-    startBtn.html('Pause');
+    startBtn.innerHTML = 'Pause';
     loopRNN();
   }
 }
@@ -77,9 +80,8 @@ async function loopRNN() {
 }
 
 async function predict() {
-  let par = select('#result');
-  let temperature = tempSlider.value();
-  let next = await charRNN.predict(temperature);
+  let temperature = Number(tempSlider.value);
+  let next = await charRNN.predict( Number(temperature) );
   await charRNN.feed(next.sample);
-  par.html(par.html() + next.sample);
+  resultText.innerHTML +=  next.sample;
 }
