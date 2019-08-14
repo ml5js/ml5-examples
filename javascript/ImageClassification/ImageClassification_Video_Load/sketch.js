@@ -11,40 +11,29 @@ This example uses p5 preload function to create the classifier
 
 const checkpoint = 'https://storage.googleapis.com/tm-pro-a6966.appspot.com/eyeo-test-yining/model.json';
 let classifier;
-let video;
-let resultsP;
 
-function preload() {
-  // Create a camera input
-  video = createCapture(VIDEO);
-  // Initialize the Image Classifier method with a pre-trained customized model and the video as the second argument
-  classifier = ml5.imageClassifier(checkpoint);
-}
 
-function setup() {
-  noCanvas();
-  // ml5 also supports using callback pattern to create the classifier
-  // classifier = ml5.imageClassifier(checkpoint, video, modelReady);
-  // If you would like to load the model from local files
-  // classifier = ml5.imageClassifier('model/image-model.json', video, modelReady);
-  resultsP = createP('Loading model and video...');
-  classifyVideo();
-}
+// Grab elements, create settings, etc.
+const video = document.getElementById('video');
+const resultsP = document.getElementById('resultP');
+// Create a webcam capture
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    video.srcObject = stream;
+    video.play();
+  })
 
-// Get a prediction for the current video frame
-function classifyVideo() {
-  classifier.classify(video, gotResult);
-}
+  // Initialize the Image Classifier method with MobileNet passing the video as the
+// second argument and the getClassification function as the third
+ml5.imageClassifier(checkpoint)
+.then(classifier => loop(classifier))
 
-// If you use callback pattern to create the classifier, you can use the following callback function
-// function modelReady() {
-//   console.log('Model Ready');
-//   classifyVideo();
-// }
-
-// When we get a result
-function gotResult(err, results) {
-  // The results are in an array ordered by confidence.
-  resultsP.html('Label: ' + results[0].label + ' ' + nf(results[0].confidence, 0, 2));
-  classifyVideo();
+const loop = (classifier) => {
+  classifier.classify(video)
+    .then(results => {
+      if(results.length > 0){
+        resultsP.innerHTML = 'Label: ' + results[0].label + ' ' + results[0].confidence.toFixed(4);
+        loop(classifier) // Call again to create a loop
+      }
+    })
 }
