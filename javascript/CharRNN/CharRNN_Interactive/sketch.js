@@ -11,30 +11,44 @@ For more models see: https://github.com/ml5js/ml5-data-and-training/tree/master/
 === */
 
 let charRNN;
+let status;
 let textInput;
 let tempSlider;
 let lengthSlider;
 let runningInference = false;
 
-function setup() {
-  noCanvas();
+let lengthText;
+let temperatureText;
 
+let originalText;
+let predictionText;
+
+function setup() {
   // Create the LSTM Generator passing it the model directory
   charRNN = ml5.charRNN('models/woolf/', modelReady);
 
   // Grab the DOM elements
-  textInput = select('#textInput');
-  lengthSlider = select('#lenSlider');
-  tempSlider = select('#tempSlider');
+  textInput = document.querySelector('#textInput');
+  lengthSlider = document.querySelector('#lenSlider');
+  tempSlider = document.querySelector('#tempSlider');
+  status = document.querySelector('#status')
+  lengthText = document.querySelector('#length');
+  temperatureText = document.querySelector('#temperature');
+  originalText = document.querySelector('#original');
+  predictionText = document.querySelector('#prediction');
+
+  console.log(textInput)
 
   // Run generate anytime something changes
-  textInput.input(generate);
-  lengthSlider.input(generate);
-  tempSlider.input(generate);
+  textInput.addEventListener('change', generate);
+  lengthSlider.addEventListener('change', generate);
+  tempSlider.addEventListener('change', generate);
 }
 
+setup();
+
 function modelReady() {
-  select('#status').html('Model Loaded');
+  status.innerHTML = 'Model Loaded';
 }
 
 function generate() {
@@ -44,14 +58,14 @@ function generate() {
    runningInference = true;
 
     // Update the status log
-    select('#status').html('Generating...');
+    status.innerHTML = 'Generating...';
 
     // Update the length and temperature span elements
-    select('#length').html(lengthSlider.value());
-    select('#temperature').html(tempSlider.value());
+    lengthText.innerHTML = lengthSlider.value;
+    temperatureText.innerHTML = tempSlider.value;
 
     // Grab the original text
-    let original = textInput.value();
+    let original = textInput.value;
     // Make it to lower case
     let txt = original.toLowerCase();
 
@@ -60,8 +74,8 @@ function generate() {
       // Here is the data for the LSTM generator
       let data = {
         seed: txt,
-        temperature: tempSlider.value(),
-        length: lengthSlider.value()
+        temperature: tempSlider.value,
+        length: lengthSlider.value
       };
 
       // Generate text with the charRNN
@@ -69,15 +83,15 @@ function generate() {
 
       // Update the DOM elements with typed and generated text
       function gotData(err, result) {
-        select('#status').html('Ready!');
-        select('#original').html(original);
-        select('#prediction').html(result.sample);
+        status.innerHTML = 'Ready!';
+        originalText.innerHTML = original;
+        predictionText.innerHTML = result.sample;
         runningInference = false;
       }
     } else {
       // Clear everything
-      select('#original').html('');
-      select('#prediction').html('');
+      originalText.innerHTML = '';
+        predictionText.innerHTML = '';
     }
   }
 }
