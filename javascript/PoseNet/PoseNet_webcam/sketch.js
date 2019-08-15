@@ -51,6 +51,7 @@ function gotPoses(results) {
 
 function modelReady() {
   console.log("model ready")
+  poseNet.multiPose(video)
 }
 
 // A function to draw ellipses over the detected keypoints

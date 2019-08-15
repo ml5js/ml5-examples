@@ -39,7 +39,6 @@ setup();
 
 function modelReady() {
   console.log('model loaded!')
-  poseNet.singlePose(video)
 }
 
 
