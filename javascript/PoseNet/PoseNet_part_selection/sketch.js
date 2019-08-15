@@ -39,6 +39,7 @@ setup();
 
 function modelReady() {
   console.log('model loaded!')
+  poseNet.singlePose(video)
 }
 
 
@@ -56,26 +57,26 @@ function draw() {
 
     // Create a pink ellipse for the nose
     let nose = pose['nose'];
+    ctx.fillStyle = 'rgb(213, 0, 143)';
     ctx.beginPath();
-    // ctx.fillStyle = 'rgb(213, 0, 143)'
-    // ellipse(nose.x, nose.y, 20, 20);
-    ctx.arc(nose.x, nose.y, 20, 0, 2 * Math.PI);
+    ctx.arc(nose.x, nose.y, 10, 0, 2 * Math.PI);
+    ctx.fill();
     ctx.stroke(); 
 
     // Create a yellow ellipse for the right eye
     let rightEye = pose['rightEye'];
+    ctx.fillStyle = 'rgb(255, 215, 0)'
     ctx.beginPath();
-    // ctx.fillStyle = 'rgb(255, 215, 0)'
-    // ellipse(nose.x, nose.y, 20, 20);
-    ctx.arc(rightEye.x, rightEye.y, 20, 0, 2 * Math.PI);
+    ctx.arc(rightEye.x, rightEye.y, 10, 0, 2 * Math.PI);
+    ctx.fill();
     ctx.stroke(); 
 
     // Create a yellow ellipse for the right eye
     let leftEye = pose['leftEye'];
+    ctx.fillStyle = 'rgb(255, 215, 0)'
     ctx.beginPath();
-    // ctx.fillStyle = 'rgb(255, 215, 0)'
-    // ellipse(nose.x, nose.y, 20, 20);
-    ctx.arc(leftEye.x, leftEye.y, 20, 0, 2 * Math.PI);
+    ctx.arc(leftEye.x, leftEye.y, 10, 0, 2 * Math.PI);
+    ctx.fill();
     ctx.stroke(); 
   }
 }
