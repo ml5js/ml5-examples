@@ -11,35 +11,33 @@ Word2Vec example with p5.js. Using a pre-trained model on common English words.
 let word2Vec;
 
 function modelLoaded() {
-  select('#status').html('Model Loaded');
+  document.querySelector('#status').innerHTML = 'Model Loaded';
 }
 
 function setup() {
-  noLoop();
-  noCanvas();
-
+  
   // Create the Word2Vec model with pre-trained file of 10,000 words
   word2Vec = ml5.word2vec('data/wordvecs10000.json', modelLoaded);
 
   // Select all the DOM elements
-  let nearWordInput = select('#nearword');
-  let nearButton = select('#submit');
-  let nearResults = select('#results');
+  let nearWordInput = document.querySelector('#nearword');
+  let nearButton = document.querySelector('#submit');
+  let nearResults = document.querySelector('#results');
 
-  let betweenWordInput1 = select("#between1");
-  let betweenWordInput2 = select("#between2");
-  let betweenButton = select("#submit2");
-  let betweenResults = select("#results2");
+  let betweenWordInput1 = document.querySelector("#between1");
+  let betweenWordInput2 = document.querySelector("#between2");
+  let betweenButton = document.querySelector("#submit2");
+  let betweenResults = document.querySelector("#results2");
 
-  let addInput1 = select("#isto1");
-  let addInput2 = select("#isto2");
-  let addInput3 = select("#isto3");
-  let addButton = select("#submit3");
-  let addResults = select("#results3");
+  let addInput1 = document.querySelector("#isto1");
+  let addInput2 = document.querySelector("#isto2");
+  let addInput3 = document.querySelector("#isto3");
+  let addButton = document.querySelector("#submit3");
+  let addResults = document.querySelector("#results3");
 
   // Finding the nearest words
-  nearButton.mousePressed(() => {
-    let word = nearWordInput.value();
+  nearButton.addEventListener('click', () => {
+    let word = nearWordInput.value;
     word2Vec.nearest(word, (err, result) => {
       let output = '';
       if (result) {
@@ -49,26 +47,28 @@ function setup() {
       } else {
         output = 'No word vector found';
       }
-      nearResults.html(output);
+      nearResults.innerHTML  = output;
     });
   });
 
   // Finding the average of two words
-  betweenButton.mousePressed(() => {
-    let word1 = betweenWordInput1.value();
-    let word2 = betweenWordInput2.value();
+  betweenButton.addEventListener('click',() => {
+    let word1 = betweenWordInput1.value;
+    let word2 = betweenWordInput2.value;
     word2Vec.average([word1, word2], 4, (err, average) => {
-      betweenResults.html(average[0].word);
+      betweenResults.innerHTML = average[0].word;
     })
   });
 
   // Adding two words together to "solve" an analogy
-  addButton.mousePressed(() => {
-    let is1 = addInput1.value();
-    let to1 = addInput2.value();
-    let is2 = addInput3.value();
+  addButton.addEventListener('click',() => {
+    let is1 = addInput1.value;
+    let to1 = addInput2.value;
+    let is2 = addInput3.value;
     word2Vec.subtract([to1, is1])
       .then(difference => word2Vec.add([is2, difference[0].word]))
-      .then(result => addResults.html(result[0].word))
+      .then(result => { addResults.innerHTML = result[0].word })
   });
 }
+
+setup();
