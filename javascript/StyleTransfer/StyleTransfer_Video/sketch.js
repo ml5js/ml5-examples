@@ -13,45 +13,54 @@ let style;
 let video;
 let isTransferring = false;
 let resultImg;
+let canvas;
+let toggleButton;
+let width = 320;
+let height = 240;
 
-function setup() {
-  createCanvas(320, 240).parent('canvasContainer');
+async function setup() {
+  canvas = createCanvas(width, height);
 
-  video = createCapture(VIDEO);
-  video.hide();
+  video = await getVideo();
+  
 
   // The results image from the style transfer
-  resultImg = createImg('');
-  resultImg.hide();
+  resultImg = document.querySelector('#myImage');
 
   // The button to start and stop the transfer process
-  select('#startStop').mousePressed(startStop);
+  toggleButton = document.querySelector('#startStop');
+  toggleButton.addEventListener('click', startStop)
 
   // Create a new Style Transfer method with a defined style.
   // We give the video as the second argument
-  style = ml5.styleTransfer('models/udnie', video, modelLoaded);
+  style = await ml5.styleTransfer('models/udnie', video, modelLoaded);
+
+  requestAnimationFrame(draw);
 }
 
+setup();
+
 function draw(){
+  requestAnimationFrame(draw);
   // Switch between showing the raw camera or the style
   if (isTransferring) {
-    image(resultImg, 0, 0, 320, 240);
+    canvas.drawImage(resultImg, 0, 0, 320, 240);
   } else {
-    image(video, 0, 0, 320, 240);
+    canvas.drawImage(video, 0, 0, 320, 240);
   }
 }
 
 // A function to call when the model has been loaded.
 function modelLoaded() {
-  select('#status').html('Model Loaded');
+  document.querySelector('#status').innerHTML = 'Model Loaded';
 }
 
 // Start and stop the transfer process
 function startStop() {
   if (isTransferring) {
-    select('#startStop').html('Start');
+    toggleButton.innerHTML = 'Start';
   } else {
-    select('#startStop').html('Stop');
+    toggleButton.innerHTML = 'Stop';
     // Make a transfer using the video
     style.transfer(gotResult); 
   }
@@ -60,8 +69,38 @@ function startStop() {
 
 // When we get the results, update the result image src
 function gotResult(err, img) {
-  resultImg.attribute('src', img.src);
+  resultImg.setAttribute('src', img.src);
   if (isTransferring) {
     style.transfer(gotResult); 
   }
+}
+
+// Helper Functions
+async function getVideo() {
+  // Grab elements, create settings, etc.
+  const videoElement = document.createElement('video');
+  videoElement.setAttribute("style", "display: inline-block;");
+  videoElement.width = width;
+  videoElement.height = height;
+  document.body.appendChild(videoElement);
+
+  // Create a webcam capture
+  const capture = await navigator.mediaDevices.getUserMedia({
+      video: true
+  })
+  videoElement.srcObject = capture;
+  videoElement.play();
+
+  return videoElement
+}
+
+
+// Helper Functions
+function createCanvas(w, h) {
+  const canvasElement = document.createElement("canvas");
+  canvasElement.width = w;
+  canvasElement.height = h;
+  document.body.appendChild(canvasElement);
+  const canvas = canvasElement.getContext("2d");
+  return canvas;
 }
