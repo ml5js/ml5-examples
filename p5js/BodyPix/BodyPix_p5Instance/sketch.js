@@ -2,7 +2,6 @@ const s = (sketch) => {
     let bodypix;
     let video;
     let segmentation;
-    let img;
 
     const options = {
         outputStride: 8, // 8, 16, or 32, default is 16
@@ -10,6 +9,9 @@ const s = (sketch) => {
     }
 
     sketch.setup = function () {
+        // Set the p5Instance so that ml5 knows which instance to use
+        ml5.p5Utils.setP5Instance(sketch);
+        
         sketch.createCanvas(320, 240);
 
         // load up your video
@@ -17,6 +19,7 @@ const s = (sketch) => {
         video.size(sketch.width, sketch.height);
         // video.hide(); // Hide the video element, and just show the canvas
         bodypix = ml5.bodyPix(video, modelReady)
+        
     }
 
     function modelReady() {
