@@ -13,6 +13,10 @@ let crepe;
 const voiceLow = 100;
 const voiceHigh = 500;
 let audioStream;
+let stream;
+
+let width = 410;
+let height = 320;
 
 // Circle variables
 let circleSize = 42;
@@ -23,22 +27,40 @@ let goalNote = 0;
 let currentNote = '';
 let currentText = '';
 let textCoordinates;
+let canvas;
 
-function setup() {
-  createCanvas(410, 320);
+let request;
+// taken from p5.Sound
+function freqToMidi(f) {
+  var mathlog2 = Math.log(f / 440) / Math.log(2);
+  var m = Math.round(12 * mathlog2) + 69;
+  return m;
+};
+
+function map(n, start1, stop1, start2, stop2) {
+  var newval = (n - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+  return newval;
+};
+
+async function setup() {
+  canvas = createCanvas(width, height);
   textCoordinates = [width / 2, 30];
   gameReset();
-  audioContext = getAudioContext();
-  mic = new p5.AudioIn();
-  mic.start(startPitch);
-}
 
-function startPitch() {
-  pitch = ml5.pitchDetection('./model/', audioContext, mic.stream, modelLoaded);
+  audioContext = new AudioContext();
+  stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  startPitch(stream, audioContext);
+
+  requestAnimationFrame(draw)
+}
+setup()
+
+function startPitch(stream, audioContext) {
+  pitch = ml5.pitchDetection('./model/', audioContext, stream, modelLoaded);
 }
 
 function modelLoaded() {
-  select('#status').html('Model Loaded');
+  document.querySelector('#status').textContent = 'Model Loaded';
   getPitch();
 }
 
@@ -47,48 +69,83 @@ function getPitch() {
     if (frequency) {
       let midiNum = freqToMidi(frequency);
       currentNote = scale[midiNum % 12];
-      select('#currentNote').html(currentNote);
+      document.querySelector('#currentNote').textContent = currentNote;
     }
     getPitch();
   })
 }
 
 function draw() {
-  background(240);
-  // Goal Circle is Blue
-  noStroke();
-  fill(0, 0, 255);
+  request = requestAnimationFrame(draw)
+  clearCanvas();
+  
   goalHeight = map(goalNote, 0, scale.length - 1, 0, height);
-  ellipse(width / 2, goalHeight, circleSize, circleSize);
-  fill(255);
-  text(scale[goalNote], (width / 2) - 5, goalHeight + (circleSize / 6));
+  // Goal Circle is Blue
+  canvas.beginPath();
+  canvas.arc(width / 2, goalHeight, circleSize, 0, 2 * Math.PI);
+  canvas.strokeStyle = '#003300';
+  canvas.stroke();
+
+  canvas.fillText(scale[goalNote], (width / 2) - 5, goalHeight + (circleSize / 6));
+  
   // Current Pitch Circle is Pink
   if (currentNote) {
+    document.querySelector('#hit').textContent = '';
     currentHeight = map(scale.indexOf(currentNote), 0, scale.length - 1, 0, height);
-    fill(255, 0, 255);
-    ellipse(width / 2, currentHeight, circleSize, circleSize);
-    fill(255);
-    text(scale[scale.indexOf(currentNote)], (width / 2) - 5, currentHeight + (circleSize / 6));
+    
+    canvas.beginPath();
+    canvas.arc(width / 2, currentHeight, circleSize, 0, 2 * Math.PI);
+    canvas.strokeStyle = 'rgb(255, 0, 255)';
+    canvas.stroke();
+
+
+    canvas.fillText(scale[scale.indexOf(currentNote)], (width / 2) - 5, currentHeight + (circleSize / 6));
     // If target is hit
     if (dist(width / 2, currentHeight, width / 2, goalHeight) < circleSize / 2) {
       hit(goalHeight, scale[goalNote]);
     }
   }
+
+}
+
+function dist(x1, y1, x2, y2){
+  return Math.sqrt(  Math.exp( (x2 - x1), 2) + Math.exp( (y2 - y1), 2) );
 }
 
 function gameReset() {
-  goalNote = round(random(0, scale.length - 1));
-  select('#target').html(scale[goalNote])
+  goalNote = Math.round(Math.random()* (scale.length - 1 ));
+  document.querySelector('#target').textContent = scale[goalNote];
 }
 
 function hit(goalHeight, note) {
-  noLoop();
-  background(240);
-  fill(138, 43, 226);
-  ellipse(width / 2, goalHeight, circleSize, circleSize);
-  fill(255);
-  text(note, width / 2, goalHeight + (circleSize / 6));
-  fill(50);
-  select('#hit').html('Nice!')
+  cancelAnimationFrame(request);
+  canvas.beginPath();
+  canvas.arc(width / 2, goalHeight, circleSize, 0, 2 * Math.PI);
+  canvas.strokeStyle = 'rgb(138, 43, 226)';
+  canvas.stroke();
+
+
+  canvas.fillText(note, width / 2, goalHeight + (circleSize / 6));
+
+  document.querySelector('#hit').textContent = 'Nice!';
+  
   gameReset();
+
+  requestAnimationFrame(draw);
+}
+
+// Clear the canvas
+function clearCanvas() {
+  canvas.fillStyle = '#ebedef'
+  canvas.fillRect(0, 0, width, height);
+}
+function createCanvas(w, h) {
+  const canvasElement = document.createElement("canvas");
+  canvasElement.width = w;
+  canvasElement.height = h;
+  document.body.appendChild(canvasElement);
+  const canvas = canvasElement.getContext("2d");
+  canvas.fillStyle = '#ebedef'
+  canvas.fillRect(0, 0, w, h);
+  return canvas;
 }
