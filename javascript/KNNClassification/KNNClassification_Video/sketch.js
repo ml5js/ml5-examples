@@ -12,20 +12,28 @@ let video;
 const knnClassifier = ml5.KNNClassifier();
 let featureExtractor;
 
-function setup() {
+async function setup() {
   // Create a featureExtractor that can extract the already learned features from MobileNet
-  featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
-  noCanvas();
+  featureExtractor =  ml5.featureExtractor('MobileNet', modelReady);
   // Create a video element
-  video = createCapture(VIDEO);
-  // Append it to the videoContainer DOM element
-  video.parent('videoContainer');
+  // Grab elements, create settings, etc.
+  video = document.getElementById('video');
+
+  // Create a webcam capture
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: true
+  });
+  video.srcObject = stream;
+  video.play();
   // Create the UI buttons
   createButtons();
 }
 
-function modelReady(){
-  select('#status').html('FeatureExtractor(mobileNet model) Loaded')
+setup();
+
+function modelReady() {
+  console.log(featureExtractor)
+  document.querySelector('#status').textContent = 'FeatureExtractor(mobileNet model) Loaded';
 }
 
 // Add the current frame from the video to the classifier
@@ -69,56 +77,56 @@ function classify() {
 function createButtons() {
   // When the A button is pressed, add the current frame
   // from the video with a label of "rock" to the classifier
-  buttonA = select('#addClassRock');
-  buttonA.mousePressed(function() {
+  buttonA = document.querySelector('#addClassRock');
+  buttonA.addEventListener('click', function () {
     addExample('Rock');
   });
 
   // When the B button is pressed, add the current frame
   // from the video with a label of "paper" to the classifier
-  buttonB = select('#addClassPaper');
-  buttonB.mousePressed(function() {
+  buttonB = document.querySelector('#addClassPaper');
+  buttonB.addEventListener('click', function () {
     addExample('Paper');
   });
 
   // When the C button is pressed, add the current frame
   // from the video with a label of "scissor" to the classifier
-  buttonC = select('#addClassScissor');
-  buttonC.mousePressed(function() {
+  buttonC = document.querySelector('#addClassScissor');
+  buttonC.addEventListener('click', function () {
     addExample('Scissor');
   });
 
   // Reset buttons
-  resetBtnA = select('#resetRock');
-  resetBtnA.mousePressed(function() {
+  resetBtnA = document.querySelector('#resetRock');
+  resetBtnA.addEventListener('click', function () {
     clearLabel('Rock');
   });
-	
-  resetBtnB = select('#resetPaper');
-  resetBtnB.mousePressed(function() {
+
+  resetBtnB = document.querySelector('#resetPaper');
+  resetBtnB.addEventListener('click', function () {
     clearLabel('Paper');
   });
-	
-  resetBtnC = select('#resetScissor');
-  resetBtnC.mousePressed(function() {
+
+  resetBtnC = document.querySelector('#resetScissor');
+  resetBtnC.addEventListener('click', function () {
     clearLabel('Scissor');
   });
 
   // Predict button
-  buttonPredict = select('#buttonPredict');
-  buttonPredict.mousePressed(classify);
+  buttonPredict = document.querySelector('#buttonPredict');
+  buttonPredict.addEventListener('click', classify);
 
   // Clear all classes button
-  buttonClearAll = select('#clearAll');
-  buttonClearAll.mousePressed(clearAllLabels);
+  buttonClearAll = document.querySelector('#clearAll');
+  buttonClearAll.addEventListener('click', clearAllLabels);
 
   // Load saved classifier dataset
-  buttonSetData = select('#load');
-  buttonSetData.mousePressed(loadMyKNN);
+  buttonSetData = document.querySelector('#load');
+  buttonSetData.addEventListener('click', loadMyKNN);
 
   // Get classifier dataset
-  buttonGetData = select('#save');
-  buttonGetData.mousePressed(saveMyKNN);
+  buttonGetData = document.querySelector('#save');
+  buttonGetData.addEventListener('click', saveMyKNN);
 }
 
 // Show the results
@@ -132,13 +140,13 @@ function gotResults(err, result) {
     const confidences = result.confidencesByLabel;
     // result.label is the label that has the highest confidence
     if (result.label) {
-      select('#result').html(result.label);
-      select('#confidence').html(`${confidences[result.label] * 100} %`);
+      document.querySelector('#result').textContent = result.label;
+      document.querySelector('#confidence').textContent = `${confidences[result.label] * 100} %`;
     }
 
-    select('#confidenceRock').html(`${confidences['Rock'] ? confidences['Rock'] * 100 : 0} %`);
-    select('#confidencePaper').html(`${confidences['Paper'] ? confidences['Paper'] * 100 : 0} %`);
-    select('#confidenceScissor').html(`${confidences['Scissor'] ? confidences['Scissor'] * 100 : 0} %`);
+    document.querySelector('#confidenceRock').textContent = `${confidences['Rock'] ? confidences['Rock'] * 100 : 0} %`;
+    document.querySelector('#confidencePaper').textContent = `${confidences['Paper'] ? confidences['Paper'] * 100 : 0} %`;
+    document.querySelector('#confidenceScissor').textContent = `${confidences['Scissor'] ? confidences['Scissor'] * 100 : 0} %`;
   }
 
   classify();
@@ -148,9 +156,9 @@ function gotResults(err, result) {
 function updateCounts() {
   const counts = knnClassifier.getCountByLabel();
 
-  select('#exampleRock').html(counts['Rock'] || 0);
-  select('#examplePaper').html(counts['Paper'] || 0);
-  select('#exampleScissor').html(counts['Scissor'] || 0);
+  document.querySelector('#exampleRock').textContent = counts['Rock'] || 0;
+  document.querySelector('#examplePaper').textContent = counts['Paper'] || 0;
+  document.querySelector('#exampleScissor').textContent = counts['Scissor'] || 0;
 }
 
 // Clear the examples in one label
