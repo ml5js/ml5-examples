@@ -15,11 +15,10 @@ For more models see: https://github.com/ml5js/ml5-data-and-training/tree/master/
 const SIZE = 256;
 let inputImg, inputCanvas, outputContainer, statusMsg, transferBtn, clearBtn;
 
-function setup() {
+async function setup() {
   // Create a canvas
   inputCanvas = createCanvas(SIZE, SIZE);
-  inputCanvas.class('border-box').parent('canvasContainer');
-
+  
   // Display initial input image
   inputImg = loadImage('images/input.png', drawImage);
 
@@ -37,10 +36,10 @@ function setup() {
     clearCanvas();
   });
 
-  // Set stroke to black
-  stroke(0);
-  pixelDensity(1);
+
 }
+
+setup();
 
 // Draw on the canvas when mouse is pressed
 function draw() {
@@ -91,4 +90,16 @@ function transfer(pix2pix) {
       // Show 'Done!' message
       statusMsg.html('Done!');
     });
+}
+
+
+function createCanvas(w, h) {
+  const canvasElement = document.createElement("canvas");
+  canvasElement.width = w;
+  canvasElement.height = h;
+  document.body.appendChild(canvasElement);
+  const canvas = canvasElement.getContext("2d");
+  canvas.fillStyle = '#ebedef'
+  canvas.fillRect(0, 0, width, height);
+  return canvas;
 }
