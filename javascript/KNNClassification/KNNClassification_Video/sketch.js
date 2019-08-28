@@ -32,7 +32,7 @@ async function setup() {
 setup();
 
 function modelReady() {
-  console.log(featureExtractor)
+  // console.log(featureExtractor)
   document.querySelector('#status').textContent = 'FeatureExtractor(mobileNet model) Loaded';
 }
 
