@@ -17,19 +17,24 @@ const options = { probabilityThreshold: 0.7 };
 let label;
 let confidence;
 
-function preload() {
-  // Load SpeechCommands18w sound classifier model
-  classifier = ml5.soundClassifier('SpeechCommands18w', options);
-}
 
-function setup() {
-  noCanvas();
+
+async function setup() {
+  classifier = await ml5.soundClassifier('SpeechCommands18w', options);
   // Create 'label' and 'confidence' div to hold results
-  label = createDiv('Label: ...');
-  confidence = createDiv('Confidence: ...');
+  
+  label = document.createElement('DIV');
+  label.textContent = 'label ...';
+  confidence = document.createElement('DIV');
+  confidence.textContent = 'Confidence ...';
+
+  document.body.appendChild(label);
+  document.body.appendChild(confidence);
   // Classify the sound from microphone in real time
   classifier.classify(gotResult);
 }
+setup();
+
 
 // A function to run when we get any errors and the results
 function gotResult(error, results) {
@@ -40,6 +45,6 @@ function gotResult(error, results) {
   // The results are in an array ordered by confidence.
   console.log(results);
   // Show the first label and confidence
-  label.html('Label: ' + results[0].label);
-  confidence.html('Confidence: ' + nf(results[0].confidence, 0, 2)); // Round the confidence to 0.01
+  label.textContent = 'Label: ' + results[0].label;
+  confidence.textContent = 'Confidence: ' + results[0].confidence.toFixed(4); 
 }
