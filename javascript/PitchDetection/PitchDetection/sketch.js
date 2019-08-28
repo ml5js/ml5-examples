@@ -1,3 +1,5 @@
+
+
 // Copyright (c) 2018 ml5
 //
 // This software is released under the MIT License.
@@ -12,29 +14,30 @@ let audioContext;
 let mic;
 let pitch;
 
-function setup() {
-  noCanvas();
-  audioContext = getAudioContext();
-  mic = new p5.AudioIn();
-  mic.start(startPitch);
+async function setup() {
+  audioContext = new AudioContext();
+  stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  startPitch(stream, audioContext);
 }
+setup();
 
-function startPitch() {
-  pitch = ml5.pitchDetection('./model/', audioContext , mic.stream, modelLoaded);
+function startPitch(stream, audioContext) {
+  pitch = ml5.pitchDetection('./model/', audioContext , stream, modelLoaded);
 }
 
 function modelLoaded() {
-  select('#status').html('Model Loaded');
+  document.querySelector('#status').textContent='Model Loaded';
   getPitch();
 }
 
 function getPitch() {
   pitch.getPitch(function(err, frequency) {
     if (frequency) {
-      select('#result').html(frequency);
+      document.querySelector('#result').textContent = frequency;
     } else {
-      select('#result').html('No pitch detected');
+      document.querySelector('#result').textContent = 'No pitch detected';
     }
     getPitch();
   })
 }
+
