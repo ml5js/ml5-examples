@@ -48,7 +48,10 @@ async function setup() {
   gameReset();
 
   audioContext = new AudioContext();
-  stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  stream = await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: false
+  });
   startPitch(stream, audioContext);
 
   requestAnimationFrame(draw)
@@ -65,7 +68,7 @@ function modelLoaded() {
 }
 
 function getPitch() {
-  pitch.getPitch(function(err, frequency) {
+  pitch.getPitch(function (err, frequency) {
     if (frequency) {
       let midiNum = freqToMidi(frequency);
       currentNote = scale[midiNum % 12];
@@ -78,7 +81,7 @@ function getPitch() {
 function draw() {
   request = requestAnimationFrame(draw)
   clearCanvas();
-  
+
   goalHeight = map(goalNote, 0, scale.length - 1, 0, height);
   // Goal Circle is Blue
   canvas.beginPath();
@@ -87,12 +90,12 @@ function draw() {
   canvas.stroke();
 
   canvas.fillText(scale[goalNote], (width / 2) - 5, goalHeight + (circleSize / 6));
-  
+
   // Current Pitch Circle is Pink
   if (currentNote) {
     document.querySelector('#hit').textContent = '';
     currentHeight = map(scale.indexOf(currentNote), 0, scale.length - 1, 0, height);
-    
+
     canvas.beginPath();
     canvas.arc(width / 2, currentHeight, circleSize, 0, 2 * Math.PI);
     canvas.strokeStyle = 'rgb(255, 0, 255)';
@@ -108,12 +111,12 @@ function draw() {
 
 }
 
-function dist(x1, y1, x2, y2){
-  return Math.sqrt(  Math.exp( (x2 - x1), 2) + Math.exp( (y2 - y1), 2) );
+function dist(x1, y1, x2, y2) {
+  return Math.sqrt(Math.exp((x2 - x1), 2) + Math.exp((y2 - y1), 2));
 }
 
 function gameReset() {
-  goalNote = Math.round(Math.random()* (scale.length - 1 ));
+  goalNote = Math.round(Math.random() * (scale.length - 1));
   document.querySelector('#target').textContent = scale[goalNote];
 }
 
@@ -128,7 +131,7 @@ function hit(goalHeight, note) {
   canvas.fillText(note, width / 2, goalHeight + (circleSize / 6));
 
   document.querySelector('#hit').textContent = 'Nice!';
-  
+
   gameReset();
 
   requestAnimationFrame(draw);
@@ -139,6 +142,7 @@ function clearCanvas() {
   canvas.fillStyle = '#ebedef'
   canvas.fillRect(0, 0, width, height);
 }
+
 function createCanvas(w, h) {
   const canvasElement = document.createElement("canvas");
   canvasElement.width = w;
