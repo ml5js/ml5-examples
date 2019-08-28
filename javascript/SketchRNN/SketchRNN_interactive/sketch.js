@@ -13,40 +13,51 @@ let model;
 // Start by drawing
 let previous_pen = 'down';
 // Current location of drawing
-let x, y;
+let pX = null;
+let pY = null;
+let x = null;
+let y = null;
+let mouseX = null;
+let mouseY = null;
 // The current "stroke" of the drawing
 let strokePath;
 let seedStrokes = [];
-
+let button;
 // Storing a reference to the canvas
 let canvas;
 
-function setup() {
-  canvas = createCanvas(640, 480);
-  // Hide the canvas until the model is ready
-  canvas.hide();
+let width = 640;
+let height = 480;
 
-  background(220);
+let mouseDown = false;
+
+async function setup() {
+  canvas = createCanvas(640, 480);
   // Load the model
   // See a list of all supported models: https://github.com/ml5js/ml5-library/blob/master/src/SketchRNN/models.js
-  model = ml5.sketchRNN('cat', modelReady);
+  model = await ml5.sketchRNN('cat', modelReady);
 
   // Button to start drawing
-  let button = select('#clear');
-  button.mousePressed(clearDrawing);
+  button = document.querySelector('#clearBtn');
+  button.addEventListener('click', clearDrawing);
+
+  document.querySelector('canvas').addEventListener('mousemove', onMouseUpdate);
+  document.querySelector('canvas').addEventListener('mousedown', onMouseDown);
+  document.querySelector('canvas').addEventListener('mouseup', onMouseUp);
+
+  requestAnimationFrame(draw);
 }
+setup();
 
 // The model is ready
 function modelReady() {
-  canvas.show();
   // sketchRNN will begin when the mouse is released
-  canvas.mouseReleased(startSketchRNN);
-  select('#status').html('model ready - sketchRNN will begin after you draw with the mouse');
+  document.querySelector('canvas').addEventListener('mouseup', startSketchRNN);
 }
 
 // Reset the drawing
 function clearDrawing() {
-  background(220);
+  clearCanvas();
   // clear seed strokes
   seedStrokes = [];
   // Reset model
@@ -62,17 +73,32 @@ function startSketchRNN() {
   model.generate(seedStrokes, gotStroke);
 }
 
+
+
 function draw() {
-  // If the mosue is pressed capture the user strokes 
-  if (mouseIsPressed) {
-    // Draw line
-    stroke(0);
-    strokeWeight(3.0);
-    line(pmouseX, pmouseY, mouseX, mouseY);
+  requestAnimationFrame(draw);
+  if (pX == null || pY == null) {
+    pX = mouseX
+    pY = mouseY
+  }  
+
+  if (mouseDown) {
+    // Set stroke weight to 10
+    canvas.lineWidth = 10;
+    // Set stroke color to black
+    canvas.strokeStyle = "#000000";
+    // If mouse is pressed, draw line between previous and current mouse positions
+    canvas.beginPath();
+    canvas.lineCap = "round";
+    canvas.moveTo(mouseX, mouseY);
+    canvas.lineTo(pX, pY);
+    canvas.stroke();
+
+
     // Create a "stroke path" with dx, dy, and pen
     let userStroke = {
-      dx: mouseX - pmouseX,
-      dy: mouseY - pmouseY,
+      dx: mouseX - pX,
+      dy: mouseY - pY,
       pen: 'down'
     };
     // Add to the array
@@ -83,9 +109,11 @@ function draw() {
   if (strokePath) {
     // If the pen is down, draw a line
     if (previous_pen == 'down') {
-      stroke(0);
-      strokeWeight(3.0);
-      line(x, y, x + strokePath.dx, y + strokePath.dy);
+      canvas.beginPath();
+      canvas.lineCap = "round";
+      canvas.moveTo(x, y);
+      canvas.lineTo(x + strokePath.dx, y + strokePath.dy);
+      canvas.stroke();
     }
     // Move the pen
     x += strokePath.dx;
@@ -99,9 +127,51 @@ function draw() {
       model.generate(gotStroke);
     }
   }
+  
+  // set the new pX and pY
+  pX = mouseX;
+  pY = mouseY;
 }
 
 // A new stroke path
 function gotStroke(err, s) {
   strokePath = s;
+}
+
+function createCanvas(w, h) {
+  const canvasElement = document.createElement("canvas");
+  canvasElement.width = w;
+  canvasElement.height = h;
+  document.body.appendChild(canvasElement);
+  const canvas = canvasElement.getContext("2d");
+  canvas.fillStyle = '#ebedef'
+  canvas.fillRect(0, 0, width, height);
+  return canvas;
+}
+
+function clearCanvas() {
+  canvas.fillStyle = '#ebedef'
+  canvas.fillRect(0, 0, width, height);
+}
+
+function onMouseDown(e) {
+  mouseDown = true;
+}
+
+function onMouseUp(e) {
+  mouseDown = false;
+}
+
+function onMouseUpdate(e) {
+  var pos = getMousePos(document.querySelector('canvas'), e);
+  mouseX = pos.x;
+  mouseY = pos.y;
+}
+
+function getMousePos(canvas, e) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top
+  };
 }
