@@ -16,24 +16,30 @@ let previous_pen = 'down';
 let x, y;
 // The current "stroke" of the drawing
 let strokePath;
+let button;
 
-// For when SketchRNN is fixed
-function preload() {
+let canvas;
+
+let width = 640;
+let height = 480;
+
+
+async function setup() {
+  canvas = createCanvas(640, 480);
+
   // See a list of all supported models: https://github.com/ml5js/ml5-library/blob/master/src/SketchRNN/models.js
-  model = ml5.sketchRNN('cat');
-}
-
-function setup() {
-  createCanvas(640, 480);
-  background(220);
+  model = await ml5.sketchRNN('cat');
 
   // Button to reset drawing
-  let button = createButton('clear');
-  button.mousePressed(startDrawing);
+  button = document.querySelector('#clearBtn');
+  button.addEventListener('click', startDrawing);
   
   // run sketchRNN
   startDrawing();
+
+  requestAnimationFrame(draw);
 }
+setup();
 
 function modelReady() {
   console.log('model loaded');
@@ -42,23 +48,30 @@ function modelReady() {
 
 // Reset the drawing
 function startDrawing() {
-  background(220);
+  clearCanvas();
   // Start in the middle
-  x = width / 2;
-  y = height / 2;
+  x = width/2;
+  y = height/2;
   model.reset();
   // Generate the first stroke path
   model.generate(gotStroke);
 }
 
 function draw() {
+  requestAnimationFrame(draw);
   // If something new to draw
   if (strokePath) {
     // If the pen is down, draw a line
     if (previous_pen == 'down') {
-      stroke(0);
-      strokeWeight(3.0);
-      line(x, y, x + strokePath.dx, y + strokePath.dy);
+      canvas.strokeStyle = "#000000";
+      canvas.lineWidth = 3;
+
+      canvas.beginPath();
+      canvas.lineCap = "round";
+      canvas.moveTo(x, y);
+      canvas.lineTo(x + strokePath.dx, y + strokePath.dy);
+      canvas.stroke();
+
     }
     // Move the pen
     x += strokePath.dx;
@@ -77,4 +90,22 @@ function draw() {
 // A new stroke path
 function gotStroke(err, s) {
   strokePath = s;
+}
+
+
+function clearCanvas() {
+  canvas.fillStyle = '#ebedef'
+  canvas.fillRect(0, 0, width, height);
+}
+
+
+function createCanvas(w, h) {
+  const canvasElement = document.createElement("canvas");
+  canvasElement.width = w;
+  canvasElement.height = h;
+  document.body.appendChild(canvasElement);
+  const canvas = canvasElement.getContext("2d");
+  canvas.fillStyle = '#ebedef'
+  canvas.fillRect(0, 0, width, height);
+  return canvas;
 }
