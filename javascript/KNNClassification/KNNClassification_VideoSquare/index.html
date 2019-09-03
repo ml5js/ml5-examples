@@ -2,18 +2,17 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>KNN Classification on Webcam Images with mobileNet. Built with p5.js</title>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
+  <title>KNN Classification on Webcam Images with mobileNet</title>
   <script src="http://localhost:8080/ml5.js" type="text/javascript"></script>
   
   <style></style>
 </head>
 
 <body>
-  <h2>KNN Classification on Webcam Images that moves a square on the canvas with mobileNet. Built with p5.js</h2>
-  <div id="canvasContainer"></div>
+  <h2>KNN Classification on Webcam Images that moves a square on the canvas with mobileNet</h2>
+  <div id="canvasContainer">
+    <canvas width="640" height="480" id="myCanvas"></canvas>
+  </div>
   <p id="status">Loading Model...</p><br />
   <p>
     <span class="emoji"> ⬆️ </span><button id="addClass1">Add an Example to Class Up</button>
