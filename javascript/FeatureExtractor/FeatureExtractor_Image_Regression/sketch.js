@@ -14,37 +14,51 @@ let video;
 let loss;
 let slider;
 let samples = 0;
-let positionX = 140;
+let ctx;
+let width = 640;
+let height = 480;
+let positionX = width/2;
 
-function setup() {
-  createCanvas(340, 280);
+function map(n, start1, stop1, start2, stop2) {
+  var newval = (n - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+  return newval;
+};
+
+async function setup() {
+  canvas = document.querySelector('#myCanvas');
+  ctx = canvas.getContext('2d');
   // Create a video element
-  video = createCapture(VIDEO);
-  // Append it to the videoContainer DOM element
-  video.hide();
+  video = await getVideo();
   // Extract the features from MobileNet
   featureExtractor = ml5.featureExtractor('MobileNet', modelReady);
   // Create a new regressor using those features and give the video we want to use
   regressor = featureExtractor.regression(video, videoReady);
   // Create the UI buttons
   setupButtons();
+  requestAnimationFrame(draw);
 }
+setup();
 
 function draw() {
-  image(video, 0, 0, 340, 280);
-  noStroke();
-  fill(255, 0, 0);
-  rect(positionX, 120, 50, 50);
+  requestAnimationFrame(draw);
+  
+  ctx.drawImage(video, 0, 0, width, height);
+
+
+  ctx.beginPath();
+  ctx.rect(positionX, 120, 100, 100);
+  ctx.fillStyle = "red";
+  ctx.fill();
 }
 
 // A function to be called when the model has been loaded
 function modelReady() {
-  select('#modelStatus').html('Model loaded!');
+  document.querySelector('#modelStatus').textContent = 'Model loaded!';
 }
 
 // A function to be called when the video has loaded
 function videoReady() {
-  select('#videoStatus').html('Video ready!');
+  document.querySelector('#videoStatus').textContent ='Video ready!';
 }
 
 // Classify the current frame.
@@ -54,28 +68,28 @@ function predict() {
 
 // A util function to create UI buttons
 function setupButtons() {
-  slider = select('#slider');
+  slider = document.querySelector('#slider');
   // When the Dog button is pressed, add the current frame
   // from the video with a label of "dog" to the classifier
-  select('#addSample').mousePressed(function() {
-    regressor.addImage(slider.value());
-    select('#amountOfSamples').html(samples++);
+  document.querySelector('#addSample').addEventListener('click',function() {
+    regressor.addImage(slider.value);
+    document.querySelector('#amountOfSamples').textContent = samples++;
   });
 
   // Train Button
-  select('#train').mousePressed(function() {
+  document.querySelector('#train').addEventListener('click', function() {
     regressor.train(function(lossValue) {
       if (lossValue) {
         loss = lossValue;
-        select('#loss').html('Loss: ' + loss);
+        document.querySelector('#loss').textContent = 'Loss: ' + loss;
       } else {
-        select('#loss').html('Done Training! Final Loss: ' + loss);
+        document.querySelector('#loss').textContent = 'Done Training! Final Loss: ' + loss;
       }
     });
   });
 
   // Predict Button
-  select('#buttonPredict').mousePressed(predict);
+  document.querySelector('#buttonPredict').addEventListener('click',predict);
 }
 
 // Show the results
@@ -85,7 +99,25 @@ function gotResults(err, result) {
   }
   if (result && result.value) {
     positionX = map(result.value, 0, 1, 0, width);
-    slider.value(result.value);
+    slider.value = result.value;
     predict();
   }
+}
+
+
+// Helper Functions
+async function getVideo(){
+  // Grab elements, create settings, etc.
+  const videoElement = document.createElement('video');
+  videoElement.setAttribute("style", "display: none;"); 
+  videoElement.width = width;
+  videoElement.height = height;
+  document.body.appendChild(videoElement);
+
+  // Create a webcam capture
+  const capture = await navigator.mediaDevices.getUserMedia({ video: true })
+  videoElement.srcObject = capture;
+  videoElement.play();
+
+  return videoElement
 }
