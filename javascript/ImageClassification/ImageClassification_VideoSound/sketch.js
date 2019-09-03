@@ -11,22 +11,49 @@ This example uses a callback pattern to create the classifier
 
 let classifier;
 let video;
-// Create a new p5.speech object
-// You can also control the Language, Rate, Pitch and Volumn of the voice
-// Read more at http://ability.nyu.edu/p5.js-speech/
-const myVoice = new p5.Speech();
+let width= 640;
+let height=480;
 
-function setup() {
-  noCanvas();
+// adapted from https://github.com/IDMNYU/p5.js-speech/blob/master/lib/p5.speech.js
+class MySpeech {
+  constructor(){
+    this.interrupt = false;
+    // make an utterance to use with this synthesizer:
+    this.utterance = new SpeechSynthesisUtterance();
+    // make a speech synthizer (this will load voices):
+    this.synth = window.speechSynthesis;
+
+    this.onEnd;
+  }
+
+  speak(_phrase){
+    if(this.interrupt) this.synth.cancel();
+    this.utterance.text = _phrase;
+
+    this.synth.speak(this.utterance);
+  }
+  
+  ended(_cb) {
+    this.onEnd = _cb;
+  }
+
+}
+
+
+async function setup() {
   // Create a camera input
-  video = createCapture(VIDEO);
+  video = await getVideo();
+
+  myVoice = new MySpeech();
   // Initialize the Image Classifier method with MobileNet and the video as the second argument
   classifier = ml5.imageClassifier('MobileNet', video, modelReady);
 }
 
+setup();
+
 function modelReady() {
   // Change the status of the model once its ready
-  select('#status').html('Model Loaded');
+  document.querySelector('#status').textContent='Model Loaded';
   // Call the classifyVideo function to start classifying the video
   classifyVideo();
 }
@@ -39,8 +66,26 @@ function classifyVideo() {
 // When we get a result
 function gotResult(err, results) {
   // The results are in an array ordered by confidence.
-  select('#result').html(results[0].label);
-  select('#probability').html(nf(results[0].confidence, 0, 2));
+  document.querySelector('#result').textContent = results[0].label;
+  document.querySelector('#probability').textContent = results[0].confidence.toFixed(4);
   myVoice.speak(`I see ${results[0].label}`);
   classifyVideo();
+}
+
+
+// Helper Functions
+async function getVideo(){
+  // Grab elements, create settings, etc.
+  const videoElement = document.createElement('video');
+  // videoElement.setAttribute("style", "display: none;"); 
+  videoElement.width = width;
+  videoElement.height = height;
+  document.body.appendChild(videoElement);
+
+  // Create a webcam capture
+  const capture = await navigator.mediaDevices.getUserMedia({ video: true })
+  videoElement.srcObject = capture;
+  videoElement.play();
+
+  return videoElement
 }
