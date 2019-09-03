@@ -15,23 +15,53 @@ let currentWord;
 let currentIndex = 0;
 let isPlaying = false;
 const words = ['banana', 'watch', 'shoe', 'book', 'cellphone', 'keyboard', 'shirt', 'pants', 'cup'];
-// Create a new p5.speech object
-// You can also control the Language, Rate, Pitch and Volumn of the voice
-// Read more at http://ability.nyu.edu/p5.js-speech/
-const myVoice = new p5.Speech();
+let width = 640;
+let height= 480;
+let result;
 
-function setup() {
-  noCanvas();
+// adapted from https://github.com/IDMNYU/p5.js-speech/blob/master/lib/p5.speech.js
+class MySpeech {
+  constructor(){
+    this.interrupt = false;
+    // make an utterance to use with this synthesizer:
+    this.utterance = new SpeechSynthesisUtterance();
+    // make a speech synthizer (this will load voices):
+    this.synth = window.speechSynthesis;
+
+    this.onEnd;
+  }
+
+  speak(_phrase){
+    if(this.interrupt) this.synth.cancel();
+    this.utterance.text = _phrase;
+
+    this.synth.speak(this.utterance);
+  }
+  
+  ended(_cb) {
+    this.onEnd = _cb;
+  }
+
+}
+
+let myVoice;
+
+async function setup() {
   // Create a camera input
-  video = createCapture(VIDEO);
+  video = await getVideo();
   // Initialize the Image Classifier method with MobileNet and the video as the second argument
   classifier = ml5.imageClassifier('MobileNet', video, modelReady);
 
-  select('#start').mousePressed(function() {
+  // Create a new p5.speech object
+  // You can also control the Language, Rate, Pitch and Volumn of the voice
+  // Read more at http://ability.nyu.edu/p5.js-speech/
+  myVoice = new MySpeech();
+
+  document.querySelector('#start').addEventListener('click',function() {
     playNextWord();
   });
 
-  select('#next').mousePressed(function() {
+  document.querySelector('#next').addEventListener('click',function() {
     currentIndex++;
     if (currentIndex >= words.length) {
       currentIndex = 0;
@@ -41,20 +71,23 @@ function setup() {
 
   // speechEnded function will be called when an utterance is finished
   // Read more at p5.speech's onEnd property: http://ability.nyu.edu/p5.js-speech/
-  myVoice.onEnd = speechEnded;
+    myVoice.onEnd = speechEnded;
+
 }
+
+setup();
 
 function playNextWord() {
   isPlaying = true;
   currentWord = words[currentIndex];
-  select('#instruction').html(`Go find ${currentWord}!`);
+  document.querySelector('#instruction').textContent = `Go find ${currentWord}!`;
   // Call the classifyVideo function to start classifying the video
   classifyVideo();
 }
 
 function modelReady() {
   // Change the status of the model once its ready
-  select('#status').html('Model Loaded');
+  document.querySelector('#status').textContent = 'Model Loaded';
 }
 
 // Get a prediction for the current video frame
@@ -66,7 +99,7 @@ function classifyVideo() {
 function gotResult(err, results) {
   // The results are in an array ordered by confidence.
   // Get the first result string
-  const result = results[0].label;
+  result = results[0].label;
   // Split the first result string by coma and get the first word
   const oneWordRes = result.split(',')[0];
   // Get the top 3 results as strings in an array
@@ -78,14 +111,33 @@ function gotResult(err, results) {
   if (ifFound) {
     // If top 3 results includes the current word
     isPlaying = false;
-    select('#message').html(`You found ${currentWord}!`);
+    document.querySelector('#message').textContent =`You found ${currentWord}!`;
     myVoice.speak(`You found ${currentWord}!`);
   } else {
-    select('#message').html(`I see ${oneWordRes}`);
+    document.querySelector('#message').textContent =`I see ${oneWordRes}`;
     myVoice.speak(`I see ${oneWordRes}`);
   }
+  classifyVideo()
 }
 
 function speechEnded() {
   if (isPlaying) classifyVideo();
+}
+
+
+// Helper Functions
+async function getVideo(){
+  // Grab elements, create settings, etc.
+  const videoElement = document.createElement('video');
+  // videoElement.setAttribute("style", "display: none;"); 
+  videoElement.width = width;
+  videoElement.height = height;
+  document.body.appendChild(videoElement);
+
+  // Create a webcam capture
+  const capture = await navigator.mediaDevices.getUserMedia({ video: true })
+  videoElement.srcObject = capture;
+  videoElement.play();
+
+  return videoElement
 }
