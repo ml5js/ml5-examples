@@ -12,12 +12,17 @@ let video;
 const knnClassifier = ml5.KNNClassifier();
 let poseNet;
 let poses = [];
+let canvas;
+let width = 640;
+let height = 480;
+let ctx;
 
-function setup() {
-  const canvas = createCanvas(640, 480);
-  canvas.parent('videoContainer');
-  video = createCapture(VIDEO);
-  video.size(width, height);
+async function setup() {
+  canvas = document.querySelector("#myCanvas");
+  ctx = canvas.getContext('2d');
+  
+  video = await getVideo();
+  
 
   // Create the UI buttons
   createButtons();
@@ -29,12 +34,16 @@ function setup() {
   poseNet.on('pose', function(results) {
     poses = results;
   });
-  // Hide the video element, and just show the canvas
-  video.hide();
+  
+  requestAnimationFrame(draw)
 }
 
+setup();
+
 function draw() {
-  image(video, 0, 0, width, height);
+  requestAnimationFrame(draw)
+
+  ctx.drawImage(video, 0, 0, width, height)
 
   // We can call both functions to draw all keypoints and the skeletons
   drawKeypoints();
@@ -42,7 +51,7 @@ function draw() {
 }
 
 function modelReady(){
-  select('#status').html('model Loaded')
+  document.querySelector('#status').textContent = 'model Loaded'
 }
 
 // Add the current frame from the video to the classifier
@@ -75,36 +84,36 @@ function classify() {
 function createButtons() {
   // When the A button is pressed, add the current frame
   // from the video with a label of "A" to the classifier
-  buttonA = select('#addClassA');
-  buttonA.mousePressed(function() {
+  buttonA = document.querySelector('#addClassA');
+  buttonA.addEventListener('click', function() {
     addExample('A');
   });
 
   // When the B button is pressed, add the current frame
   // from the video with a label of "B" to the classifier
-  buttonB = select('#addClassB');
-  buttonB.mousePressed(function() {
+  buttonB = document.querySelector('#addClassB');
+  buttonB.addEventListener('click',function() {
     addExample('B');
   });
 
   // Reset buttons
-  resetBtnA = select('#resetA');
-  resetBtnA.mousePressed(function() {
+  resetBtnA = document.querySelector('#resetA');
+  resetBtnA.addEventListener('click',function() {
     clearLabel('A');
   });
 	
-  resetBtnB = select('#resetB');
-  resetBtnB.mousePressed(function() {
+  resetBtnB = document.querySelector('#resetB');
+  resetBtnB.addEventListener('click',function() {
     clearLabel('B');
   });
 
   // Predict button
-  buttonPredict = select('#buttonPredict');
-  buttonPredict.mousePressed(classify);
+  buttonPredict = document.querySelector('#buttonPredict');
+  buttonPredict.addEventListener('click',classify);
 
   // Clear all classes button
-  buttonClearAll = select('#clearAll');
-  buttonClearAll.mousePressed(clearAllLabels);
+  buttonClearAll = document.querySelector('#clearAll');
+  buttonClearAll.addEventListener('click',clearAllLabels);
 }
 
 // Show the results
@@ -118,12 +127,12 @@ function gotResults(err, result) {
     const confidences = result.confidencesByLabel;
     // result.label is the label that has the highest confidence
     if (result.label) {
-      select('#result').html(result.label);
-      select('#confidence').html(`${confidences[result.label] * 100} %`);
+      document.querySelector('#result').textContent = result.label;
+      document.querySelector('#confidence').textContent = `${confidences[result.label] * 100} %`;
     }
 
-    select('#confidenceA').html(`${confidences['A'] ? confidences['A'] * 100 : 0} %`);
-    select('#confidenceB').html(`${confidences['B'] ? confidences['B'] * 100 : 0} %`);
+    document.querySelector('#confidenceA').textContent = `${confidences['A'] ? confidences['A'] * 100 : 0} %`;
+    document.querySelector('#confidenceB').textContent = `${confidences['B'] ? confidences['B'] * 100 : 0} %`;
   }
 
   classify();
@@ -133,8 +142,8 @@ function gotResults(err, result) {
 function updateCounts() {
   const counts = knnClassifier.getCountByLabel();
 
-  select('#exampleA').html(counts['A'] || 0);
-  select('#exampleB').html(counts['B'] || 0);
+  document.querySelector('#exampleA').textContent = counts['A'] || 0;
+  document.querySelector('#exampleB').textContent = counts['B'] || 0;
 }
 
 // Clear the examples in one label
@@ -160,9 +169,11 @@ function drawKeypoints()  {
       let keypoint = pose.keypoints[j];
       // Only draw an ellipse is the pose probability is bigger than 0.2
       if (keypoint.score > 0.2) {
-        fill(255, 0, 0);
-        noStroke();
-        ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
+        ctx.fillStyle = 'rgb(213, 0, 143)';
+        ctx.beginPath();
+        ctx.arc(keypoint.position.x, keypoint.position.y, 10, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke(); 
       }
     }
   }
@@ -177,8 +188,29 @@ function drawSkeleton() {
     for (let j = 0; j < skeleton.length; j++) {
       let partA = skeleton[j][0];
       let partB = skeleton[j][1];
-      stroke(255, 0, 0);
-      line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+      ctx.beginPath();
+        ctx.moveTo(partA.position.x, partA.position.y);
+        ctx.lineTo(partB.position.x, partB.position.y);
+        ctx.strokeStyle = '#FF0000'
+        ctx.stroke();
     }
   }
+}
+
+
+// Helper Functions
+async function getVideo(){
+  // Grab elements, create settings, etc.
+  const videoElement = document.createElement('video');
+  videoElement.setAttribute("style", "display: none;"); 
+  videoElement.width = width;
+  videoElement.height = height;
+  document.body.appendChild(videoElement);
+
+  // Create a webcam capture
+  const capture = await navigator.mediaDevices.getUserMedia({ video: true })
+  videoElement.srcObject = capture;
+  videoElement.play();
+
+  return videoElement
 }
