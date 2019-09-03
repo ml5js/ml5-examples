@@ -21,19 +21,46 @@ const keyRatio = 0.58;
 const scale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 let currentNote = '';
 
-function setup() {
-  createCanvas(640, 520);
-  audioContext = getAudioContext();
-  mic = new p5.AudioIn();
-  mic.start(startPitch);
+let canvas, ctx;
+
+let width = 640;
+let height = 480;
+
+// taken from p5.Sound
+function freqToMidi(f) {
+  var mathlog2 = Math.log(f / 440) / Math.log(2);
+  var m = Math.round(12 * mathlog2) + 69;
+  return m;
+};
+
+function map(n, start1, stop1, start2, stop2) {
+  var newval = (n - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+  return newval;
+};
+
+async function setup() {
+  canvas = document.querySelector('#myCanvas');
+  ctx = canvas.getContext('2d');
+
+  audioContext = new AudioContext();
+  stream = await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: false
+  });
+  startPitch(stream, audioContext);
+
+  requestAnimationFrame(draw);
+}
+setup()
+
+
+function startPitch(stream, audioContext) {
+  pitch = ml5.pitchDetection('./model/', audioContext, stream, modelLoaded);
 }
 
-function startPitch() {
-  pitch = ml5.pitchDetection('./model/', audioContext , mic.stream, modelLoaded);
-}
 
 function modelLoaded() {
-  select('#status').html('Model Loaded');
+  document.querySelector('#status').textContent = 'Model Loaded';
   getPitch();
 }
 
@@ -48,23 +75,38 @@ function getPitch() {
 }
 
 function draw() {
+  requestAnimationFrame(draw);
   drawKeyboard();
 }
 
 function drawKeyboard() {
   let whiteKeyCounter = 0;
-  background(255);
-  strokeWeight(2);
-  stroke(50);
+
+  ctx.beginPath();
+  ctx.rect(0,0, width, height);
+  ctx.fillStyle = "white";
+  ctx.fill();
+  
+  // background(255);
+  // strokeWeight(2);
+  // stroke(50);
+
+
   // White keys
   for (let i = 0; i < scale.length; i++) {
     if (scale[i].indexOf('#') == -1) {
+      
+
+      ctx.beginPath();
+      ctx.rect(cornerCoords[0] + (whiteKeyCounter * rectWidth), cornerCoords[1], rectWidth, rectHeight);
       if (scale[i] == currentNote) {
-        fill(200);
+        ctx.fillStyle = "rgb(50, 50, 50)";
+        
       } else {
-        fill(255);
+        ctx.fillStyle = "rgb(250, 250, 250)";
       }
-      rect(cornerCoords[0] + (whiteKeyCounter * rectWidth), cornerCoords[1], rectWidth, rectHeight);
+      ctx.fill();
+      
       whiteKeyCounter++;
     }
   }
@@ -73,12 +115,15 @@ function drawKeyboard() {
   // Black keys
   for (let i = 0; i < scale.length; i++) {
     if (scale[i].indexOf('#') > -1) {
+      
+      ctx.beginPath();
+      ctx.rect(cornerCoords[0] + (whiteKeyCounter * rectWidth) - (rectWidth / 3), cornerCoords[1], rectWidth * keyRatio, rectHeight * keyRatio);
       if (scale[i] == currentNote) {
-        fill(100);
+        ctx.fillStyle = "rgb(100, 100, 100)";
       } else {
-        fill(0);
+        ctx.fillStyle = "rgb(0, 0, 0)";
       }
-      rect(cornerCoords[0] + (whiteKeyCounter * rectWidth) - (rectWidth / 3), cornerCoords[1], rectWidth * keyRatio, rectHeight * keyRatio);
+      ctx.fill();
     } else {
       whiteKeyCounter++;
     }
