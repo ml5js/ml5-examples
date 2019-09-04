@@ -14,9 +14,11 @@ let segmentationImage;
 let width = 320;
 let height = 240;
 let request;
+let canvas, ctx;
 
 async function setup() {
-  canvas = document.querySelector('#canvas');
+  canvas = document.querySelector('#myCanvas');
+  ctx = canvas.getContext('2d')
   uNet = await ml5.uNet('face');
 
   // load up your video
@@ -54,7 +56,6 @@ function gotResult(error, result) {
 
 function draw() {
   request = requestAnimationFrame(draw);
-  ctx = canvas.getContext('2d');
 
   if(segmentationImage.hasOwnProperty('raw')){
     // UNET image is 128x128

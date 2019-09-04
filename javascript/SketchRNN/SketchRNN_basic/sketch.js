@@ -18,7 +18,7 @@ let x, y;
 let strokePath;
 let button;
 
-let canvas;
+let canvas, ctx;
 
 let width = 640;
 let height = 480;
@@ -26,6 +26,9 @@ let height = 480;
 
 async function setup() {
   canvas = createCanvas(640, 480);
+  ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ebedef'
+  ctx.fillRect(0, 0, width, height);
 
   // See a list of all supported models: https://github.com/ml5js/ml5-library/blob/master/src/SketchRNN/models.js
   model = await ml5.sketchRNN('cat');
@@ -63,14 +66,14 @@ function draw() {
   if (strokePath) {
     // If the pen is down, draw a line
     if (previous_pen == 'down') {
-      canvas.strokeStyle = "#000000";
-      canvas.lineWidth = 3;
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = 3;
 
-      canvas.beginPath();
-      canvas.lineCap = "round";
-      canvas.moveTo(x, y);
-      canvas.lineTo(x + strokePath.dx, y + strokePath.dy);
-      canvas.stroke();
+      ctx.beginPath();
+      ctx.lineCap = "round";
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + strokePath.dx, y + strokePath.dy);
+      ctx.stroke();
 
     }
     // Move the pen
@@ -94,18 +97,15 @@ function gotStroke(err, s) {
 
 
 function clearCanvas() {
-  canvas.fillStyle = '#ebedef'
-  canvas.fillRect(0, 0, width, height);
+  ctx.fillStyle = '#ebedef'
+  ctx.fillRect(0, 0, width, height);
 }
 
 
 function createCanvas(w, h) {
-  const canvasElement = document.createElement("canvas");
-  canvasElement.width = w;
-  canvasElement.height = h;
-  document.body.appendChild(canvasElement);
-  const canvas = canvasElement.getContext("2d");
-  canvas.fillStyle = '#ebedef'
-  canvas.fillRect(0, 0, width, height);
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  document.body.appendChild(canvas);
   return canvas;
 }

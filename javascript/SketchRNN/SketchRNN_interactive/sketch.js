@@ -24,7 +24,7 @@ let strokePath;
 let seedStrokes = [];
 let button;
 // Storing a reference to the canvas
-let canvas;
+let canvas, ctx;
 
 let width = 640;
 let height = 480;
@@ -33,6 +33,9 @@ let mouseDown = false;
 
 async function setup() {
   canvas = createCanvas(640, 480);
+  ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ebedef'
+  ctx.fillRect(0, 0, width, height);
   // Load the model
   // See a list of all supported models: https://github.com/ml5js/ml5-library/blob/master/src/SketchRNN/models.js
   model = await ml5.sketchRNN('cat', modelReady);
@@ -41,9 +44,9 @@ async function setup() {
   button = document.querySelector('#clearBtn');
   button.addEventListener('click', clearDrawing);
 
-  document.querySelector('canvas').addEventListener('mousemove', onMouseUpdate);
-  document.querySelector('canvas').addEventListener('mousedown', onMouseDown);
-  document.querySelector('canvas').addEventListener('mouseup', onMouseUp);
+  canvas.addEventListener('mousemove', onMouseUpdate);
+  canvas.addEventListener('mousedown', onMouseDown);
+  canvas.addEventListener('mouseup', onMouseUp);
 
   requestAnimationFrame(draw);
 }
@@ -52,7 +55,7 @@ setup();
 // The model is ready
 function modelReady() {
   // sketchRNN will begin when the mouse is released
-  document.querySelector('canvas').addEventListener('mouseup', startSketchRNN);
+  canvas.addEventListener('mouseup', startSketchRNN);
 }
 
 // Reset the drawing
@@ -84,15 +87,15 @@ function draw() {
 
   if (mouseDown) {
     // Set stroke weight to 10
-    canvas.lineWidth = 10;
+    ctx.lineWidth = 10;
     // Set stroke color to black
-    canvas.strokeStyle = "#000000";
+    ctx.strokeStyle = "#000000";
     // If mouse is pressed, draw line between previous and current mouse positions
-    canvas.beginPath();
-    canvas.lineCap = "round";
-    canvas.moveTo(mouseX, mouseY);
-    canvas.lineTo(pX, pY);
-    canvas.stroke();
+    ctx.beginPath();
+    ctx.lineCap = "round";
+    ctx.moveTo(mouseX, mouseY);
+    ctx.lineTo(pX, pY);
+    ctx.stroke();
 
 
     // Create a "stroke path" with dx, dy, and pen
@@ -109,11 +112,11 @@ function draw() {
   if (strokePath) {
     // If the pen is down, draw a line
     if (previous_pen == 'down') {
-      canvas.beginPath();
-      canvas.lineCap = "round";
-      canvas.moveTo(x, y);
-      canvas.lineTo(x + strokePath.dx, y + strokePath.dy);
-      canvas.stroke();
+      ctx.beginPath();
+      ctx.lineCap = "round";
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + strokePath.dx, y + strokePath.dy);
+      ctx.stroke();
     }
     // Move the pen
     x += strokePath.dx;
@@ -139,19 +142,16 @@ function gotStroke(err, s) {
 }
 
 function createCanvas(w, h) {
-  const canvasElement = document.createElement("canvas");
-  canvasElement.width = w;
-  canvasElement.height = h;
-  document.body.appendChild(canvasElement);
-  const canvas = canvasElement.getContext("2d");
-  canvas.fillStyle = '#ebedef'
-  canvas.fillRect(0, 0, width, height);
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  document.body.appendChild(canvas);
   return canvas;
 }
 
 function clearCanvas() {
-  canvas.fillStyle = '#ebedef'
-  canvas.fillRect(0, 0, width, height);
+  ctx.fillStyle = '#ebedef'
+  ctx.fillRect(0, 0, width, height);
 }
 
 function onMouseDown(e) {

@@ -13,13 +13,14 @@ let style;
 let video;
 let isTransferring = false;
 let resultImg;
-let canvas;
+let canvas, ctx;
 let toggleButton;
 let width = 320;
 let height = 240;
 
 async function setup() {
   canvas = createCanvas(width, height);
+  ctx = canvas.getContext('2d');
 
   video = await getVideo();
   
@@ -44,9 +45,9 @@ function draw(){
   requestAnimationFrame(draw);
   // Switch between showing the raw camera or the style
   if (isTransferring) {
-    canvas.drawImage(resultImg, 0, 0, 320, 240);
+    ctx.drawImage(resultImg, 0, 0, 320, 240);
   } else {
-    canvas.drawImage(video, 0, 0, 320, 240);
+    ctx.drawImage(video, 0, 0, 320, 240);
   }
 }
 
@@ -97,10 +98,9 @@ async function getVideo() {
 
 // Helper Functions
 function createCanvas(w, h) {
-  const canvasElement = document.createElement("canvas");
-  canvasElement.width = w;
-  canvasElement.height = h;
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
   document.body.appendChild(canvasElement);
-  const canvas = canvasElement.getContext("2d");
   return canvas;
 }
