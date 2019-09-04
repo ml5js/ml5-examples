@@ -5,7 +5,7 @@
 
 /* ===
 ml5 Example
-Multiple Image classification using MobileNet and p5.js
+Multiple Image classification using MobileNet
 === */
 
 // Initialize the Image Classifier method using MobileNet
@@ -15,59 +15,90 @@ let img;
 let currentIndex = 0;
 let allImages = [];
 let predictions = [];
+let results;
 
-function preload() {
-  classifier = ml5.imageClassifier('MobileNet');
-  data = loadJSON('assets/data.json');
+async function setup() {
+  classifier = await ml5.imageClassifier('MobileNet');
+  data = await fetch('assets/data.json');
+  data = await data.json();
+
+  canvas = document.querySelector('#myCanvas');
+  ctx = canvas.getContext('2d');
+
+  ctx.beginPath();
+  ctx.fillStyle = "#eee";
+  ctx.rect(0, 0, canvas.width, canvas.height);
+  ctx.fill();
+
+  // append images to array
+  allImages = appendImages(data.images);
+
+
+  await Promise.all(
+    allImages.map(async (imgPath, idx) => await loadImage(imgPath, idx))
+  );
+
+}
+setup();
+
+
+
+function appendImages(arr) {
+  let output = [];
+  for (i = 0; i < arr.length; i++) {
+    imgPath = arr[i];
+    output.push('images/dataset/' + imgPath);
+  }
+  return output;
 }
 
-function setup() {
-  createCanvas(400, 400);
-  background(0);
-  appendImages();
-  loadImage(allImages[currentIndex], imageReady);
-}
+async function loadImage(imgPath, idx) {
+  let imgEl = new Image();
+  imgEl.src = imgPath;
 
-function appendImages() {
-  for (i = 0; i < data.images.length; i++) {
-    imgPath = data.images[i];
-    allImages.push('images/dataset/' + imgPath);
+  imgEl.onload = async function () {
+    ctx.drawImage(imgEl, 0, 0, imgEl.width, imgEl.height);
+    
+    await classifier.classify(imgEl, (err, res) => {
+      if (err) {
+        console.log(err, idx);
+        return;
+      }
+      let information = {
+        name: imgPath,
+        result: res
+      };
+      
+      predictions.push(information)
+
+      if(predictions.length === allImages.length ){
+        console.log(predictions)
+        savePredictions()
+      } else{
+        console.log(information)
+      }
+
+    })
   }
 }
 
-// When the image has been loaded,
-// get a prediction for that image
-function imageReady(img) {
-  image(img, 0, 0);
-  classifier.classify(img, gotResult);
+
+
+
+function download(content, fileName, contentType) {
+  var a = document.createElement("a");
+  var file = new Blob([content], {
+    type: contentType
+  });
+  a.href = URL.createObjectURL(file);
+  a.download = fileName;
+  a.click();
 }
+
 
 function savePredictions() {
   predictionsJSON = {
     predictions: predictions
   };
-  saveJSON(predictionsJSON, 'predictions.json');
-}
-
-// When we get the results
-function gotResult(err, results) {
-  // If there is an error, show in the console
-  if (err) {
-    console.error(err);
-  }
-
-  information = {
-    name: allImages[currentIndex],
-    result: results
-  };
-
-  predictions.push(information);
-  createDiv('Label: ' + results[0].label);
-  createDiv('Confidence: ' + nf(results[0].confidence, 0, 2));
-  currentIndex++;
-  if (currentIndex <= allImages.length - 1) {
-    loadImage(allImages[currentIndex], imageReady);
-  } else {
-    savePredictions();
-  }
+  download(JSON.stringify(predictionsJSON), 'json.txt', 'text/plain');
 }
