@@ -12,8 +12,11 @@ This example uses a callback pattern to create the classifier
 // Initialize the Image Classifier method with DoodleNet.
 let classifier;
 
+
+let request;
+
 // A variable to hold the canvas image we want to classify
-let canvas;
+let canvas, ctx;
 
 // Two variable to hold the label and confidence of the result
 let label;
@@ -31,13 +34,15 @@ let mouseDown = false;
 
 setup();
 async function setup() {
-  canvas = await createCanvas(width, height);
-  classifier = await ml5.imageClassifier('DoodleNet', onModelReady);
+  canvas = document.querySelector("#myCanvas");
+  ctx = canvas.getContext('2d');
+
+  classifier =  await ml5.imageClassifier('DoodleNet', onModelReady);
   // Create a canvas with 280 x 280 px
 
-  document.querySelector('canvas').addEventListener('mousemove', onMouseUpdate);
-  document.querySelector('canvas').addEventListener('mousedown', onMouseDown);
-  document.querySelector('canvas').addEventListener('mouseup', onMouseUp);
+  canvas.addEventListener('mousemove', onMouseUpdate);
+  canvas.addEventListener('mousedown', onMouseDown);
+  canvas.addEventListener('mouseup', onMouseUp);
 
   // Create a clear canvas button
   button = document.querySelector("#clearBtn");
@@ -56,17 +61,19 @@ function onModelReady() {
 
 
 function clearCanvas() {
-  canvas.fillStyle = '#ebedef'
-  canvas.fillRect(0, 0, width, height);
+  ctx.fillStyle = '#ebedef'
+  ctx.fillRect(0, 0, width, height);
 }
 
 
-let request;
-
 function draw() {
   request = requestAnimationFrame(draw)
-
+    
   if (pX == null || pY == null) {
+    ctx.beginPath();
+    ctx.fillStyle = '#ebedef'
+    ctx.fillRect(0, 0, width, height);
+
     pX = x
     pY = y
   }
@@ -75,16 +82,16 @@ function draw() {
 
 
   // Set stroke weight to 10
-  canvas.lineWidth = 10;
+  ctx.lineWidth = 10;
   // Set stroke color to black
-  canvas.strokeStyle = "#000000";
+  ctx.strokeStyle = "#000000";
   // If mouse is pressed, draw line between previous and current mouse positions
   if (mouseDown === true) {
-    canvas.beginPath();
-    canvas.lineCap = "round";
-    canvas.moveTo(x, y);
-    canvas.lineTo(pX, pY);
-    canvas.stroke();
+    ctx.beginPath();
+    ctx.lineCap = "round";
+    ctx.moveTo(x, y);
+    ctx.lineTo(pX, pY);
+    ctx.stroke();
   }
 
   pX = x;
@@ -103,7 +110,7 @@ function onMouseUp(e) {
 }
 
 function onMouseUpdate(e) {
-  var pos = getMousePos(document.querySelector('canvas'), e);
+  var pos = getMousePos(canvas, e);
   x = pos.x;
   y = pos.y;
 
@@ -132,18 +139,7 @@ function gotResult(error, results) {
   // The results are in an array ordered by confidence.
   console.log(results);
   // Show the first label and confidence
-  label.innerHTML = 'Label: ' + results[0].label;
-  confidence.innerHTML = 'Confidence: ' + results[0].confidence.toFixed(4)
+  label.textContent = 'Label: ' + results[0].label;
+  confidence.textContent = 'Confidence: ' + results[0].confidence.toFixed(4)
 }
 
-
-function createCanvas(w, h) {
-  const canvasElement = document.createElement("canvas");
-  canvasElement.width = w;
-  canvasElement.height = h;
-  document.body.appendChild(canvasElement);
-  const canvas = canvasElement.getContext("2d");
-  canvas.fillStyle = '#ebedef'
-  canvas.fillRect(0, 0, width, height);
-  return canvas;
-}

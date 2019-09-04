@@ -21,17 +21,17 @@ let confidence;
 let canvas;
 let ctx;
 
+let width = 280;
+let height = 280;
+
 async function setup() {
   // Create a 'label' and 'confidence' div to hold results
   label = document.querySelector('#label');
   confidence = document.querySelector('#confidence');
   // Create a camera input
-  video = document.querySelector('#myvideo');
-  const stream = await navigator.mediaDevices.getUserMedia({ video: true  })
-  video.height = 280;
-  video.width = 280;
-  video.srcObject = stream;
-  video.play();
+  video = document.querySelector('#myCanvas');
+  
+  video = await getVideo();
 
   classifier = await ml5.imageClassifier('DoodleNet', video);
 
@@ -59,4 +59,22 @@ function gotResult(error, results) {
   confidence.innerHTML =  results[0].confidence.toFixed(4); // Round the confidence to 0.01
   // Call classifyVideo again
   classifyVideo();
+}
+
+
+// Helper Functions
+async function getVideo(){
+  // Grab elements, create settings, etc.
+  const videoElement = document.createElement('video');
+  // videoElement.setAttribute("style", "display: none;"); 
+  videoElement.width = width;
+  videoElement.height = height;
+  document.body.appendChild(videoElement);
+
+  // Create a webcam capture
+  const capture = await navigator.mediaDevices.getUserMedia({ video: true })
+  videoElement.srcObject = capture;
+  videoElement.play();
+
+  return videoElement
 }
