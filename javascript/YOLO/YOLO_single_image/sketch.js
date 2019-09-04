@@ -11,7 +11,7 @@ Real time Object Detection using YOLO
 let yolo;
 let status;
 let objects = [];
-let canvas;
+let canvas, ctx;
 let width = 640;
 let height = 420;
 
@@ -24,6 +24,7 @@ async function make() {
     yolo = await ml5.YOLO(startDetecting)
 
     canvas = createCanvas(width, height);
+    ctx = canvas.getContext('2d');
 }
 
 // when the dom is loaded, call make();
@@ -52,30 +53,29 @@ function detect() {
 
 function draw(){
     // Clear part of the canvas
-    canvas.fillStyle = "#000000"
-    canvas.fillRect(0,0, width, height);
+    ctx.fillStyle = "#000000"
+    ctx.fillRect(0,0, width, height);
 
-    canvas.drawImage(img, 0, 0);
+    ctx.drawImage(img, 0, 0);
     for (let i = 0; i < objects.length; i++) {
       
-      canvas.font = "16px Arial";
-      canvas.fillStyle = "green";
-      canvas.fillText(objects[i].label, objects[i].x * width + 4, objects[i].y * height + 16); 
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "green";
+      ctx.fillText(objects[i].label, objects[i].x * width + 4, objects[i].y * height + 16); 
 
-      canvas.beginPath();
-      canvas.rect(objects[i].x * width, objects[i].y * height, objects[i].w * width, objects[i].h * height);
-      canvas.strokeStyle = "green";
-      canvas.stroke();
-      canvas.closePath();
+      ctx.beginPath();
+      ctx.rect(objects[i].x * width, objects[i].y * height, objects[i].w * width, objects[i].h * height);
+      ctx.strokeStyle = "green";
+      ctx.stroke();
+      ctx.closePath();
     }
 }
 
 
 function createCanvas(w, h){
-    const canvasElement = document.createElement("canvas"); 
-    canvasElement.width  = w;
-    canvasElement.height = h;
-    document.body.appendChild(canvasElement);
-    const canvas = canvasElement.getContext("2d");
+    const canvas = document.createElement("canvas"); 
+    canvas.width  = w;
+    canvas.height = h;
+    document.body.appendChild(canvas);
     return canvas;
 }
