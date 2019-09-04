@@ -2,6 +2,7 @@ let bodypix;
 let segmentation;
 let img;
 let canvas;
+let ctx;
 let width = 480;
 let height = 560;
 
@@ -13,10 +14,12 @@ async function make() {
     segmentation = await bodypix.segment(img);
 
     canvas = createCanvas(width, height);
-    canvas.drawImage(img, 0,0);
-    // canvas.drawImage(segmentation.maskBackground, 0, 0);
+    ctx = canvas.getContext('2d');
+
+    ctx.drawImage(img, 0,0);
+
     let maskedBackground = await imageDataToCanvas(segmentation.maskBackground.data, segmentation.maskBackground.width, segmentation.maskBackground.height)
-    canvas.drawImage(maskedBackground, 0, 0);
+    ctx.drawImage(maskedBackground, 0, 0);
 
 }
 
@@ -45,10 +48,9 @@ window.addEventListener('DOMContentLoaded', function() {
 };
 
 function createCanvas(w, h){
-    const canvasElement = document.createElement("canvas"); 
-    canvasElement.width  = w;
-    canvasElement.height = h;
-    document.body.appendChild(canvasElement);
-    const canvas = canvasElement.getContext("2d");
+    const canvas = document.createElement("canvas"); 
+    canvas.width  = w;
+    canvas.height = h;
+    document.body.appendChild(canvas);
     return canvas;
 }

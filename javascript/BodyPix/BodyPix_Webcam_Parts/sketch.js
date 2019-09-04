@@ -1,7 +1,7 @@
 let bodypix;
 let segmentation;
 let video;
-let canvas;
+let canvas, ctx;
 let width = 480;
 let height = 360;
 
@@ -11,12 +11,12 @@ const options = {
 }
 
 async function make() {
+    canvas = createCanvas(width, height);
+    ctx = canvas.getContext('2d');
     // get the video
     video = await getVideo();
     // load bodyPix with video
     bodypix = await ml5.bodyPix(video)
-    // create a canvas to draw to
-    canvas = createCanvas(width, height);
     // run the segmentation on the video, handle the results in a callback
     bodypix.segmentWithParts(gotImage, options);
 }
@@ -29,10 +29,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
 function gotImage(err, result){
     segmentation = result;
-    canvas.drawImage(video, 0, 0, width, height);
+    ctx.drawImage(video, 0, 0, width, height);
 
     let parts = imageDataToCanvas(result.image.data, result.image.width, result.image.height)
-    canvas.drawImage(parts, 0, 0, width, height);
+    ctx.drawImage(parts, 0, 0, width, height);
 
     bodypix.segmentWithParts(gotImage, options);
 }
@@ -74,10 +74,9 @@ function imageDataToCanvas(imageData, x, y) {
 };
 
 function createCanvas(w, h){
-    const canvasElement = document.createElement("canvas"); 
-    canvasElement.width  = w;
-    canvasElement.height = h;
-    document.body.appendChild(canvasElement);
-    const canvas = canvasElement.getContext("2d");
+    const canvas = document.createElement("canvas"); 
+    canvas.width  = w;
+    canvas.height = h;
+    document.body.appendChild(canvas);
     return canvas;
 }
