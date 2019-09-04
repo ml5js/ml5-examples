@@ -3,7 +3,7 @@ let video;
 let detections;
 let width = 360;
 let height = 280;
-let canvas;
+let canvas, ctx;
 
 // by default all options are set to true
 const detection_options = {
@@ -18,6 +18,7 @@ async function make(){
     video = await getVideo();
 
     canvas = createCanvas(width, height);
+    ctx = canvas.getContext('2d');
 
     faceapi = ml5.faceApi(video, detection_options, modelReady)
 
@@ -43,10 +44,10 @@ function gotResults(err, result) {
     detections = result;
 
     // Clear part of the canvas
-    canvas.fillStyle = "#000000"
-    canvas.fillRect(0,0, width, height);
+    ctx.fillStyle = "#000000"
+    ctx.fillRect(0,0, width, height);
 
-    canvas.drawImage(video, 0,0, width, height);
+    ctx.drawImage(video, 0,0, width, height);
 
     if (detections) {
         if(detections.length > 0){
@@ -66,11 +67,11 @@ function drawBox(detections){
         const boxWidth = alignedRect._box._width
         const boxHeight  = alignedRect._box._height
         
-        canvas.beginPath();
-        canvas.rect(x, y, boxWidth, boxHeight);
-        canvas.strokeStyle = "#a15ffb";
-        canvas.stroke();
-        canvas.closePath();
+        ctx.beginPath();
+        ctx.rect(x, y, boxWidth, boxHeight);
+        ctx.strokeStyle = "#a15ffb";
+        ctx.stroke();
+        ctx.closePath();
     }
     
 }
@@ -99,22 +100,22 @@ function drawLandmarks(detections){
 
 function drawPart(feature, closed){
     
-    canvas.beginPath();
+    ctx.beginPath();
     for(let i = 0; i < feature.length; i++){
         const x = feature[i]._x;
         const y = feature[i]._y;
         
         if(i === 0){
-            canvas.moveTo(x, y);
+            ctx.moveTo(x, y);
         } else {
-            canvas.lineTo(x, y);
+            ctx.lineTo(x, y);
         }
     }
 
     if(closed === true){
-        canvas.closePath();
+        ctx.closePath();
     }
-    canvas.stroke();
+    ctx.stroke();
     
     
 }
@@ -137,10 +138,9 @@ async function getVideo(){
 }
 
 function createCanvas(w, h){
-    const canvasElement = document.createElement("canvas"); 
-    canvasElement.width  = w;
-    canvasElement.height = h;
-    document.body.appendChild(canvasElement);
-    const canvas = canvasElement.getContext("2d");
+    const canvas = document.createElement("canvas"); 
+    canvas.width  = w;
+    canvas.height = h;
+    document.body.appendChild(canvas);
     return canvas;
   }

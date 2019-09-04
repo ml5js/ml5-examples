@@ -10,10 +10,11 @@ DCGAN example
 
 let dcgan;
 let button;
-let canvas;
+let canvas, ctx;
 
 async function make() {
   canvas = createCanvas(200, 200);
+  ctx = canvas.getContext('2d');
 
   dcgan = await ml5.DCGAN('model/geo/manifest.json');
 
@@ -47,17 +48,16 @@ function displayImage(err, result) {
   const canvasElement = document.createElement("canvas"); 
   canvasElement.width  = 64;
   canvasElement.height = 64;
-  ctx = canvasElement.getContext('2d');
-  ctx.putImageData(img, 0, 0);
-  canvas.drawImage(canvasElement, 0, 0, 200, 200);
+  canvasElement_ctx = canvasElement.getContext('2d');
+  canvasElement_ctx.putImageData(img, 0, 0);
+  ctx.drawImage(canvasElement, 0, 0, 200, 200);
 }
 
 // Helper Functions
 function createCanvas(w, h){
-  const canvasElement = document.createElement("canvas"); 
-  canvasElement.width  = w;
-  canvasElement.height = h;
-  document.body.appendChild(canvasElement);
-  const canvas = canvasElement.getContext("2d");
+  const canvas = document.createElement("canvas"); 
+  canvas.width  = w;
+  canvas.height = h;
+  document.body.appendChild(canvas);
   return canvas;
 }

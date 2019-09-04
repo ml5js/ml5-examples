@@ -3,7 +3,7 @@ let img;
 let detections;
 let width = 200;
 let height = 200;
-let canvas;
+let canvas, ctx;
 
 // by default all options are set to true
 const detection_options = {
@@ -21,6 +21,7 @@ async function make(){
     img.height = height;
 
     canvas = createCanvas(width, height);
+    ctx = canvas.getContext('2d');
 
     faceapi = await ml5.faceApi(detection_options, modelReady)
     
@@ -46,7 +47,7 @@ function gotResults(err, result) {
     // console.log(result)
     detections = result;
 
-    canvas.drawImage(img, 0,0, width, height);
+    ctx.drawImage(img, 0,0, width, height);
 
     if (detections) {
         console.log(detections)
@@ -59,95 +60,94 @@ function drawBox(detections){
     const alignedRect = detections.alignedRect;
     const {_x, _y, _width, _height} = alignedRect._box;
     // canvas.fillStyle = 'none';
-    canvas.rect(_x, _y, _width, _height);
-    canvas.strokeStyle = "#a15ffb";
-    canvas.stroke();
+    ctx.rect(_x, _y, _width, _height);
+    ctx.strokeStyle = "#a15ffb";
+    ctx.stroke();
 }
 
 function drawLandmarks(detections){
     // mouth
-    canvas.beginPath();
+    ctx.beginPath();
     detections.parts.mouth.forEach( (item, idx) => {
         if(idx = 0){
-            canvas.moveTo(item._x, item._y);
+            ctx.moveTo(item._x, item._y);
         } else {
-            canvas.lineTo(item._x, item._y);
+            ctx.lineTo(item._x, item._y);
         }
     })
-    canvas.closePath();
-    canvas.stroke();
+    ctx.closePath();
+    ctx.stroke();
 
     // nose
-    canvas.beginPath();
+    ctx.beginPath();
     detections.parts.nose.forEach( (item, idx) => {
         if(idx = 0){
-            canvas.moveTo(item._x, item._y);
+            ctx.moveTo(item._x, item._y);
         } else {
-            canvas.lineTo(item._x, item._y);
+            ctx.lineTo(item._x, item._y);
         }
     })
-    canvas.stroke();
+    ctx.stroke();
 
     // // left eye
-    canvas.beginPath();
+    ctx.beginPath();
     detections.parts.leftEye.forEach( (item, idx) => {
         if(idx = 0){
-            canvas.moveTo(item._x, item._y);
+            ctx.moveTo(item._x, item._y);
         } else {
-            canvas.lineTo(item._x, item._y);
+            ctx.lineTo(item._x, item._y);
         }
     })
-    canvas.closePath();
-    canvas.stroke();
+    ctx.closePath();
+    ctx.stroke();
 
     // // right eye
-    canvas.beginPath();
+    ctx.beginPath();
     detections.parts.rightEye.forEach( (item, idx) => {
         if(idx = 0){
-            canvas.moveTo(item._x, item._y);
+            ctx.moveTo(item._x, item._y);
         } else {
-            canvas.lineTo(item._x, item._y);
+            ctx.lineTo(item._x, item._y);
         }
     })
     
-    canvas.closePath();
-    canvas.stroke();
+    ctx.closePath();
+    ctx.stroke();
 
     // // right eyebrow
-    canvas.beginPath();
+    ctx.beginPath();
     detections.parts.rightEyeBrow.forEach( (item, idx) => {
         if(idx = 0){
-            canvas.moveTo(item._x, item._y);
+            ctx.moveTo(item._x, item._y);
         } else {
-            canvas.lineTo(item._x, item._y);
+            ctx.lineTo(item._x, item._y);
         }
     })
-    canvas.stroke();
+    ctx.stroke();
     // canvas.closePath();
 
     
     // // left eyeBrow
-    canvas.beginPath();
+    ctx.beginPath();
     detections.parts.leftEyeBrow.forEach( (item, idx) => {
         if(idx = 0){
-            canvas.moveTo(item._x, item._y);
+            ctx.moveTo(item._x, item._y);
         } else {
-            canvas.lineTo(item._x, item._y);
+            ctx.lineTo(item._x, item._y);
         }
     })
     // canvas.closePath();
 
-    canvas.strokeStyle = "#a15ffb";
-    canvas.stroke();
+    ctx.strokeStyle = "#a15ffb";
+    ctx.stroke();
 
 }
 
 // Helper Functions
 function createCanvas(w, h){
-    const canvasElement = document.createElement("canvas"); 
-    canvasElement.width  = w;
-    canvasElement.height = h;
-    document.body.appendChild(canvasElement);
-    const canvas = canvasElement.getContext("2d");
+    const canvas = document.createElement("canvas"); 
+    canvas.width  = w;
+    canvas.height = h;
+    document.body.appendChild(canvas);
     return canvas;
   }

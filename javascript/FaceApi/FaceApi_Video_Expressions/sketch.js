@@ -3,7 +3,7 @@ let video;
 let detections;
 let width = 360;
 let height = 276;
-let canvas;
+let canvas, ctx;
 
 // by default all options are set to true
 const detection_options = {
@@ -14,7 +14,7 @@ const detection_options = {
 
 async function make() {
     canvas = createCanvas(width, height);
-
+    ctx = canvas.getContext('2d');
     // load up your video
     video = await getVideo();
 
@@ -65,9 +65,9 @@ function gotResults(err, result) {
     detections = result;
 
     // Clear part of the canvas
-    canvas.fillStyle = "#FFFFFF"
-    canvas.fillRect(0, 0, width, height);
-    canvas.textAlign = "right";
+    ctx.fillStyle = "#FFFFFF"
+    ctx.fillRect(0, 0, width, height);
+    ctx.textAlign = "right";
 
     if (detections) {
         if (detections.length > 0) {
@@ -75,12 +75,12 @@ function gotResults(err, result) {
 
             let keys = Object.keys(expressions);
             for (let i = 0; i < keys.length; i++) {
-                canvas.fillStyle = "#000000"
-                canvas.font = "10px Arial";
-                canvas.fillText(`${keys[i]}:`, 70, i * 20 + 20)
+                ctx.fillStyle = "#000000"
+                ctx.font = "10px Arial";
+                ctx.fillText(`${keys[i]}:`, 70, i * 20 + 20)
                 const val = scale(expressions[keys[i]], 0, 1, 0, width / 2)
 
-                canvas.fillRect(80, i * 20 + 10, val, 15);
+                ctx.fillRect(80, i * 20 + 10, val, 15);
             }
         }
 
@@ -95,10 +95,9 @@ function scale(num, in_min, in_max, out_min, out_max) {
 
 // Helper Functions
 function createCanvas(w, h) {
-    const canvasElement = document.createElement("canvas");
-    canvasElement.width = w;
-    canvasElement.height = h;
-    document.body.appendChild(canvasElement);
-    const canvas = canvasElement.getContext("2d");
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    document.body.appendChild(canvas);
     return canvas;
 }
