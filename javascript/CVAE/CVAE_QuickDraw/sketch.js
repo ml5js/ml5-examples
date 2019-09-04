@@ -11,12 +11,13 @@ let cvae;
 let img;
 let button;
 let dropdown;
-let canvas;
+let canvas, ctx;
 let width = 200;
 let height = 200;
 
 async function make() {
   canvas = createCanvas(width, height);
+  ctx = canvas.getContext('2d');
   // Create a new instance with pretrained model
   cvae = await ml5.CVAE('model/quick_draw/manifest.json', modelReady);
   
@@ -41,9 +42,9 @@ function gotImage(error, result) {
   const canvasElement = document.createElement("canvas"); 
   canvasElement.width  = 28;
   canvasElement.height = 28;
-  ctx = canvasElement.getContext('2d');
-  ctx.putImageData(img, 0, 0);
-  canvas.drawImage(canvasElement, 0, 0, 200, 200);
+  canvasElement_ctx = canvasElement.getContext('2d');
+  canvasElement_ctx.putImageData(img, 0, 0);
+  ctx.drawImage(canvasElement, 0, 0, 200, 200);
 }
 
 function modelReady() {
@@ -67,10 +68,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // Helper Functions
 function createCanvas(w, h){
-  const canvasElement = document.createElement("canvas"); 
-  canvasElement.width  = w;
-  canvasElement.height = h;
-  document.body.appendChild(canvasElement);
-  const canvas = canvasElement.getContext("2d");
+  const canvas = document.createElement("canvas"); 
+  canvas.width  = w;
+  canvas.height = h;
+  document.body.appendChild(canvas);
   return canvas;
 }
