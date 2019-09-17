@@ -18,6 +18,8 @@ function setup(){
         data = results;
         normalizedData = nn.normalize(data);
 
+        await nn.train(normalizedData.inputs, normalizedData.labels)
+
         console.log(normalizedData);
     });
 
