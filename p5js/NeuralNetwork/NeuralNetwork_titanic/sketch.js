@@ -38,10 +38,12 @@ function predict() {
   const age = floor(random(1, 80))
   const fare = floor(random(0, 500))
   const is_female = floor(random(0, 2))
-  // console.log([age, fare, is_female])
+  console.log([age, fare, is_female])
 
-  nn.predict([age, fare, is_female], function (err, prediction) {
-    console.log(prediction);
-    console.log([age, fare, is_female], prediction.output);
+  let inputs = [age, fare, is_female];
+  nn.predict(inputs, function (err, results) {
+    console.log(results);
+    console.log(results[0].label);
+    console.log(results[0].confidence);
   })
 }
