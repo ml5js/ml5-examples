@@ -36,11 +36,11 @@ function whileTraining(){
 function finishedTraining(){
   console.log('done!')
   submitButton.show();
-  predict()
+  classify()
 }
 
 // TODO: normalize values going into predict! 
-function predict() {
+function classify() {
   let age = parseInt(select('#age').value());
   let fare = parseInt(select('#fare').value());
   // TODO: allow for string labels
@@ -49,7 +49,7 @@ function predict() {
 
   let inputs = [age, fare, is_female];
 
-  nn.predict(inputs, function (err, results) {
+  nn.classify(inputs, function (err, results) {
     if (err) {
       console.error(err);
     } else {
