@@ -6,7 +6,7 @@ let nnOptions = {
   outputs: ['survived_string'],
   task: 'classification',
   epochs: 50,
-  batchSize: 16
+  batchSize: 32
 };
 
 function setup(){
@@ -14,7 +14,7 @@ function setup(){
   
   submitButton = select('#submit');
   submitButton.mousePressed(predict);
-  // submitButton.hide();
+  submitButton.hide();
 
 }
 
@@ -32,6 +32,7 @@ function whileTraining(){
 
 function finishedTraining(){
   console.log('done!')
+  submitButton.show();
   predict()
 }
 
