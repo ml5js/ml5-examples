@@ -27,7 +27,9 @@ function setup(){
     batchSize: 24,
     epochs: 200
   }
-  nn.train(trainingOptions, finishedTraining)
+  
+  // nn.train(trainingOptions,finishedTraining); // if you want to change the training options
+  nn.train(finishedTraining); // use the default training options
 }
 
 function finishedTraining(){
