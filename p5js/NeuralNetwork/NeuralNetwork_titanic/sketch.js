@@ -1,28 +1,29 @@
 let nn;
-
-let nnRegression;
-
+let submitButton;
 let nnOptions = {
   dataUrl: 'data/titanic_train-experimental.csv',
   inputs: ['age', 'fare', 'is_female'],
   outputs: ['survived_string'],
-  task: 'classification'
+  task: 'classification',
+  epochs: 50,
+  batchSize: 16
 };
 
 function setup(){
-  nn = new ml5.neuralNetwork(nnOptions, modelReady)
+  nn = ml5.neuralNetwork(nnOptions, modelReady)
   
-
-  nnRegression = new ml5.neuralNetwork(2, 1);
-  console.log('regression', nnRegression);
+  submitButton = select('#submit');
+  submitButton.mousePressed(predict);
+  // submitButton.hide();
 
 }
 
+
 function modelReady(){
-  console.log('classification',nn);
-  // nn.data.shuffle();
-  // nn.data.normalize();
-  // nn.train(whileTraining, finishedTraining);
+  console.log('classification', nn);
+  nn.data.shuffle();
+  nn.data.normalize();
+  nn.train(finishedTraining);
 }
 
 function whileTraining(){
@@ -31,8 +32,34 @@ function whileTraining(){
 
 function finishedTraining(){
   console.log('done!')
+  predict()
 }
 
+function predict() {
+  let age = parseInt(select('#age').value());
+  let fare = parseInt(select('#fare').value());
+  // TODO: allow for string labels
+  let is_female = parseInt(select('#is_female').value());
+
+  let inputs = [age, fare, is_female];
+  nn.predict(inputs, function (err, results) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(results);
+      if (results.output[0] > 0.5) {
+        select('#result').html('prediction: they died');
+      } else {
+        select('#result').html('prediction: they lived');
+      }
+      // TODO:
+      // This would only work for classification but maybe we should reformat the output into
+      // sorted labels and confidence scores?
+      // console.log(results[0].label);
+      // console.log(results[0].confidence);
+    }
+  });
+}
 
 
 // /////////////////////////////////////////////
