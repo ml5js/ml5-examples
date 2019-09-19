@@ -42,9 +42,7 @@ const options = {
   inputs: ['population_cdp'],
   outputs: ['scope1_ghg_emissions_tons_co2e'],
   dataUrl:'data/co2stats.csv',
-  task:'regression',
-  epochs: 300,
-  batchSize:24
+  task:'regression'
 };
 
 
@@ -68,7 +66,12 @@ function modelLoaded(){
   //   return item;
   // })
   nn.data.normalize();
-  nn.train(finishedTraining)
+
+  const trainingOptions = {
+    epochs: 300,
+    batchSize:24
+  }
+  nn.train(trainingOptions, finishedTraining)
 }
 
 // function dataLoaded(err, results){
