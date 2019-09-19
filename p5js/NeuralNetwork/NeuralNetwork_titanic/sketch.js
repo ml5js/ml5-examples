@@ -4,9 +4,7 @@ let nnOptions = {
   dataUrl: 'data/titanic_train-experimental.csv',
   inputs: ['age', 'fare', 'is_female'],
   outputs: ['survived_string'],
-  task: 'classification',
-  epochs: 50,
-  batchSize: 32
+  task: 'classification'
 };
 
 function setup(){
@@ -23,7 +21,12 @@ function modelReady(){
   console.log('classification', nn);
   nn.data.shuffle();
   nn.data.normalize();
-  nn.train(finishedTraining);
+
+  const trainingOptions ={
+    epochs: 50,
+    batchSize: 32
+  }
+  nn.train(trainingOptions,finishedTraining);
 }
 
 function whileTraining(){
@@ -36,13 +39,16 @@ function finishedTraining(){
   predict()
 }
 
+// TODO: normalize values going into predict! 
 function predict() {
   let age = parseInt(select('#age').value());
   let fare = parseInt(select('#fare').value());
   // TODO: allow for string labels
   let is_female = parseInt(select('#is_female').value());
 
+
   let inputs = [age, fare, is_female];
+
   nn.predict(inputs, function (err, results) {
     if (err) {
       console.error(err);
