@@ -71,14 +71,14 @@ function trainModel() {
   let training_target;
   for (let i = 0; i < 500; i++) {
     if(i % 2){
-       a = Math.random(0,0.5);
-       b = Math.random(0,0.5);
-       c = Math.random(0,0.5);
+       a = Math.random(0,0.16);
+       b = Math.random(0.16,0.32);
+       c = Math.random(0.32,0.5);
        training_target = [0,0]
     }else {
-      a = Math.random(0.6,1);
-      b = Math.random(0.6,1);
-      c = Math.random(0.6,1);
+      a = Math.random(0.5,0.66);
+      b = Math.random(0.66,0.82);
+      c = Math.random(0.82,1);
       training_target = [1,1]
     }
     
@@ -97,8 +97,8 @@ function trainModel() {
   }
 
   const trainingOptions = {
-    epochs: 32,
-    batchSize: 24
+    epochs: 100,
+    batchSize: 12
   }
   // Train
   nn.data.shuffle();
@@ -112,10 +112,11 @@ function finishedTraining() {
 }
 
 function predict() {
-  const a = 0
-    const b = 0
-    const c = 0
+  const a = 0.1
+    const b = 0.2
+    const c = 0.4
     const input = [a, b, c];
+    // we should expect [0,0]
   nn.predict(input, gotResults);
 
 }
