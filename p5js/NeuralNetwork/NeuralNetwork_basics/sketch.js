@@ -16,11 +16,13 @@ function setup() {
     inputs: 3,
     outputs: 2,
     task:'regression',
-    activationOutput: 'sigmoid',
-    activationHidden: 'sigmoid'
+    // activationOutput: 'sigmoid',
+    // activationHidden: 'sigmoid'
   };
   // Create Neural Network
   nn = ml5.neuralNetwork(options);
+
+  trainModel();
 
   // Train the model
   let trainBtn = createButton('Train Model');
@@ -63,10 +65,26 @@ function setup() {
 
 function trainModel() {
   // Add training data
-  const training_input = [-0.6, 1, 0.25];
-  const training_target = [0.3, 0.9];
-
+  // const training_input = [-0.6, 1, 0.25];
+  // const training_target = [0.3, 0.9];
+  let a,b,c;
+  let training_target;
   for (let i = 0; i < 500; i++) {
+    if(i % 2){
+       a = Math.random(0,0.5);
+       b = Math.random(0,0.5);
+       c = Math.random(0,0.5);
+       training_target = [0,0]
+    }else {
+      a = Math.random(0.6,1);
+      b = Math.random(0.6,1);
+      c = Math.random(0.6,1);
+      training_target = [1,1]
+    }
+    
+    const training_input = [a, b, c];
+    // const training_target = [0, 1];
+
     nn.data.addData({
       input0: training_input[0],
       input1: training_input[1],
@@ -79,8 +97,8 @@ function trainModel() {
   }
 
   const trainingOptions = {
-    epochs: 10,
-    batchSize: 32
+    epochs: 32,
+    batchSize: 24
   }
   // Train
   nn.data.shuffle();
@@ -94,7 +112,10 @@ function finishedTraining() {
 }
 
 function predict() {
-  let input = [-0.6, 1, 0.25];
+  const a = 0
+    const b = 0
+    const c = 0
+    const input = [a, b, c];
   nn.predict(input, gotResults);
 
 }
