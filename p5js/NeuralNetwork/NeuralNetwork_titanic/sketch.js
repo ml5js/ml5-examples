@@ -11,7 +11,7 @@ function setup(){
   nn = ml5.neuralNetwork(nnOptions, modelReady)
   
   submitButton = select('#submit');
-  submitButton.mousePressed(predict);
+  submitButton.mousePressed(classify);
   submitButton.hide();
 
 }
