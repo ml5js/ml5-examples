@@ -15,7 +15,7 @@ function setup() {
   const options = {
     inputs: 3,
     outputs: 2,
-    task:'regression',
+    task: 'regression',
     // activationOutput: 'sigmoid',
     // activationHidden: 'sigmoid'
   };
@@ -67,33 +67,34 @@ function trainModel() {
   // Add training data
   // const training_input = [-0.6, 1, 0.25];
   // const training_target = [0.3, 0.9];
-  let a,b,c;
+  let a, b, c;
   let training_target;
   for (let i = 0; i < 500; i++) {
-    if(i % 2){
-       a = Math.random(0,0.16);
-       b = Math.random(0.16,0.32);
-       c = Math.random(0.32,0.5);
-       training_target = [0,0]
-    }else {
-      a = Math.random(0.5,0.66);
-      b = Math.random(0.66,0.82);
-      c = Math.random(0.82,1);
-      training_target = [1,1]
+    if (i % 2) {
+      a = Math.random(0, 0.16);
+      b = Math.random(0.16, 0.32);
+      c = Math.random(0.32, 0.5);
+      training_target = [0, 0]
+    } else {
+      a = Math.random(0.5, 0.66);
+      b = Math.random(0.66, 0.82);
+      c = Math.random(0.82, 1);
+      training_target = [1, 1]
     }
-    
+
     const training_input = [a, b, c];
     // const training_target = [0, 1];
 
-    nn.data.addData({
-      input0: training_input[0],
-      input1: training_input[1],
-      input2: training_input[2],
-    }, 
-    {
-      output0: training_target[0],
-      output1: training_target[1],
-    });
+    nn.data.addData(
+      {
+        input0: training_input[0],
+        input1: training_input[1],
+        input2: training_input[2],
+      },
+      {
+        output0: training_target[0],
+        output1: training_target[1],
+      });
   }
 
   const trainingOptions = {
@@ -112,11 +113,11 @@ function finishedTraining() {
 }
 
 function predict() {
-  const a = 0.1
-    const b = 0.2
-    const c = 0.4
-    const input = [a, b, c];
-    // we should expect [0,0]
+  const a = 0.1;
+  const b = 0.2;
+  const c = 0.4;
+  const input = [a, b, c];
+  // we should expect [0,0]
   nn.predict(input, gotResults);
 
 }
