@@ -19,7 +19,6 @@ function setup(){
 
 function modelReady(){
   console.log('classification', nn);
-  nn.data.shuffle();
   nn.data.normalize();
 
   const trainingOptions ={
