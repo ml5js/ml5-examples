@@ -19,8 +19,6 @@ function setup(){
 
   console.log(nn)
   createTrainingData();
-
-  nn.data.shuffle();
   nn.data.normalize();
 
   const trainingOptions={

@@ -36,7 +36,6 @@ function setup() {
 
 function modelLoaded(){
   console.log(nn.data);
-  nn.data.shuffle();
   // co2 data and population can be log10 transformed
   nn.data.data = nn.data.data.map( item => {
     item.xs.population_cdp = Math.log10(item.xs.population_cdp)

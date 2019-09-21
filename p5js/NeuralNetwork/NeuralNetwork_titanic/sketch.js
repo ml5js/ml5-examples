@@ -18,10 +18,9 @@ function setup() {
 
 function modelReady() {
   console.log('classification', neuralNetwork);
-  neuralNetwork.data.shuffle();
   neuralNetwork.data.normalize();
 
-  const trainingOptions = {
+  const trainingOptions ={
     epochs: 50,
     batchSize: 32
   }
