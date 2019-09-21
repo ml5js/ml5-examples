@@ -1,72 +1,75 @@
-let nn;
+let neuralNetwork;
 let submitButton;
-let nnOptions = {
-  dataUrl: 'data/titanic_train-experimental.csv',
-  inputs: ['age', 'fare', 'is_female'],
-  outputs: ['survived_string'],
-  task: 'classification'
-};
 
-function setup(){
-  nn = ml5.neuralNetwork(nnOptions, modelReady)
-  
+function setup() {
+  noCanvas();
+
+  let nnOptions = {
+    dataUrl: 'data/titanic_train-experimental.csv',
+    inputs: ['age', 'fare', 'is_female'],
+    outputs: ['survived_string'],
+    task: 'classification'
+  };
+  neuralNetwork = ml5.neuralNetwork(nnOptions, modelReady)
   submitButton = select('#submit');
   submitButton.mousePressed(classify);
   submitButton.hide();
-
 }
 
-
-function modelReady(){
-  console.log('classification', nn);
-  nn.data.normalize();
+function modelReady() {
+  console.log('classification', neuralNetwork);
+  neuralNetwork.data.normalize();
 
   const trainingOptions ={
     epochs: 50,
     batchSize: 32
   }
-  nn.train(trainingOptions,finishedTraining);
+  neuralNetwork.train(trainingOptions, finishedTraining);
+
+  // Support a "while training" callback per epoch?
+  // neuralNetwork.train(trainingOptions, whileTraining, finishedTraining);
 }
 
-function whileTraining(){
-  console.log('training...')
+// TODO: report progress to while training callback
+function whileTraining(epoch, loss) {
+  console.log(epoch, loss);
 }
 
-function finishedTraining(){
-  console.log('done!')
+function finishedTraining() {
+  console.log('done!');
   submitButton.show();
-  classify()
+  classify();
 }
 
-// TODO: normalize values going into predict! 
+// TODO: normalize values going into predict!
 function classify() {
   let age = parseInt(select('#age').value());
   let fare = parseInt(select('#fare').value());
   // TODO: allow for string labels
   let is_female = parseInt(select('#is_female').value());
 
-
   let inputs = [age, fare, is_female];
 
-  nn.classify(inputs, function (err, results) {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(results);
-      if (results.output[0] > 0.5) {
-        select('#result').html('prediction: they died');
-      } else {
-        select('#result').html('prediction: they lived');
-      }
-      // TODO:
-      // This would only work for classification but maybe we should reformat the output into
-      // sorted labels and confidence scores?
-      // console.log(results[0].label);
-      // console.log(results[0].confidence);
-    }
-  });
+  neuralNetwork.classify(inputs, gotResults);
 }
 
+function gotResults(err, results) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(results);
+    if (results.output[0] > 0.5) {
+      select('#result').html('prediction: they died');
+    } else {
+      select('#result').html('prediction: they lived');
+    }
+    // TODO:
+    // This would only work for classification but maybe we should reformat the output into
+    // sorted labels and confidence scores?
+    // console.log(results[0].label);
+    // console.log(results[0].confidence);
+  }
+}
 
 // /////////////////////////////////////////////
 
@@ -131,7 +134,7 @@ function classify() {
 //   // classifier.data.add({
 //   //   mousexpos: mouseX,
 //   //   mouseypos: mouseY,
-//   //   note: 'A' 
+//   //   note: 'A'
 //   // });
 
 
