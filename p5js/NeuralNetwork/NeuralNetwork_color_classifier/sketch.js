@@ -28,7 +28,7 @@ function setup() {
 
 function modelReady() {
   console.log('classification', neuralNetwork);
-  neuralNetwork.data.shuffle();
+
   neuralNetwork.data.normalize();
   const trainingOptions = {
     epochs: 50,
@@ -56,7 +56,7 @@ function classify() {
     g: gSlider.value(),
     b: bSlider.value()
   }
-  neuralNetwork.classify(inputs, gotResults);
+  neuralNetwork.classify([inputs.r, inputs.g, inputs.b], gotResults);
 }
 
 function gotResults(error, results) {
