@@ -18,7 +18,8 @@ function setup() {
     // TODO: handle JSON data
     // How to specify where the array of data is?
     // In this case it's in a property called "entries"
-    dataUrl: 'data/colorData_small.json',
+    // dataUrl: 'data/colorData_small.json',
+    dataUrl: 'data/colorData.json',
     inputs: ['r', 'g', 'b'],
     outputs: ['label'],
     task: 'classification'
@@ -31,8 +32,8 @@ function modelReady() {
 
   neuralNetwork.data.normalize();
   const trainingOptions = {
-    epochs: 50,
-    batchSize: 32
+    epochs: 10,
+    batchSize: 64
   }
   neuralNetwork.train(trainingOptions, finishedTraining);
   // Support a "while training" callback per epoch?
@@ -52,9 +53,9 @@ function finishedTraining() {
 
 function classify() {
   let inputs = {
-    r: rSlider.value(),
-    g: gSlider.value(),
-    b: bSlider.value()
+    r: rSlider.value() / 255,
+    g: gSlider.value() / 255,
+    b: bSlider.value() / 255
   }
   neuralNetwork.classify([inputs.r, inputs.g, inputs.b], gotResults);
 }
@@ -63,7 +64,23 @@ function gotResults(error, results) {
   if (error) {
     console.error(error);
   } else {
-    console.log(results);
+    // Temporary manual way of retrieving label
+    let labelList = [
+      'red-ish',
+      'green-ish',
+      'blue-ish',
+      'orange-ish',
+      'yellow-ish',
+      'pink-ish',
+      'purple-ish',
+      'brown-ish',
+      'grey-ish'
+    ]
+    let index = results.output.indexOf(Math.max(...results.output));
+    console.log(labelList[index]);
+
+    classify();
+
     // TODO: Get label in results
     // labelP.html(results[0].label);
   }
