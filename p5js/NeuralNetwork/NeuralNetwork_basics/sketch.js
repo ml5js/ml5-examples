@@ -85,20 +85,23 @@ function trainModel() {
     const training_input = [a, b, c];
     // const training_target = [0, 1];
 
-    nn.data.addData(
-      {
-        input0: training_input[0],
-        input1: training_input[1],
-        input2: training_input[2],
-      },
-      {
-        output0: training_target[0],
-        output1: training_target[1],
-      });
+    // nn.data.addData(
+    //   {
+    //     input0: training_input[0],
+    //     input1: training_input[1],
+    //     input2: training_input[2],
+    //   },
+    //   {
+    //     output0: training_target[0],
+    //     output1: training_target[1],
+    //   });
+
+    nn.data.addData(training_input, training_target)
+
   }
 
   const trainingOptions = {
-    epochs: 100,
+    epochs: 32,
     batchSize: 12
   }
   // Train
