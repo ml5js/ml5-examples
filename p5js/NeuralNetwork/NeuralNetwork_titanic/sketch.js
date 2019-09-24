@@ -49,15 +49,21 @@ function classify() {
   let fare_class = select('#fare_class').value();
   let sex = select('#sex').value();
 
-  // TODO: This might be a convenient way to pass in values to predict?
-  // let inputs = { age, fare, fare_class, sex };
-  // neuralNetwork.classify(inputs, gotResults);
+  // TODO: Support inputs same as data formats: ['fare_class', 'sex', 'age', 'fare'],
+  // TODO: Autonormalize or more likely include extra step of normalizaton
+  // let inputs = [fare_class, sex, age, fare,];
 
-  // inputs: ['fare_class', 'sex', 'age', 'fare'],
-  let inputs = [fare_class, sex, age, fare,];
+  // Evenutally also support objects
+  // let inputs = {
+  //   age: 32,
+  //   fare: 100,
+  //   fare_class: 'first',
+  //   sex: 'female'
+  // };
+
+  // For testing now
+  let inputs = [0.32, 0.7, 0, 0, 1, 0, 1];
   neuralNetwork.classify(inputs, gotResults);
-
-
 }
 
 function gotResults(err, results) {
