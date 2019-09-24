@@ -8,47 +8,45 @@ let lossP;
 function setup() {
   createCanvas(100, 100);
   // Crude interface
+
   labelP = createP('label');
   lossP = createP('loss');
+
   rSlider = createSlider(0, 255, 255);
   gSlider = createSlider(0, 255, 0);
   bSlider = createSlider(0, 255, 255);
 
   let nnOptions = {
-    // TODO: handle JSON data
-    // How to specify where the array of data is?
-    // In this case it's in a property called "entries"
-    // dataUrl: 'data/colorData_small.json',
     dataUrl: 'data/colorData.json',
     inputs: ['r', 'g', 'b'],
     outputs: ['label'],
     task: 'classification'
   };
-  neuralNetwork = ml5.neuralNetwork(nnOptions, modelReady)
+  neuralNetwork = ml5.neuralNetwork(nnOptions, modelReady);
 }
 
 function modelReady() {
-  console.log('classification', neuralNetwork);
-
   neuralNetwork.data.normalize();
   const trainingOptions = {
-    epochs: 10,
+    epochs: 20,
     batchSize: 64
   }
   neuralNetwork.train(trainingOptions, finishedTraining);
+
+  // Start guessing while training!
+  classify();
+
   // Support a "while training" callback per epoch?
   // neuralNetwork.train(trainingOptions, whileTraining, finishedTraining);
 }
 
 // TODO: report progress to while training callback
 function whileTraining(epoch, loss) {
-  console.log(epoch, loss);
-  lossP.html(loss);
+  lossP.html(`Epoch: ${epoch} - loss: ${loss}`);
 }
 
-function finishedTraining() {
+function finishedTraining(anything) {
   console.log('done!');
-  classify();
 }
 
 function classify() {
@@ -75,10 +73,9 @@ function gotResults(error, results) {
       'purple-ish',
       'brown-ish',
       'grey-ish'
-    ]
+    ];
     let index = results.output.indexOf(Math.max(...results.output));
-    console.log(labelList[index]);
-
+    labelP.html(labelList[index]);
     classify();
 
     // TODO: Get label in results
