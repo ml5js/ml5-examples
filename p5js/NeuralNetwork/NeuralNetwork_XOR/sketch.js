@@ -10,14 +10,24 @@ function setup() {
   createCanvas(400, 400);
   cols = width / resolution;
   rows = height / resolution;
-  model = ml5.neuralNetwork(2, 1);
+
+  let options = {
+    inputs: 2,
+    outputs: 1,
+    learningRate: 0.25
+  }
+  model = ml5.neuralNetwork(options);
+
+  //model = ml5.neuralNetwork(2, 1);
   model.data.addData([0, 0], [0]);
   model.data.addData([1, 0], [1]);
   model.data.addData([0, 1], [1]);
   model.data.addData([1, 1], [0]);
   model.data.normalize();
-  model.train({ epochs: 1 }, whileTraining, finishedTraining);
+  model.train({ epochs: 200 }, whileTraining, finishedTraining);
+
 }
+
 
 function whileTraining(epoch, loss) {
   console.log(epoch, loss);
