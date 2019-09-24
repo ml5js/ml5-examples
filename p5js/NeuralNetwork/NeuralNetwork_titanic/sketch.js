@@ -5,14 +5,15 @@ function setup() {
   noCanvas();
 
   let nnOptions = {
-    dataUrl: 'data/titanic_train-experimental.csv',
-    inputs: ['age', 'fare', 'is_female'],
-    outputs: ['survived_string'],
+    dataUrl: 'data/titanic_cleaned_withclass.csv',
+    inputs: ['fare_class', 'sex', 'age', 'fare'],
+    outputs: ['survived'],
     task: 'classification'
   };
+
   neuralNetwork = ml5.neuralNetwork(nnOptions, modelReady)
   submitButton = select('#submit');
-  submitButton.mousePressed(classify);
+  //submitButton.mousePressed(classify);
   submitButton.hide();
 }
 
@@ -20,7 +21,7 @@ function modelReady() {
   console.log('classification', neuralNetwork);
   neuralNetwork.data.normalize();
 
-  const trainingOptions ={
+  const trainingOptions = {
     epochs: 50,
     batchSize: 32
   }
@@ -41,15 +42,14 @@ function finishedTraining() {
   classify();
 }
 
-// TODO: normalize values going into predict!
+// TODO: normalize and encode values going into predict?
 function classify() {
   let age = parseInt(select('#age').value());
   let fare = parseInt(select('#fare').value());
-  // TODO: allow for string labels
-  let is_female = parseInt(select('#is_female').value());
+  let fare_class = select('#fare_class').value();
+  let sex = select('#sex').value();
 
-  let inputs = [age, fare, is_female];
-
+  let inputs = { age, fare, fare_class, sex };
   neuralNetwork.classify(inputs, gotResults);
 }
 
