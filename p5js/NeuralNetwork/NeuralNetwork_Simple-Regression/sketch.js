@@ -39,8 +39,7 @@ async function finishedTraining(){
   await Promise.all(
     [...new Array(400).fill(null).map( async (item, idx) =>  {
       let results = await nn.predict([idx]);
-      let prediction = results.values[0]
-      console.log(prediction)
+      let prediction = results.values
       let x = idx
       let y = prediction.value
       fill(255, 0, 0);
@@ -49,7 +48,6 @@ async function finishedTraining(){
     })]
   )
 
-  // console.log(promises)
   
 }
 
@@ -66,8 +64,3 @@ function createTrainingData(){
     
   }
 }
-
-// function draw(){
-//   background(200)
-  
-// }
