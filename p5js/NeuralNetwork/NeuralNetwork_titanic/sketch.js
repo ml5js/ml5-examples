@@ -8,7 +8,8 @@ function setup() {
     dataUrl: 'data/titanic_cleaned.csv',
     inputs: ['fare_class', 'sex', 'age', 'fare'],
     outputs: ['survived'],
-    task: 'classification'
+    task: 'classification',
+    debug: true
   };
 
   neuralNetwork = ml5.neuralNetwork(nnOptions, modelReady)
@@ -19,7 +20,7 @@ function setup() {
 
 function modelReady() {
   neuralNetwork.data.normalize();
-  neuralNetwork.train({ epochs: 1 }, whileTraining, finishedTraining);
+  neuralNetwork.train({ epochs: 50 }, whileTraining, finishedTraining);
 }
 
 function whileTraining(epoch, loss) {
@@ -55,11 +56,6 @@ function gotResults(err, results) {
     console.error(err);
   } else {
     console.log(results);
-    if (results[0].label == '0') {
-      select('#result').html('prediction: they died');
-    } else {
-      select('#result').html('prediction: they lived');
-    }
-
+    select('#result').html(`prediction: ${results[0].label}`);
   }
 }
