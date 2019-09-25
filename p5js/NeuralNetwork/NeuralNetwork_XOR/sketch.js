@@ -30,8 +30,8 @@ function setup() {
 }
 
 
-function whileTraining(epoch, loss) {
-  console.log(epoch, loss);
+function whileTraining(epoch, logs) {
+  console.log(`Epoch: ${epoch} - loss: ${logs.loss.toFixed(2)}`);
 }
 
 function finishedTraining() {

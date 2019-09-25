@@ -23,8 +23,8 @@ function modelReady() {
   neuralNetwork.train({ epochs: 50 }, whileTraining, finishedTraining);
 }
 
-function whileTraining(epoch, loss) {
-  console.log(`Epoch: ${epoch} - loss: ${loss.loss.toFixed(2)}`);
+function whileTraining(epoch, logs) {
+  console.log(`Epoch: ${epoch} - loss: ${logs.loss.toFixed(2)}`);
 }
 
 function finishedTraining() {

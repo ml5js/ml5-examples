@@ -39,8 +39,8 @@ function modelReady() {
 
 }
 
-function whileTraining(epoch, loss) {
-  lossP.html(`Epoch: ${epoch} - loss: ${loss.loss.toFixed(2)}`);
+function whileTraining(epoch, logs) {
+  lossP.html(`Epoch: ${epoch} - loss: ${logs.loss.toFixed(2)}`);
 }
 
 function finishedTraining(anything) {
