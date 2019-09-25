@@ -5,7 +5,7 @@ function setup() {
   noCanvas();
 
   let nnOptions = {
-    dataUrl: 'data/titanic_cleaned_withclass.csv',
+    dataUrl: 'data/titanic_cleaned.csv',
     inputs: ['fare_class', 'sex', 'age', 'fare'],
     outputs: ['survived'],
     task: 'classification'
@@ -18,19 +18,12 @@ function setup() {
 }
 
 function modelReady() {
-  console.log('classification', neuralNetwork);
   neuralNetwork.data.normalize();
-
-  const trainingOptions = {
-    epochs: 50,
-    batchSize: 32
-  }
-
-  neuralNetwork.train(trainingOptions, whileTraining, finishedTraining);
+  neuralNetwork.train({ epochs: 1 }, whileTraining, finishedTraining);
 }
 
 function whileTraining(epoch, loss) {
-  console.log(epoch, loss);
+  console.log(`Epoch: ${epoch} - loss: ${loss.loss.toFixed(2)}`);
 }
 
 function finishedTraining() {
@@ -62,9 +55,7 @@ function gotResults(err, results) {
     console.error(err);
   } else {
     console.log(results);
-    const output = results.output[0][0];
-
-    if (output.confidence > 0.5) {
+    if (results[0].label == '0') {
       select('#result').html('prediction: they died');
     } else {
       select('#result').html('prediction: they lived');
