@@ -30,8 +30,8 @@ function setup() {
 }
 
 
-function whileTraining(epoch, loss) {
-  console.log(epoch, loss);
+function whileTraining(epoch, logs) {
+  console.log(`Epoch: ${epoch} - loss: ${logs.loss.toFixed(2)}`);
 }
 
 function finishedTraining() {
@@ -50,7 +50,7 @@ function finishedTraining() {
 }
 
 function gotResults(error, results) {
-  console.log(results);
+  console.log(results.values[0]);
 }
 
 function draw() {

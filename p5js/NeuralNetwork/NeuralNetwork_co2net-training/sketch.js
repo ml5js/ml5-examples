@@ -13,6 +13,8 @@ This example uses a callback pattern to create the classifier
 let nn;
 let data;
 
+let inputMeta;
+let outputMeta;
 
 // Options for Neural Network
 const options = {
@@ -20,6 +22,7 @@ const options = {
   outputs: ['scope1_ghg_emissions_tons_co2e'],
   dataUrl:'data/co2stats.csv',
   task:'regression',
+  debug: true
 };
 
 
@@ -28,7 +31,6 @@ function setup() {
   // background(0, 27, 68);
   background(244, 244, 244);
 
-  console.log('hello!')
   // Step 1: Create Neural Network
   nn = ml5.neuralNetwork(options, modelLoaded);
 
@@ -37,11 +39,11 @@ function setup() {
 function modelLoaded(){
   console.log(nn.data);
   // co2 data and population can be log10 transformed
-  nn.data.data = nn.data.data.map( item => {
-    item.xs.population_cdp = Math.log10(item.xs.population_cdp)
-    item.ys.scope1_ghg_emissions_tons_co2e = Math.log10(item.ys.scope1_ghg_emissions_tons_co2e) 
-    return item;
-  })
+  // nn.data.data = nn.data.data.map( item => {
+  //   item.xs.population_cdp = Math.log10(item.xs.population_cdp)
+  //   item.ys.scope1_ghg_emissions_tons_co2e = Math.log10(item.ys.scope1_ghg_emissions_tons_co2e) 
+  //   return item;
+  // })
   nn.data.normalize();
 
   const trainingOptions = {
@@ -51,23 +53,49 @@ function modelLoaded(){
   nn.train(trainingOptions, finishedTraining)
 }
 
-function finishedTraining(){
-  Promise.all(
-    [...new Array(100).fill(null).map( (val, idx) => predict(idx*0.01) ) ]
+async function finishedTraining(){
+  inputMeta = nn.data.meta.inputTypes[0]
+  outputMeta = nn.data.meta.outputTypes[0]
+
+  nn.data.data.forEach( item => {
+    const normx = map(item.xs.population_cdp,  inputMeta.min, inputMeta.max, 0, width);
+    const normy = map(item.ys.scope1_ghg_emissions_tons_co2e, outputMeta.min, outputMeta.max, height, 0);
+    fill(0,255,255);
+    ellipse(normx, normy, 4, 4);
+  })
+
+  await Promise.all(
+    [
+      100,
+      50000,
+      100000,
+      500000,
+      2500000,
+      5000000,
+      10000000,
+      15000000,
+    ].map( (val, idx) => predict(val) )
   )  
+
+  
 }
 
 async function predict(val){
+    // const input  = Math.log10(val);
+    const input = val
+    const prediction = await nn.predict([input]);
+    const output = {x: val, y: prediction.outputs.value}
+    const x = map(output.x,  inputMeta.min, inputMeta.max, 0, width);
+    const y = map(output.y, outputMeta.min, outputMeta.max, height, 0);
 
 
-    const prediction = await nn.predict([val]);
-    const output = {x: val, y: prediction.output[0]}
-    console.log(output)
+    rectMode(CENTER);
+    fill(255,0,0);
+    rect(x, y, 6, 6);
+    text(`pop:${output.x}`, x, y)
+    text(`tons_co2e:${output.y}`, x, y+10)
 
-    const x = map(output.x,  0, 1, 0, width);
-    const y = map(output.y, 0, 1, height, 0);
-  
-    ellipse(x, y, 20, 20);
+    
 }
 
 
