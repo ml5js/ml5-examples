@@ -36,13 +36,11 @@ function modelReady() {
   // Start guessing while training!
   classify();
 
-  // Support a "while training" callback per epoch?
-  // neuralNetwork.train(trainingOptions, whileTraining, finishedTraining);
+  neuralNetwork.train(trainingOptions, whileTraining, finishedTraining);
 }
 
-// TODO: report progress to while training callback
 function whileTraining(epoch, loss) {
-  lossP.html(`Epoch: ${epoch} - loss: ${loss}`);
+  lossP.html(`Epoch: ${epoch} - loss: ${loss.loss}`);
 }
 
 function finishedTraining(anything) {
@@ -51,9 +49,9 @@ function finishedTraining(anything) {
 
 function classify() {
   let inputs = {
-    r: rSlider.value() / 255,
-    g: gSlider.value() / 255,
-    b: bSlider.value() / 255
+    r: rSlider.value(),
+    g: gSlider.value(),
+    b: bSlider.value()
   }
   neuralNetwork.classify([inputs.r, inputs.g, inputs.b], gotResults);
 }
@@ -62,24 +60,9 @@ function gotResults(error, results) {
   if (error) {
     console.error(error);
   } else {
-    // Temporary manual way of retrieving label
-    let labelList = [
-      'red-ish',
-      'green-ish',
-      'blue-ish',
-      'orange-ish',
-      'yellow-ish',
-      'pink-ish',
-      'purple-ish',
-      'brown-ish',
-      'grey-ish'
-    ];
-    let index = results.output.indexOf(Math.max(...results.output));
-    labelP.html(labelList[index]);
+    const output = results.output[0][0]
+    labelP.html(`label:${output.label}, confidence: ${output.confidence}`);
     classify();
-
-    // TODO: Get label in results
-    // labelP.html(results[0].label);
   }
 }
 
