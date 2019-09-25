@@ -10,11 +10,15 @@ This example uses a callback pattern to create the classifier
 === */
 let nn;
 
-
+const options = {
+  inputs: 1,
+  outputs: 1,
+  debug: true
+}
 
 function setup(){
   createCanvas(400, 400);
-  nn = ml5.neuralNetwork(1, 1);
+  nn = ml5.neuralNetwork(options);
 
 
   console.log(nn)
@@ -23,24 +27,29 @@ function setup(){
 
   const trainingOptions={
     batchSize: 24,
-    epochs: 200
+    epochs: 10
   }
   
-  // nn.train(trainingOptions,finishedTraining); // if you want to change the training options
-  nn.train(finishedTraining); // use the default training options
+  nn.train(trainingOptions,finishedTraining); // if you want to change the training options
+  // nn.train(finishedTraining); // use the default training options
 }
 
-function finishedTraining(){
-  for(let i = 0; i < 1; i+= 0.1){
-    nn.predict([i], (err, results) => {
-      let prediction = results.output[0]
-      let x = map(i, 0, 1, 0, width)
-      let y = map(prediction, 0, 1, 0, width)
+async function finishedTraining(){
+ 
+  await Promise.all(
+    [...new Array(400).fill(null).map( async (item, idx) =>  {
+      let results = await nn.predict([idx]);
+      let prediction = results.values[0]
+      console.log(prediction)
+      let x = idx
+      let y = prediction.value
       fill(255, 0, 0);
       rectMode(CENTER);
       rect(x, y, 10, 10);
-    })
-  }
+    })]
+  )
+
+  // console.log(promises)
   
 }
 
@@ -49,11 +58,10 @@ function createTrainingData(){
     const iters = floor(random(5, 20))
     const spread = 50;
     for(let j = 0; j < iters; j++){
-      
-      let data = [{input0: i}, {output0: height - i + floor(random(-spread, spread)) }]
+      let data = [i, height - i + floor(random(-spread, spread))]
       fill(0, 0, 255);
-      ellipse(data[0].input0, data[1].output0, 10, 10)
-      nn.data.addData(data[0], data[1])
+      ellipse(data[0], data[1], 10, 10)
+      nn.data.addData([data[0]], [data[1]])
     }
     
   }
