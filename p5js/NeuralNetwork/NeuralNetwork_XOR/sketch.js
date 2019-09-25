@@ -50,7 +50,7 @@ function finishedTraining() {
 }
 
 function gotResults(error, results) {
-  console.log(results);
+  console.log(results.values[0]);
 }
 
 function draw() {
