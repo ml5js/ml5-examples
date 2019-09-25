@@ -14,7 +14,8 @@ function setup() {
   let options = {
     inputs: 2,
     outputs: 1,
-    learningRate: 0.25
+    learningRate: 0.25,
+    // hiddenUnits: 2
   }
   model = ml5.neuralNetwork(options);
 
