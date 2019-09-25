@@ -13,7 +13,7 @@ function setup() {
 
   neuralNetwork = ml5.neuralNetwork(nnOptions, modelReady)
   submitButton = select('#submit');
-  //submitButton.mousePressed(classify);
+  submitButton.mousePressed(classify);
   submitButton.hide();
 }
 
@@ -25,13 +25,10 @@ function modelReady() {
     epochs: 50,
     batchSize: 32
   }
-  neuralNetwork.train(trainingOptions, finishedTraining);
 
-  // Support a "while training" callback per epoch?
-  // neuralNetwork.train(trainingOptions, whileTraining, finishedTraining);
+  neuralNetwork.train(trainingOptions, whileTraining, finishedTraining);
 }
 
-// TODO: report progress to while training callback
 function whileTraining(epoch, loss) {
   console.log(epoch, loss);
 }
@@ -49,20 +46,14 @@ function classify() {
   let fare_class = select('#fare_class').value();
   let sex = select('#sex').value();
 
-  // TODO: Support inputs same as data formats: ['fare_class', 'sex', 'age', 'fare'],
-  // TODO: Autonormalize or more likely include extra step of normalizaton
-  // let inputs = [fare_class, sex, age, fare,];
-
-  // Evenutally also support objects
   // let inputs = {
-  //   age: 32,
-  //   fare: 100,
-  //   fare_class: 'first',
-  //   sex: 'female'
+  //   age: age,
+  //   fare: fare,
+  //   fare_class: fare_class,
+  //   sex: sex
   // };
 
-  // For testing now
-  let inputs = [0.32, 0.7, 0, 0, 1, 0, 1];
+  let inputs = [fare_class, sex, age, fare];
   neuralNetwork.classify(inputs, gotResults);
 }
 
@@ -71,15 +62,13 @@ function gotResults(err, results) {
     console.error(err);
   } else {
     console.log(results);
-    if (results.output[0] > 0.5) {
+    const output = results.output[0][0];
+
+    if (output.confidence > 0.5) {
       select('#result').html('prediction: they died');
     } else {
       select('#result').html('prediction: they lived');
     }
-    // TODO:
-    // This would only work for classification but maybe we should reformat the output into
-    // sorted labels and confidence scores?
-    // console.log(results[0].label);
-    // console.log(results[0].confidence);
+
   }
 }
