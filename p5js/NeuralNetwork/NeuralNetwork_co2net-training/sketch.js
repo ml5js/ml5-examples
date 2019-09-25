@@ -84,7 +84,7 @@ async function predict(val){
     // const input  = Math.log10(val);
     const input = val
     const prediction = await nn.predict([input]);
-    const output = {x: val, y: prediction.values.value}
+    const output = {x: val, y: prediction.outputs.value}
     const x = map(output.x,  inputMeta.min, inputMeta.max, 0, width);
     const y = map(output.y, outputMeta.min, outputMeta.max, height, 0);
 
