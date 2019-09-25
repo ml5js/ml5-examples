@@ -6,11 +6,12 @@ let labelP;
 let lossP;
 
 function setup() {
-  createCanvas(100, 100);
   // Crude interface
+  lossP = createP('loss');
+
+  createCanvas(100, 100);
 
   labelP = createP('label');
-  lossP = createP('loss');
 
   rSlider = createSlider(0, 255, 255);
   gSlider = createSlider(0, 255, 0);
@@ -20,7 +21,8 @@ function setup() {
     dataUrl: 'data/colorData.json',
     inputs: ['r', 'g', 'b'],
     outputs: ['label'],
-    task: 'classification'
+    task: 'classification',
+    debug: true
   };
   neuralNetwork = ml5.neuralNetwork(nnOptions, modelReady);
 }
@@ -31,16 +33,14 @@ function modelReady() {
     epochs: 20,
     batchSize: 64
   }
-  neuralNetwork.train(trainingOptions, finishedTraining);
-
+  neuralNetwork.train(trainingOptions, whileTraining, finishedTraining);
   // Start guessing while training!
   classify();
 
-  neuralNetwork.train(trainingOptions, whileTraining, finishedTraining);
 }
 
 function whileTraining(epoch, loss) {
-  lossP.html(`Epoch: ${epoch} - loss: ${loss.loss}`);
+  lossP.html(`Epoch: ${epoch} - loss: ${loss.loss.toFixed(2)}`);
 }
 
 function finishedTraining(anything) {
@@ -60,8 +60,7 @@ function gotResults(error, results) {
   if (error) {
     console.error(error);
   } else {
-    const output = results.output[0][0]
-    labelP.html(`label:${output.label}, confidence: ${output.confidence}`);
+    labelP.html(`label:${results[0].label}, confidence: ${results[0].confidence.toFixed(2)}`);
     classify();
   }
 }
