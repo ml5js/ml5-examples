@@ -5,7 +5,7 @@ let detections;
 let faceBrain;
 let osc;
 let trained = false;
-let playing = false;
+let collecting = false;
 
 
 function setup() {
@@ -29,23 +29,11 @@ function setup() {
     debug: true,
   }
   faceBrain = ml5.neuralNetwork(options);
-  select('#addExample').mousePressed(addExample);
+  select('#collectData').mousePressed(collectData);
   select('#train').mousePressed(trainModel);
 
   osc = new p5.Oscillator();
   osc.setType('sine');
-  osc.amp(0.5);
-  select('#frequency_slider').input(function () {
-    if (!playing) {
-      osc.start();
-      playing = true;
-    }
-    let freq = select('#frequency_slider').value();
-    select('#training_freq').html(freq);
-    if (!trained) {
-      osc.freq(freq);
-    }
-  })
 }
 
 function modelReady() {
@@ -71,6 +59,15 @@ function draw() {
       point(points[i]._x, points[i]._y);
     }
   }
+  if (collecting) {
+    let freq = select('#frequency_slider').value();
+    select('#training_freq').html(freq);
+    osc.freq(freq);
+    let inputs = getInputs();
+    if (inputs) {
+      faceBrain.data.addData(inputs, [parseFloat(freq)]);
+    }
+  }
 }
 
 function getInputs() {
@@ -85,15 +82,14 @@ function getInputs() {
   }
 }
 
-function addExample() {
-  let freq = select('#frequency_slider').value();
-  let inputs = getInputs();
-  if (inputs) {
-    faceBrain.data.addData(inputs, [parseFloat(freq)]);
-  }
+function collectData() {
+  osc.start();
+  osc.amp(5);
+  collecting = true;
 }
 
 function trainModel() {
+  collecting = false;
   osc.amp(0);
   faceBrain.data.normalize();
   const trainingOptions = {
