@@ -2,10 +2,11 @@
 
 let pixelBrain;
 let video;
-
-
 let ready = false;
 let w;
+let playing = false;
+let frequency;
+let osc;
 
 function setup() {
   createCanvas(200, 200);
@@ -18,7 +19,7 @@ function setup() {
     inputs: totalPixels,
     outputs: 1,
     hiddenUnits: floor(totalPixels / 2),
-    activationHidden: 'relu',
+    // activationHidden: 'relu',
     learningRate: 0.01,
     debug: true,
   }
@@ -26,6 +27,10 @@ function setup() {
   select('#addExample').mousePressed(addExample);
   select('#train').mousePressed(trainModel);
   w = width / res;
+  osc = new p5.Oscillator();
+  osc.setType('sine');
+  osc.amp(0.5);
+  osc.freq(440);
 }
 
 function videoReady() {
@@ -63,23 +68,32 @@ function getInputs() {
   return inputs;
 }
 
+let firstTime = true;
 function addExample() {
+  if (firstTime) {
+    osc.start();
+    firstTime = false;
+  }
+
   let freq = select('#frequency').value();
+  osc.freq(parseFloat(freq));
   video.loadPixels();
   let inputs = getInputs();
   pixelBrain.data.addData(inputs, [parseFloat(freq)]);
 }
 
 function trainModel() {
+  osc.amp(0);
   pixelBrain.data.normalize();
   const trainingOptions = {
-    epochs: 100
+    epochs: 50
   }
   pixelBrain.train(trainingOptions, finishedTraining);
 }
 
 function finishedTraining() {
   console.log('done');
+  osc.amp(0.5);
   predict();
 }
 
@@ -93,9 +107,8 @@ function gotFrequency(error, results) {
     console.error(error);
   } else {
     frequency = parseFloat(results.outputs.value);
-    console.log(results);
     select('#prediction').html(frequency.toFixed(2));
-    // osc.freq(parseFloat(frequency));
+    osc.freq(parseFloat(frequency));
     predict();
   }
 }
