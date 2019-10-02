@@ -44,7 +44,7 @@ function modelLoaded(){
   //   item.ys.scope1_ghg_emissions_tons_co2e = Math.log10(item.ys.scope1_ghg_emissions_tons_co2e) 
   //   return item;
   // })
-  nn.normalize();
+  nn.normalizeData();
 
   const trainingOptions = {
     epochs: 50,

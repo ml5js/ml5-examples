@@ -88,7 +88,7 @@ function addExample() {
 
 function trainModel() {
   osc.amp(0);
-  pixelBrain.normalize();
+  pixelBrain.normalizeData();
   const trainingOptions = {
     epochs: 50
   }

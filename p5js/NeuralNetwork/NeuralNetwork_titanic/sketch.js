@@ -19,7 +19,7 @@ function setup() {
 }
 
 function modelReady() {
-  neuralNetwork.normalize();
+  neuralNetwork.normalizeData();
   neuralNetwork.train({ epochs: 50 }, whileTraining, finishedTraining);
 }
 

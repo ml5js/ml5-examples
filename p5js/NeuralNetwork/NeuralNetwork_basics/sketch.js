@@ -106,7 +106,7 @@ function trainModel() {
     batchSize: 12
   }
   // Train
-  nn.data.normalize();
+  nn.data.normalizeData();
   nn.train(trainingOptions, finishedTraining);
 }
 

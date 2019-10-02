@@ -30,7 +30,7 @@ function addData() {
 }
 
 function trainModel() {
-  notePlayer.normalize();
+  notePlayer.normalizeData();
   const trainingOptions = {
     batchSize: 24,
     epochs: 20

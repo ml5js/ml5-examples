@@ -23,7 +23,7 @@ function setup(){
 
   console.log(nn)
   createTrainingData();
-  nn.normalize();
+  nn.normalizeData();
 
   const trainingOptions={
     batchSize: 24,

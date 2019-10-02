@@ -25,7 +25,7 @@ function setup() {
   model.addData([1, 0], [1]);
   model.addData([0, 1], [1]);
   model.addData([1, 1], [0]);
-  model.normalize();
+  model.normalizeData();
   model.train({ epochs: 50 }, whileTraining, finishedTraining);
 
 }
