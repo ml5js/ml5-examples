@@ -30,7 +30,7 @@ function addData() {
 }
 
 function trainModel() {
-  notePlayer.data.normalize();
+  notePlayer.normalize();
   const trainingOptions = {
     batchSize: 24,
     epochs: 20
@@ -52,7 +52,7 @@ function gotFrequency(error, results) {
   if (error) {
     console.error(error);
   } else {
-    frequency = parseFloat(results.outputs.value);
+    frequency = parseFloat(results.output[0].value);
     console.log(results);
     select('#prediction').html(frequency.toFixed(2));
     osc.freq(parseFloat(frequency));
