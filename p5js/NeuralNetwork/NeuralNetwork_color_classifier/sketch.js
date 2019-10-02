@@ -28,7 +28,7 @@ function setup() {
 }
 
 function modelReady() {
-  neuralNetwork.data.normalize();
+  neuralNetwork.normalize();
   const trainingOptions = {
     epochs: 20,
     batchSize: 64
@@ -60,7 +60,7 @@ function gotResults(error, results) {
   if (error) {
     console.error(error);
   } else {
-    labelP.html(`label:${results[0].label}, confidence: ${results[0].confidence.toFixed(2)}`);
+    labelP.html(`label:${results.output[0].label}, confidence: ${results.output[0].confidence.toFixed(2)}`);
     classify();
   }
 }

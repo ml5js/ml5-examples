@@ -23,7 +23,7 @@ function setup(){
 
   console.log(nn)
   createTrainingData();
-  nn.data.normalize();
+  nn.normalize();
 
   const trainingOptions={
     batchSize: 24,
@@ -39,7 +39,7 @@ async function finishedTraining(){
   await Promise.all(
     [...new Array(400).fill(null).map( async (item, idx) =>  {
       let results = await nn.predict([idx]);
-      let prediction = results.outputs
+      let prediction = results.output
       let x = idx
       let y = prediction.value
       fill(255, 0, 0);

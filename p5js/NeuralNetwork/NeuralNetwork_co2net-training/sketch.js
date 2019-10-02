@@ -37,29 +37,32 @@ function setup() {
 }
 
 function modelLoaded(){
-  console.log(nn.data);
+  // console.log(nn.data.data.raw);
   // co2 data and population can be log10 transformed
   // nn.data.data = nn.data.data.map( item => {
   //   item.xs.population_cdp = Math.log10(item.xs.population_cdp)
   //   item.ys.scope1_ghg_emissions_tons_co2e = Math.log10(item.ys.scope1_ghg_emissions_tons_co2e) 
   //   return item;
   // })
-  nn.data.normalize();
+  nn.normalize();
 
   const trainingOptions = {
     epochs: 50,
-    batchSize:24
+    batchSize:12
   }
   nn.train(trainingOptions, finishedTraining)
 }
 
 async function finishedTraining(){
-  inputMeta = nn.data.meta.inputTypes[0]
-  outputMeta = nn.data.meta.outputTypes[0]
+  inputMin = nn.data.data.inputMin;
+  inputMax = nn.data.data.inputMax;
+  outputMin = nn.data.data.outputMin;
+  outputMax = nn.data.data.outputMax;
+  
 
-  nn.data.data.forEach( item => {
-    const normx = map(item.xs.population_cdp,  inputMeta.min, inputMeta.max, 0, width);
-    const normy = map(item.ys.scope1_ghg_emissions_tons_co2e, outputMeta.min, outputMeta.max, height, 0);
+  nn.data.data.raw.forEach( item => {
+    const normx = map(item.xs.population_cdp,  inputMin[0], inputMax[0], 0, width);
+    const normy = map(item.ys.scope1_ghg_emissions_tons_co2e, outputMin[0], outputMax[0], height, 0);
     fill(0,255,255);
     ellipse(normx, normy, 4, 4);
   })
@@ -84,10 +87,11 @@ async function predict(val){
     // const input  = Math.log10(val);
     const input = val
     const prediction = await nn.predict([input]);
-    const output = {x: val, y: prediction.outputs.value}
-    const x = map(output.x,  inputMeta.min, inputMeta.max, 0, width);
-    const y = map(output.y, outputMeta.min, outputMeta.max, height, 0);
+    const output = {x: val, y: prediction.output.value}
+    const x = map(output.x,  inputMin[0], inputMax[0], 0, width);
+    const y = map(output.y, outputMin[0], outputMax[0], height, 0);
 
+    console.log(output)
 
     rectMode(CENTER);
     fill(255,0,0);
