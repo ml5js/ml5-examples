@@ -55,7 +55,7 @@ function gotResults(error, results) {
     console.log(err)
     return
   }
-  console.log(results.output.value);
+  console.log(results.output[0].value);
 }
 
 function draw() {
