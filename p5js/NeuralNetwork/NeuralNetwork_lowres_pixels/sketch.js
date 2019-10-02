@@ -110,7 +110,7 @@ function gotFrequency(error, results) {
   if (error) {
     console.error(error);
   } else {
-    frequency = parseFloat(results.output[0].value);
+    frequency = parseFloat(results[0].value);
     select('#prediction').html(frequency.toFixed(2));
     osc.freq(parseFloat(frequency));
     predict();

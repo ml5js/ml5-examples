@@ -38,7 +38,7 @@ function setup(){
 function finishedTraining(){
 
   nn.classify([300], function(err, result){
-    console.log(result.output);
+    console.log(result);
   })
   
 }

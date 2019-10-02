@@ -55,7 +55,7 @@ function gotResults(err, results) {
   if (err) {
     console.error(err);
   } else {
-    console.log(results.output);
-    select('#result').html(`prediction: ${results.output[0].label}`);
+    console.log(results);
+    select('#result').html(`prediction: ${results[0].label}`);
   }
 }

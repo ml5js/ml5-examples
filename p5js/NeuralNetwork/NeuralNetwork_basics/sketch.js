@@ -17,8 +17,6 @@ function setup() {
     outputs: 2,
     task: 'regression',
     debug:true
-    // activationOutput: 'sigmoid',
-    // activationHidden: 'sigmoid'
   };
   // Create Neural Network
   nn = ml5.neuralNetwork(options);
@@ -106,7 +104,7 @@ function trainModel() {
     batchSize: 12
   }
   // Train
-  nn.data.normalizeData();
+  nn.normalizeData();
   nn.train(trainingOptions, finishedTraining);
 }
 
@@ -128,7 +126,7 @@ function predict() {
 function gotResults(error, results) {
   if (error) console.log(error);
   if (results) {
-    console.log(results.output);
+    console.log(results);
     results.tensor.print()
   }
 }
