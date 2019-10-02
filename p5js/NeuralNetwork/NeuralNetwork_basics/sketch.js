@@ -16,6 +16,7 @@ function setup() {
     inputs: 3,
     outputs: 2,
     task: 'regression',
+    debug:true
     // activationOutput: 'sigmoid',
     // activationHidden: 'sigmoid'
   };
@@ -96,7 +97,7 @@ function trainModel() {
     //     output1: training_target[1],
     //   });
 
-    nn.data.addData(training_input, training_target)
+    nn.addData(training_input, training_target)
 
   }
 
@@ -128,5 +129,6 @@ function gotResults(error, results) {
   if (error) console.log(error);
   if (results) {
     console.log(results.output);
+    results.tensor.print()
   }
 }

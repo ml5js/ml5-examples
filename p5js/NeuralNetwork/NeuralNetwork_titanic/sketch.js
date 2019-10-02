@@ -6,7 +6,7 @@ function setup() {
 
   let nnOptions = {
     dataUrl: 'data/titanic_cleaned.csv',
-    inputs: ['fare_class', 'sex', 'age', 'fare'],
+    inputs: ['fare_class','sex', 'age', 'fare'],
     outputs: ['survived'],
     task: 'classification',
     debug: true
@@ -19,7 +19,7 @@ function setup() {
 }
 
 function modelReady() {
-  neuralNetwork.data.normalize();
+  neuralNetwork.normalize();
   neuralNetwork.train({ epochs: 50 }, whileTraining, finishedTraining);
 }
 
@@ -55,7 +55,7 @@ function gotResults(err, results) {
   if (err) {
     console.error(err);
   } else {
-    console.log(results);
-    select('#result').html(`prediction: ${results[0].label}`);
+    console.log(results.output);
+    select('#result').html(`prediction: ${results.output[0].label}`);
   }
 }
