@@ -19,6 +19,10 @@ function setup() {
     inputs: totalPixels,
     outputs: 1,
     hiddenUnits: floor(totalPixels / 2),
+    normalizationOptions: {
+      inputMin: [...new Array(totalPixels).fill(0)],
+      inputMax: [...new Array(totalPixels).fill(255)]
+    },
     // activationHidden: 'relu',
     learningRate: 0.01,
     debug: true,
@@ -79,12 +83,12 @@ function addExample() {
   osc.freq(parseFloat(freq));
   video.loadPixels();
   let inputs = getInputs();
-  pixelBrain.data.addData(inputs, [parseFloat(freq)]);
+  pixelBrain.addData(inputs, [parseFloat(freq)]);
 }
 
 function trainModel() {
   osc.amp(0);
-  pixelBrain.data.normalize();
+  pixelBrain.normalize();
   const trainingOptions = {
     epochs: 50
   }
@@ -106,7 +110,7 @@ function gotFrequency(error, results) {
   if (error) {
     console.error(error);
   } else {
-    frequency = parseFloat(results.outputs.value);
+    frequency = parseFloat(results.output[0].value);
     select('#prediction').html(frequency.toFixed(2));
     osc.freq(parseFloat(frequency));
     predict();
