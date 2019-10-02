@@ -6,7 +6,7 @@ function setup() {
 
   let nnOptions = {
     dataUrl: 'data/titanic_cleaned.csv',
-    inputs: ['fare_class', 'sex', 'age', 'fare'],
+    inputs: ['fare_class','sex', 'age', 'fare'],
     outputs: ['survived'],
     task: 'classification',
     debug: true
@@ -19,7 +19,7 @@ function setup() {
 }
 
 function modelReady() {
-  neuralNetwork.data.normalize();
+  neuralNetwork.normalizeData();
   neuralNetwork.train({ epochs: 50 }, whileTraining, finishedTraining);
 }
 

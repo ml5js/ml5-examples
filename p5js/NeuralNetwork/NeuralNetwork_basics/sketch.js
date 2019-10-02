@@ -16,8 +16,7 @@ function setup() {
     inputs: 3,
     outputs: 2,
     task: 'regression',
-    // activationOutput: 'sigmoid',
-    // activationHidden: 'sigmoid'
+    debug:true
   };
   // Create Neural Network
   nn = ml5.neuralNetwork(options);
@@ -96,7 +95,7 @@ function trainModel() {
     //     output1: training_target[1],
     //   });
 
-    nn.data.addData(training_input, training_target)
+    nn.addData(training_input, training_target)
 
   }
 
@@ -105,7 +104,7 @@ function trainModel() {
     batchSize: 12
   }
   // Train
-  nn.data.normalize();
+  nn.normalizeData();
   nn.train(trainingOptions, finishedTraining);
 }
 
@@ -127,6 +126,7 @@ function predict() {
 function gotResults(error, results) {
   if (error) console.log(error);
   if (results) {
-    console.log(results.output);
+    console.log(results);
+    results.tensor.print()
   }
 }

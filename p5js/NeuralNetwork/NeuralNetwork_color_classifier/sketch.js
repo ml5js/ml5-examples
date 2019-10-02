@@ -28,7 +28,7 @@ function setup() {
 }
 
 function modelReady() {
-  neuralNetwork.data.normalize();
+  neuralNetwork.normalizeData();
   const trainingOptions = {
     epochs: 20,
     batchSize: 64

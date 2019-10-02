@@ -15,17 +15,18 @@ function setup() {
     inputs: 2,
     outputs: 1,
     learningRate: 0.25,
+    debug:true
     // hiddenUnits: 2
   }
   model = ml5.neuralNetwork(options);
 
   //model = ml5.neuralNetwork(2, 1);
-  model.data.addData([0, 0], [0]);
-  model.data.addData([1, 0], [1]);
-  model.data.addData([0, 1], [1]);
-  model.data.addData([1, 1], [0]);
-  model.data.normalize();
-  model.train({ epochs: 200 }, whileTraining, finishedTraining);
+  model.addData([0, 0], [0]);
+  model.addData([1, 0], [1]);
+  model.addData([0, 1], [1]);
+  model.addData([1, 1], [0]);
+  model.normalizeData();
+  model.train({ epochs: 50 }, whileTraining, finishedTraining);
 
 }
 
@@ -50,7 +51,11 @@ function finishedTraining() {
 }
 
 function gotResults(error, results) {
-  console.log(results.values[0]);
+  if(error){
+    console.log(err)
+    return
+  }
+  console.log(results[0].value);
 }
 
 function draw() {
