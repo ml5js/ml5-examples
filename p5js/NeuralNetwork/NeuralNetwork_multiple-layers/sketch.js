@@ -6,12 +6,12 @@ const nn_options = {
         ml5.tf.layers.dense({
             units: 16,
             inputShape: [1],
-            activation: 'sigmoid',
+            activation: 'relu',
         }),
         ml5.tf.layers.dense({
             units: 16,
             inputShape: [1],
-            activation: 'relu',
+            activation: 'sigmoid',
         }),
         ml5.tf.layers.dense({
             units: 1,
