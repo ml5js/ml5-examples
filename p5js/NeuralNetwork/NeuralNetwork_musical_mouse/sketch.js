@@ -6,8 +6,8 @@ let osc;
 function setup() {
   createCanvas(400, 400).mousePressed(addData);;
   const options = {
-    inputs: 2,  // what about allowing ['x', 'y']?
-    outputs: 1, // what about allowing ['x', 'y']?
+    inputs: 2,
+    outputs: 1,
     debug: true,
   }
   background(0);
@@ -48,15 +48,14 @@ function finishedTraining() {
   notePlayer.predict([mouseX, mouseY], gotFrequency);
 }
 
-function gotFrequency(error, results) {
+function gotFrequency(error, outputs) {
   if (error) {
     console.error(error);
-  } else {
-    frequency = parseFloat(results[0].value);
-    console.log(results);
-    select('#prediction').html(frequency.toFixed(2));
-    osc.freq(parseFloat(frequency));
-    notePlayer.predict([mouseX, mouseY], gotFrequency);
+    return;
   }
+  frequency = parseFloat(outputs[0].value);
+  select('#prediction').html(frequency.toFixed(2));
+  osc.freq(parseFloat(frequency));
+  notePlayer.predict([mouseX, mouseY], gotFrequency);
 }
 

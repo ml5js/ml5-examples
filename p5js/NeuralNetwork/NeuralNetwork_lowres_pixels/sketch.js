@@ -1,5 +1,3 @@
-
-
 let pixelBrain;
 let video;
 let ready = false;
@@ -7,6 +5,8 @@ let w;
 let playing = false;
 let frequency;
 let osc;
+
+let freqMax = 800;
 
 function setup() {
   createCanvas(200, 200);
@@ -18,12 +18,6 @@ function setup() {
   const options = {
     inputs: totalPixels,
     outputs: 1,
-    hiddenUnits: floor(totalPixels / 2),
-    normalizationOptions: {
-      inputMin: [...new Array(totalPixels).fill(0)],
-      inputMax: [...new Array(totalPixels).fill(255)]
-    },
-    // activationHidden: 'relu',
     learningRate: 0.01,
     debug: true,
   }
@@ -65,9 +59,10 @@ function getInputs() {
   let inputs = [];
   for (let i = 0; i < video.width * video.height; i++) {
     let index = i * 4;
-    inputs.push(video.pixels[index + 0]);
-    inputs.push(video.pixels[index + 1]);
-    inputs.push(video.pixels[index + 2]);
+    // Manual normalization
+    inputs.push(video.pixels[index + 0] / 255);
+    inputs.push(video.pixels[index + 1] / 255);
+    inputs.push(video.pixels[index + 2] / 255);
   }
   return inputs;
 }
@@ -83,12 +78,14 @@ function addExample() {
   osc.freq(parseFloat(freq));
   video.loadPixels();
   let inputs = getInputs();
-  pixelBrain.addData(inputs, [parseFloat(freq)]);
+  // Manual normalization
+  pixelBrain.addData(inputs, [parseFloat(freq) / freqMax]);
 }
 
 function trainModel() {
   osc.amp(0);
-  pixelBrain.normalizeData();
+  // Manually normalizing
+  // pixelBrain.normalizeData();
   const trainingOptions = {
     epochs: 50
   }
@@ -109,11 +106,12 @@ function predict() {
 function gotFrequency(error, results) {
   if (error) {
     console.error(error);
-  } else {
-    frequency = parseFloat(results[0].value);
-    select('#prediction').html(frequency.toFixed(2));
-    osc.freq(parseFloat(frequency));
-    predict();
+    return;
   }
+  // Manual "un-normalization"
+  frequency = parseFloat(results[0].value) * freqMax;
+  select('#prediction').html(frequency.toFixed(2));
+  osc.freq(parseFloat(frequency));
+  predict();
 }
 
