@@ -1,42 +1,43 @@
-
-
+// The brain
 let pixelBrain;
+
+// The video and pixel scale
 let video;
 let ready = false;
-let w;
+let videoSize = 10;
+
+// For sound synthesis
 let playing = false;
 let frequency;
 let osc;
 
+// Going to normalize the data myself here
+let freqMax = 800;
+
 function setup() {
   createCanvas(200, 200);
+  // Create the video and set resolution
   video = createCapture(VIDEO, videoReady);
-  let res = 10;
-  video.size(res, res);
+  video.size(videoSize, videoSize);
   video.hide();
-  let totalPixels = res * res * 3;
+
+  // Inputs are total pixels times 3 (RGB)
+  let totalPixels = videoSize * videoSize * 3;
   const options = {
     inputs: totalPixels,
     outputs: 1,
-    hiddenUnits: floor(totalPixels / 2),
-    normalizationOptions: {
-      inputMin: [...new Array(totalPixels).fill(0)],
-      inputMax: [...new Array(totalPixels).fill(255)]
-    },
-    // activationHidden: 'relu',
     learningRate: 0.01,
     debug: true,
   }
+  // Create the model
   pixelBrain = ml5.neuralNetwork(options);
+
+  // Buttons add trainin data and train model
   select('#addExample').mousePressed(addExample);
   select('#train').mousePressed(trainModel);
-  w = width / res;
-  osc = new p5.Oscillator();
-  osc.setType('sine');
-  osc.amp(0.5);
-  osc.freq(440);
 }
 
+// Video is ready!
 function videoReady() {
   ready = true;
 }
@@ -44,6 +45,8 @@ function videoReady() {
 function draw() {
   background(0);
   if (ready) {
+    // Render the low-res image
+    let w = width / videoSize;
     video.loadPixels();
     for (let x = 0; x < video.width; x++) {
       for (let y = 0; y < video.height; y++) {
@@ -60,44 +63,50 @@ function draw() {
 
 }
 
+// Package the pixels as inputs to a neural network
 function getInputs() {
   video.loadPixels();
+  // Create an array
   let inputs = [];
   for (let i = 0; i < video.width * video.height; i++) {
     let index = i * 4;
-    inputs.push(video.pixels[index + 0]);
-    inputs.push(video.pixels[index + 1]);
-    inputs.push(video.pixels[index + 2]);
+    // Manual normalization
+    inputs.push(video.pixels[index + 0] / 255);
+    inputs.push(video.pixels[index + 1] / 255);
+    inputs.push(video.pixels[index + 2] / 255);
   }
   return inputs;
 }
 
-let firstTime = true;
-function addExample() {
-  if (firstTime) {
-    osc.start();
-    firstTime = false;
-  }
 
-  let freq = select('#frequency').value();
-  osc.freq(parseFloat(freq));
+// Add an example
+function addExample() {
+  let freq = parseFloat(select('#frequency').value());
   video.loadPixels();
   let inputs = getInputs();
-  pixelBrain.addData(inputs, [parseFloat(freq)]);
+  // Manual normalization of frequency
+  pixelBrain.addData(inputs, [freq / freqMax]);
 }
 
 function trainModel() {
-  osc.amp(0);
-  pixelBrain.normalizeData();
-  const trainingOptions = {
-    epochs: 50
-  }
-  pixelBrain.train(trainingOptions, finishedTraining);
+  // Manually normalizing here!
+  // pixelBrain.normalizeData();
+  pixelBrain.train({ epochs: 50 }, finishedTraining);
 }
 
+// Training is done!
 function finishedTraining() {
   console.log('done');
+
+  // Start sound
+  osc = new p5.Oscillator();
+  osc.setType('sine');
   osc.amp(0.5);
+  osc.freq(440);
+  osc.start();
+  osc.amp(0.5);
+
+  // Start predicting
   predict();
 }
 
@@ -109,11 +118,16 @@ function predict() {
 function gotFrequency(error, results) {
   if (error) {
     console.error(error);
-  } else {
-    frequency = parseFloat(results[0].value);
-    select('#prediction').html(frequency.toFixed(2));
-    osc.freq(parseFloat(frequency));
-    predict();
+    return;
   }
+  // Manual "un-normalization"
+  frequency = parseFloat(results[0].value) * freqMax;
+
+  // Display frequency
+  select('#prediction').html(frequency.toFixed(2));
+  // Set frequency
+  osc.freq(parseFloat(frequency));
+  // Predict again
+  predict();
 }
 
