@@ -1,19 +1,16 @@
 let faceapi;
 let video;
 let detections;
-
 let faceBrain;
 let osc;
 let trained = false;
 let collecting = false;
-
+let freqMax = 800;
 
 function setup() {
   createCanvas(360, 270);
   video = createCapture(VIDEO);
   video.size(width, height);
-  // video.hide();
-
   const faceOptions = {
     withLandmarks: true,
     withExpressions: false,
@@ -24,7 +21,6 @@ function setup() {
   const options = {
     inputs: 68 * 2,
     outputs: 1,
-    hiddenUnits: 68,
     learningRate: 0.01,
     debug: true,
   }
@@ -59,13 +55,14 @@ function draw() {
       point(points[i]._x, points[i]._y);
     }
   }
+
   if (collecting) {
     let freq = select('#frequency_slider').value();
     select('#training_freq').html(freq);
     osc.freq(freq);
     let inputs = getInputs();
     if (inputs) {
-      faceBrain.data.addData(inputs, [parseFloat(freq)]);
+      faceBrain.data.addData(inputs, [parseFloat(freq) / freqMax]);
     }
   }
 }
@@ -75,8 +72,9 @@ function getInputs() {
     let points = detections[0].landmarks.positions;
     let inputs = [];
     for (let i = 0; i < points.length; i++) {
-      inputs.push(points[i]._x);
-      inputs.push(points[i]._y);
+      // Manual normalization
+      inputs.push(points[i]._x / width);
+      inputs.push(points[i]._y / height);
     }
     return inputs;
   }
@@ -91,7 +89,7 @@ function collectData() {
 function trainModel() {
   collecting = false;
   osc.amp(0);
-  faceBrain.data.normalize();
+  // faceBrain.data.normalize();
   const trainingOptions = {
     epochs: 50
   }
@@ -109,13 +107,13 @@ function predict() {
   faceBrain.predict(inputs, gotFrequency);
 }
 
-function gotFrequency(error, results) {
+function gotFrequency(error, outputs) {
   if (error) {
     console.error(error);
-  } else {
-    frequency = parseFloat(results.outputs.value);
-    osc.freq(frequency);
-    select('#prediction').html(frequency.toFixed(2));
-    predict();
   }
+  // Manual unNormalization
+  frequency = outputs[0].value * freqMax;
+  osc.freq(frequency);
+  select('#prediction').html(frequency.toFixed(2));
+  predict();
 }
