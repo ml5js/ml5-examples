@@ -11,7 +11,7 @@ function setup() {
     inputs: 2,  // TODO: support ['x', 'y']
     outputs: 1, // TODO: support ['label']
     debug: true,
-    task: classification
+    task: 'classification'
   }
   brain = ml5.neuralNetwork(options);
 
@@ -53,7 +53,7 @@ function finishedTraining() {
 }
 
 // Got a result
-function gotResults(error, outputs) {
+function gotResults(error, results) {
   if (error) {
     console.error(error);
     return;
