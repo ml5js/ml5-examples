@@ -6,8 +6,8 @@ let osc;
 function setup() {
   createCanvas(400, 400).mousePressed(addData);;
   const options = {
-    inputs: 2,
-    outputs: 1,
+    inputs: 2,  // TODO: support ['x', 'y']
+    outputs: 1, // TODO: support ['freq]
     debug: true,
   }
   background(0);
@@ -26,13 +26,13 @@ function addData() {
   console.log(freq);
   textAlign(CENTER, CENTER);
   text(freq, mouseX, mouseY);
+  // TODO: support notePlayer.data.addData({x: mouseX, y: mouseY}, [parseFloat(freq)]);
   notePlayer.data.addData([mouseX, mouseY], [parseFloat(freq)]);
 }
 
 function trainModel() {
   notePlayer.normalizeData();
   const trainingOptions = {
-    batchSize: 24,
     epochs: 20
   }
   notePlayer.train(trainingOptions, finishedTraining);
