@@ -1,53 +1,71 @@
+
+// ml5 Face Detection Model
 let faceapi;
+let detections = [];
+
+// Video
 let video;
-let detections;
+
+// ml5 neural network
 let faceBrain;
+
+//  Sound
 let osc;
+let freqMax = 800;
+
+// Keeping track of state
 let trained = false;
 let collecting = false;
-let freqMax = 800;
 
 function setup() {
   createCanvas(360, 270);
+
+  // Creat the video and start face tracking
   video = createCapture(VIDEO);
   video.size(width, height);
-  const faceOptions = {
-    withLandmarks: true,
-    withExpressions: false,
-    withDescriptors: false,
-  }
-  faceapi = ml5.faceApi(video, faceOptions, modelReady);
+  // Only need landmarks for this example
+  const faceOptions = { withLandmarks: true, withExpressions: false, withDescriptors: false };
+  faceapi = ml5.faceApi(video, faceOptions, faceReady);
 
+  // Make the neural network
   const options = {
     inputs: 68 * 2,
     outputs: 1,
-    learningRate: 0.01,
+    learningRate: 0.02,
     debug: true,
   }
   faceBrain = ml5.neuralNetwork(options);
+
+  // Buttons
   select('#collectData').mousePressed(collectData);
   select('#train').mousePressed(trainModel);
 
+  // Sound
   osc = new p5.Oscillator();
   osc.setType('sine');
 }
 
-function modelReady() {
-  faceapi.detect(gotResults);
+// Start detecting faces
+function faceReady() {
+  faceapi.detect(gotFaces);
 }
 
-function gotResults(err, result) {
-  if (err) {
-    console.log(err);
+// Got faces
+function gotFaces(error, result) {
+  if (error) {
+    console.log(error);
     return;
   }
   detections = result;
-  faceapi.detect(gotResults);
+  faceapi.detect(gotFaces);
 }
 
+// Draw everything
 function draw() {
   background(0);
-  if (detections && detections.length > 0) {
+
+  // Just look at the first face and draw all the points
+  if (detections.length > 0) {
     let points = detections[0].landmarks.positions;
     for (let i = 0; i < points.length; i++) {
       stroke(161, 95, 251);
@@ -56,19 +74,26 @@ function draw() {
     }
   }
 
+  // If Collecting  data
   if (collecting) {
-    let freq = select('#frequency_slider').value();
+    // Get slider frequency value
+    let freq = parseFloat(select('#frequency_slider').value());
     select('#training_freq').html(freq);
     osc.freq(freq);
+
+    // Get face inputs
     let inputs = getInputs();
     if (inputs) {
-      faceBrain.data.addData(inputs, [parseFloat(freq) / freqMax]);
+      // Normalize frequency value
+      faceBrain.addData(inputs, [freq / freqMax]);
     }
   }
 }
 
 function getInputs() {
-  if (detections && detections.length > 0) {
+  // If there is a face, flatten all the positions into
+  // a normalized array.
+  if (detections.length > 0) {
     let points = detections[0].landmarks.positions;
     let inputs = [];
     for (let i = 0; i < points.length; i++) {
@@ -79,39 +104,45 @@ function getInputs() {
     return inputs;
   }
 }
-
+// Start the sound and data collection
 function collectData() {
   osc.start();
   osc.amp(5);
   collecting = true;
 }
 
+// Train the model
 function trainModel() {
+  // No longer collecting dataa
   collecting = false;
   osc.amp(0);
-  // faceBrain.data.normalize();
-  const trainingOptions = {
-    epochs: 50
-  }
-  faceBrain.train(trainingOptions, finishedTraining);
+
+  // Data is already normalized!
+  // faceBrain.normalizeData();
+  faceBrain.train({ epochs: 50 }, finishedTraining);
 }
 
+// Training is done!
 function finishedTraining() {
   console.log('done');
   osc.amp(0.5);
+  // Start  predicting
   predict();
 }
 
+// Predict a frequency
 function predict() {
   let inputs = getInputs();
   faceBrain.predict(inputs, gotFrequency);
 }
 
+// Got a result
 function gotFrequency(error, outputs) {
   if (error) {
     console.error(error);
+    return;
   }
-  // Manual unNormalization
+  // Manual de-normalization
   frequency = outputs[0].value * freqMax;
   osc.freq(frequency);
   select('#prediction').html(frequency.toFixed(2));
