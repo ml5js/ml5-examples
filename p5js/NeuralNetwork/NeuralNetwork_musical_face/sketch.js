@@ -85,7 +85,7 @@ function draw() {
     let inputs = getInputs();
     if (inputs) {
       // Normalize frequency value
-      faceBrain.addData(inputs, [freq / freqMax]);
+      faceBrain.addData(inputs, [freq]);
     }
   }
 }
@@ -97,9 +97,8 @@ function getInputs() {
     let points = detections[0].landmarks.positions;
     let inputs = [];
     for (let i = 0; i < points.length; i++) {
-      // Manual normalization
-      inputs.push(points[i]._x / width);
-      inputs.push(points[i]._y / height);
+      inputs.push(points[i]._x);
+      inputs.push(points[i]._y);
     }
     return inputs;
   }
@@ -117,8 +116,9 @@ function trainModel() {
   collecting = false;
   osc.amp(0);
 
-  // Data is already normalized!
-  // faceBrain.normalizeData();
+  // Normalize face data
+  // (You might manually normalize according to width/height if relative canvas position matters)
+  faceBrain.normalizeData();
   faceBrain.train({ epochs: 50 }, finishedTraining);
 }
 
@@ -142,8 +142,7 @@ function gotFrequency(error, outputs) {
     console.error(error);
     return;
   }
-  // Manual de-normalization
-  frequency = outputs[0].value * freqMax;
+  frequency = outputs[0].value;
   osc.freq(frequency);
   select('#prediction').html(frequency.toFixed(2));
   predict();
