@@ -9,7 +9,7 @@ function setup() {
   // Create ethe model
   const options = {
     inputs: 2,  // TODO: support ['x', 'y']
-    outputs: 1, // TODO: support ['label']
+    outputs: 2, // TODO: support ['label']
     debug: true,
     task: 'classification'
   }
@@ -49,7 +49,7 @@ function trainModel() {
 
 // When the model is trained
 function finishedTraining() {
-  brain.predict([mouseX, mouseY], gotResults);
+  brain.classify([mouseX, mouseY], gotResults);
 }
 
 // Got a result
@@ -63,6 +63,6 @@ function gotResults(error, results) {
   select('#classification').html(results[0].label);
 
   // Predict again
-  brain.predict([mouseX, mouseY], gotResults);
+  brain.classify([mouseX, mouseY], gotResults);
 }
 
