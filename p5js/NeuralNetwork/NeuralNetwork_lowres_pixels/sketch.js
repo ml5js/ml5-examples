@@ -130,4 +130,3 @@ function gotFrequency(error, results) {
   // Predict again
   predict();
 }
-
