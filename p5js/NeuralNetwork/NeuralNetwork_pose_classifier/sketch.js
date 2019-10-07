@@ -75,7 +75,7 @@ function classify() {
 
 function gotResults(error, results) {
   //  Log output
-  console.log(results);
+  // console.log(results);
   classificationP.html(`${results[0].label} (${floor(results[0].confidence * 100)})%`);
   // Classify again
   classify();
