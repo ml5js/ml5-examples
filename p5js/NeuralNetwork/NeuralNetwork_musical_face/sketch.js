@@ -24,7 +24,7 @@ function setup() {
   video = createCapture(VIDEO);
   video.size(width, height);
   // Only need landmarks for this example
-  const faceOptions = { withLandmarks: true, withExpressions: false, withDescriptors: false };
+  const faceOptions = { withLandmarks: true, withDescriptors: false };
   faceapi = ml5.faceApi(video, faceOptions, faceReady);
 
   // Make the neural network
