@@ -4,6 +4,7 @@
   "description": "ml5-examples repo",
   "main": "index.js",
   "scripts": {
+    "develop": "live-server --port=8082",
     "test": "echo \"Error: no test specified\" && exit 1",
     "update-ml5": "node scripts/update-ml5-reference.js",
     "update-ml5-dev": "NODE_ENV=dev node scripts/update-ml5-reference.js",
@@ -22,5 +23,8 @@
   "dependencies": {
     "node-html-parser": "^1.1.14",
     "recursive-readdir": "^2.2.2"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.1"
   }
 }
