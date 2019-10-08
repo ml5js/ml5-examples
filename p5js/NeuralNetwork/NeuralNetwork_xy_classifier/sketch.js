@@ -8,8 +8,8 @@ function setup() {
 
   // Create ethe model
   const options = {
-    inputs: 2,  // TODO: support ['x', 'y']
-    outputs: 2, // TODO: support ['label']
+    inputs: ['x', 'y'],  // TODO: support ['x', 'y']
+    outputs: ['label'], // TODO: support ['label']
     debug: true,
     task: 'classification'
   }
@@ -26,7 +26,7 @@ function addData() {
   // Get frequency
   let label = select('#label').value();
   // Add data
-  brain.addData([mouseX, mouseY], [label]);
+  brain.addData({x:mouseX, y:mouseY}, {label});
 
   // Draw circle to visualize training data
   stroke(255);

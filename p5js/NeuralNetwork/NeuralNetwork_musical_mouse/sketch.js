@@ -13,8 +13,8 @@ function setup() {
 
   // Create ethe model
   const options = {
-    inputs: 2,  // TODO: support ['x', 'y']
-    outputs: 1, // TODO: support ['freq]
+    inputs: ['x', 'y'],  // TODO: support ['x', 'y']
+    outputs: ['freq'], // TODO: support ['freq]
     debug: true,
   }
   brain = ml5.neuralNetwork(options);
@@ -31,7 +31,7 @@ function addData() {
   let target = parseFloat(select('#frequency').value());
   // TODO: support notePlayer.data.addData({x: mouseX, y: mouseY}, {frequency: target});
   // Add data
-  brain.addData([mouseX, mouseY], [target]);
+  brain.addData({x:mouseX, y:mouseY}, {freq:target});
 
   // Draw circle to visualize training data
   stroke(255);
