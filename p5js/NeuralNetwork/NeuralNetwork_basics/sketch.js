@@ -41,14 +41,14 @@ function setup() {
   let saveBtn = createButton('Save Model');
   saveBtn.position(10, 90);
   saveBtn.mousePressed(function () {
-    neuralNetwork.save();
+    nn.save();
   });
 
   // Load the model from local files
   let loadLocalBtn = createButton('Load the model from local files');
   loadLocalBtn.position(10, 110);
   loadLocalBtn.mousePressed(function () {
-    neuralNetwork.load('model/model.json', function () {
+    nn.load('model/model.json', function () {
       console.log('Model Loaded!');
     });
   });
@@ -56,7 +56,7 @@ function setup() {
   // Load model
   let loadBtn = select('#load');
   loadBtn.changed(function () {
-    neuralNetwork.load(loadBtn.elt.files, function () {
+    nn.load(loadBtn.elt.files, function () {
       console.log('Model Loaded!');
     });
   });
