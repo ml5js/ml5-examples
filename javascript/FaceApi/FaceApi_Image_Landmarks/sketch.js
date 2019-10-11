@@ -8,7 +8,6 @@ let canvas, ctx;
 // by default all options are set to true
 const detection_options = {
     withLandmarks: true,
-    withExpressions: false,
     withDescriptors: false,
 }
 
