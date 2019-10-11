@@ -24,7 +24,17 @@ function setup() {
     debug: true
   };
   neuralNetwork = ml5.neuralNetwork(nnOptions);
-  neuralNetwork.load('model/model.json', modelReady);
+
+  // option 1: Load model explictly pointing to each file
+  const modelDetails = {
+    model: 'model/model.json',
+    metadata: 'model/model_meta.json',
+    weights: 'model/model.weights.bin'
+  }
+  neuralNetwork.load(modelDetails, modelReady);
+  
+  // option 2: Load model just pointing to the model file
+  // neuralNetwork.load('model/model.json', modelReady);
 }
 
 function modelReady() {
