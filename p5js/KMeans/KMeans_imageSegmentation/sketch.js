@@ -2,7 +2,7 @@ let kmeans;
 let baseImage;
 let data = [];
 
-const imgSize = 40;
+const imgSize = 30;
 const colorDict = {
     0: [88, 214, 141], // green
     1: [202, 207, 210], // grey
