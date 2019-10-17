@@ -8,19 +8,17 @@ const options = {
     segmentationThreshold: 0.3 // 0 - 1, defaults to 0.5 
 }
 
+function preload(){
+  bodypix = ml5.bodyPix(options);
+}
+
 function setup() {
     createCanvas(320, 240);
-
     // load up your video
     video = createCapture(VIDEO);
     video.size(width, height);
     // video.hide(); // Hide the video element, and just show the canvas
-    bodypix = ml5.bodyPix(video, modelReady)
-}
-
-function modelReady() {
-    console.log('ready!')
-    bodypix.segment(gotResults, options)
+    bodypix.segment(video, gotResults)
 }
 
 function gotResults(err, result) {
@@ -28,13 +26,13 @@ function gotResults(err, result) {
         console.log(err)
         return
     }
-    // console.log(result);
+
     segmentation = result;
 
     background(0);
     image(video, 0, 0, width, height)
     image(segmentation.maskBackground, 0, 0, width, height)
 
-    bodypix.segment(gotResults, options)
+    bodypix.segment(video, gotResults)
 
 }

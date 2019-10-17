@@ -4,7 +4,10 @@ const recursive = require("recursive-readdir");
 const { parse } = require('node-html-parser');
 
 const baseurl = path.resolve(__dirname, "..");
-const ml5version = process.argv[2] || '0.2.3'
+
+const {version} = JSON.parse(fs.readFileSync(`${baseurl}/package.json`))
+
+const ml5version = process.argv[2] || version;
 
 let ml5src;
 if(process.env.NODE_ENV && ['development', 'dev', 'DEVELOPMENT'].includes(process.env.NODE_ENV) === true ){
@@ -18,6 +21,7 @@ if(process.env.NODE_ENV && ['development', 'dev', 'DEVELOPMENT'].includes(proces
 // run the functions
 make("/javascript", ml5src);
 make("/p5js", ml5src);
+make("/d3", ml5src);
 
 /**
  * Take the relative path to the examples directory and 
