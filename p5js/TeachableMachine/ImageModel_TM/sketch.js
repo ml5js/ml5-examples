@@ -16,7 +16,7 @@ let imageModelURL = 'https://storage.googleapis.com/teachable-machine-pubilshed-
 
 // Video
 let video;
-
+let flippedVideo;
 // To store the classification
 let label = "";
 
@@ -32,6 +32,7 @@ function setup() {
   video.size(320, 240);
   video.hide();
 
+  flippedVideo = ml5.flipImage(video)
   // Start classifying
   classifyVideo();
 }
@@ -39,7 +40,7 @@ function setup() {
 function draw() {
   background(0);
   // Draw the video
-  image(video, 0, 0);
+  image(flippedVideo, 0, 0);
 
   // Draw the label
   fill(255);
@@ -50,7 +51,8 @@ function draw() {
 
 // Get a prediction for the current video frame
 function classifyVideo() {
-  classifier.classify(video, gotResult);
+  flippedVideo = ml5.flipImage(video)
+  classifier.classify(flippedVideo, gotResult);
 }
 
 // When we get a result
@@ -61,7 +63,7 @@ function gotResult(error, results) {
     return;
   }
   // The results are in an array ordered by confidence.
-  console.log(results[0]);
+  // console.log(results[0]);
   label = results[0].label;
   // Classifiy again!
   classifyVideo();
