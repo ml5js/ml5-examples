@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "update:ml5": "node scripts/update-ml5-reference.js",
     "update:ml5-dev": "NODE_ENV=dev node scripts/update-ml5-reference.js",
-    "create:example-index": "node scripts/create-examples-index.js"
+    "create:example-index": "node scripts/create-examples-index.js",
+    "merge:release:ours": "git merge --strategy-option ours release"
   },
   "repository": {
     "type": "git",
