@@ -8,12 +8,10 @@ let canvas, ctx;
 // relative path to your models from window.location.pathname
 const detection_options = {
     withLandmarks: true,
-    withExpressions: false,
     withDescriptors: false,
     Mobilenetv1Model: 'models',
     FaceLandmarkModel: 'models',
     FaceRecognitionModel: 'models',
-    FaceExpressionModel: 'models',
 }
 
 

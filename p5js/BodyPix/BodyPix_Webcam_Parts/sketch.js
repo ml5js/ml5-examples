@@ -8,6 +8,10 @@ const options = {
     segmentationThreshold: 0.3, // 0 - 1, defaults to 0.5 
 }
 
+function preload(){
+    bodypix = ml5.bodyPix(options)
+}
+
 function setup() {
     createCanvas(320, 240);
 
@@ -15,18 +19,15 @@ function setup() {
     video = createCapture(VIDEO);
     video.size(width, height);
     // video.hide(); // Hide the video element, and just show the canvas
-    bodypix = ml5.bodyPix(video, modelReady)
 
     // Create a palette - uncomment to test below
     createHSBPalette();
     // createRGBPalette();
     // createSimplePalette();
+
+    bodypix.segmentWithParts(video)
 }
 
-function modelReady() {
-    console.log('ready!')
-    bodypix.segmentWithParts(gotResults, options)
-}
 
 function gotResults(err, result) {
     if (err) {
