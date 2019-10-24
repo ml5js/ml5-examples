@@ -5,31 +5,47 @@
 
 /* ===
 ml5 Example
-Webcam Image Classification using a pre-trianed customized model and p5.js
+Webcam Image Classification using a pre-trained customized model and p5.js
 This example uses p5 preload function to create the classifier
 === */
 
-// const checkpoint = 'model/model.json';
-const checkpoint = 'https://storage.googleapis.com/teachable-machine-pubilshed-models/fa542ec0-b94b-4aa9-add4-c256963b0720/model.json';
+// Classifier Variable
 let classifier;
-let video;
-let resultsP;
+// Model URL
+let imageModel = 'https://storage.googleapis.com/teachable-machine-pubilshed-models/fa542ec0-b94b-4aa9-add4-c256963b0720/model.json';
 
+// Video
+let video;
+
+// To store the classification
+let label = "";
+
+// Load the model first
 function preload() {
-  // Create a camera input
-  video = createCapture(VIDEO);
-  // Initialize the Image Classifier method with a pre-trained customized model and the video as the second argument
-  classifier = ml5.imageClassifier(checkpoint);
+  classifier = ml5.imageClassifier(imageModel);
 }
 
 function setup() {
-  noCanvas();
-  // ml5 also supports using callback pattern to create the classifier
-  // classifier = ml5.imageClassifier(checkpoint, video, modelReady);
-  // If you would like to load the model from local files
-  // classifier = ml5.imageClassifier('model/image-model.json', video, modelReady);
-  resultsP = createP('Loading model and video...');
+  createCanvas(320, 260);
+  // Create the video
+  video = createCapture(VIDEO);
+  video.size(320, 240);
+  video.hide();
+
+  // Start classifying
   classifyVideo();
+}
+
+function draw() {
+  background(0);
+  // Draw the video
+  image(video, 0, 0);
+
+  // Draw the label
+  fill(255);
+  textSize(16);
+  textAlign(CENTER);
+  text(label, width / 2, height - 4);
 }
 
 // Get a prediction for the current video frame
@@ -37,15 +53,16 @@ function classifyVideo() {
   classifier.classify(video, gotResult);
 }
 
-// If you use callback pattern to create the classifier, you can use the following callback function
-// function modelReady() {
-//   console.log('Model Ready');
-//   classifyVideo();
-// }
-
 // When we get a result
-function gotResult(err, results) {
+function gotResult(error, results) {
+  // If there is an error
+  if (error) {
+    console.error(error);
+    return;
+  }
   // The results are in an array ordered by confidence.
-  resultsP.html('Label: ' + results[0].label + ' ' + nf(results[0].confidence, 0, 2));
+  console.log(results[0]);
+  label = results[0].label;
+  // Classifiy again!
   classifyVideo();
 }
