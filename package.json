@@ -1,6 +1,6 @@
 {
   "name": "ml5-examples",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "ml5-examples repo",
   "main": "index.js",
   "scripts": {
