@@ -1,5 +1,5 @@
 # ml5 Examples
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 ## Description
 
@@ -108,6 +108,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://wakatime.com/@barakplasma"><img src="https://avatars0.githubusercontent.com/u/62937?v=4" width="100px;" alt="Michael Salaverry"/><br /><sub><b>Michael Salaverry</b></sub></a><br /><a href="#content-barakplasma" title="Content">🖋</a> <a href="https://github.com/ml5js/ml5-examples/issues?q=author%3Abarakplasma" title="Bug reports">🐛</a></td>
     <td align="center"><a href="http://sankeybuilder.com"><img src="https://avatars2.githubusercontent.com/u/1794620?v=4" width="100px;" alt="Rob"/><br /><sub><b>Rob</b></sub></a><br /><a href="https://github.com/ml5js/ml5-examples/issues?q=author%3Aeformx" title="Bug reports">🐛</a> <a href="#question-eformx" title="Answering Questions">💬</a></td>
+    <td align="center"><a href="http://pujaa.rajan@gmail.com"><img src="https://avatars3.githubusercontent.com/u/10352446?v=4" width="100px;" alt="Pujaa Rajan"/><br /><sub><b>Pujaa Rajan</b></sub></a><br /><a href="#example-pujaarajan" title="Examples">💡</a> <a href="https://github.com/ml5js/ml5-examples/issues?q=author%3Apujaarajan" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
