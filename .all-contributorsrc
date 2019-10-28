@@ -24,6 +24,16 @@
         "bug",
         "question"
       ]
+    },
+    {
+      "login": "pujaarajan",
+      "name": "Pujaa Rajan",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/10352446?v=4",
+      "profile": "http://pujaa.rajan@gmail.com",
+      "contributions": [
+        "example",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
