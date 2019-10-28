@@ -34,6 +34,16 @@
         "example",
         "bug"
       ]
+    },
+    {
+      "login": "nickmcintyre",
+      "name": "Nick McIntyre",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3719176?v=4",
+      "profile": "https://mcintyre.io",
+      "contributions": [
+        "test",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
