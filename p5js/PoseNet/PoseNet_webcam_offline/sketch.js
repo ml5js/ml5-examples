@@ -11,9 +11,22 @@ PoseNet example using p5.js
 let video;
 let poseNet;
 let poses = [];
+
+// Option1: assuming your model is being served locally
 let options = {
-  modelUrl: 'https://localhost:5000/posenet/mobilenet_v1_050/'
+  quantBytes:2,
+  multiplier: 0.75,
+  outputStride: 16,
+  modelUrl: 'http://localhost:5000/posenet2/MOBILENETV1_075_quant2_stride16/model-stride16.json'
 }
+
+// Option2: move the model and its weights to your local directory
+// let options = {
+//   quantBytes:2,
+//   multiplier: 0.75,
+//   outputStride: 16,
+//   modelUrl: 'model/model-stride16.json'
+// }
 
 function setup() {
   createCanvas(640, 480);
@@ -21,7 +34,7 @@ function setup() {
   video.size(width, height);
 
   // Create a new poseNet method with a single detection
-  poseNet = ml5.poseNet(video,options, modelReady);
+  poseNet = ml5.poseNet(video, options, modelReady);
   // This sets up an event that fills the global variable "poses"
   // with an array every time new poses are detected
   poseNet.on('pose', function(results) {
