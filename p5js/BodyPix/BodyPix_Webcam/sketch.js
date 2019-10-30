@@ -30,8 +30,7 @@ function gotResults(err, result) {
     segmentation = result;
 
     background(0);
-    image(video, 0, 0, width, height)
-    image(segmentation.maskBackground, 0, 0, width, height)
+    image(segmentation.backgroundMask, 0, 0, width, height)
 
     bodypix.segment(video, gotResults)
 

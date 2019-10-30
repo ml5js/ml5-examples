@@ -24,7 +24,7 @@ function gotResults(err, result) {
 
     // console.log(segmentation.maskPerson)
     // TODO: image seems to be repeating 4x
-    image(img, 0, 0, width, height)
-    image(segmentation.maskBackground, 0, 0, width, height)
+    // image(img, 0, 0, width, height)
+    image(segmentation.backgroundMask, 0, 0, width, height)
 
 }
