@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "update:ml5": "node scripts/update-ml5-reference.js",
     "update:ml5-dev": "NODE_ENV=dev node scripts/update-ml5-reference.js",
+    "update:p5webeditor": "cross-env node scripts/batch-update-p5webeditor.js",
     "create:example-index": "node scripts/create-examples-index.js"
   },
   "repository": {
@@ -25,6 +26,11 @@
     "recursive-readdir": "^2.2.2"
   },
   "devDependencies": {
-    "live-server": "^1.2.1"
+    "cross-env": "^6.0.3",
+    "dotenv": "^8.2.0",
+    "live-server": "^1.2.1",
+    "q": "^1.5.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   }
 }
