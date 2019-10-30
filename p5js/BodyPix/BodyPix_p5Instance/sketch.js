@@ -36,8 +36,8 @@ const s = (sketch) => {
         segmentation = result;
 
         sketch.background(0);
-        sketch.image(video, 0, 0, sketch.width, sketch.height)
-        sketch.image(segmentation.maskBackground, 0, 0, sketch.width, sketch.height)
+        // sketch.image(video, 0, 0, sketch.width, sketch.height)
+        sketch.image(segmentation.backgroundMask, 0, 0, sketch.width, sketch.height)
 
         bodypix.segment(gotResults, options)
     }
