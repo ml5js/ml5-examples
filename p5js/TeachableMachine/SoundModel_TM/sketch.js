@@ -16,7 +16,7 @@ let classifier;
 let label = "listening";
 
 // Teachable Machine model URL:
-let soundModelURL = 'https://storage.googleapis.com/tm-speech-commands/eye-test-sound-yining/model.json';
+let soundModelURL = 'https://teachablemachine.withgoogle.com/models/h3p9R41J/model.json';
 
 
 function preload() {
