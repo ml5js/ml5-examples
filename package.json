@@ -1,6 +1,6 @@
 {
   "name": "ml5-examples",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "ml5-examples repo",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,11 @@
     "recursive-readdir": "^2.2.2"
   },
   "devDependencies": {
-    "live-server": "^1.2.1"
+    "cross-env": "^6.0.3",
+    "dotenv": "^8.2.0",
+    "live-server": "^1.2.1",
+    "q": "^1.5.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   }
 }

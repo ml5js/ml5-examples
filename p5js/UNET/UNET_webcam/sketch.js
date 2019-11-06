@@ -39,12 +39,13 @@ function gotResult(error, result) {
     return;
   }
   // set the result to the global segmentation variable
-  segmentationImage = result.image;
+  segmentationImage = result.backgroundMask;
 
   // Continue asking for a segmentation image
   uNet.segment(video, gotResult);
 }
 
 function draw() {
+  background(0)
   image(segmentationImage, 0, 0, width, height);
 }
