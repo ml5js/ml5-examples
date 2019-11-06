@@ -66,6 +66,3 @@ function createTrainingData(){
     
 }
 
-// function draw(){
-
-// }
