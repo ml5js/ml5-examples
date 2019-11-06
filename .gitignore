@@ -4,3 +4,4 @@ p5js/00_ImageClassification_MultipleImages/images/landscapes_small
 p5js/00_ImageClassification_MultipleImages/images/dataset
 p5js/00_ImageClassification_MultipleImages/images/old
 node_modules
+.env-dev

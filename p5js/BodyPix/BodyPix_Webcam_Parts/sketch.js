@@ -25,7 +25,7 @@ function setup() {
     // createRGBPalette();
     // createSimplePalette();
 
-    bodypix.segmentWithParts(video)
+    bodypix.segmentWithParts(video, gotResults, options)
 }
 
 
@@ -36,10 +36,11 @@ function gotResults(err, result) {
     }
     segmentation = result;
 
-    image(video, 0, 0, width, height)
-    image(segmentation.image, 0, 0, width, height)
+    background(255, 0, 0);
+    // image(video, 0, 0, width, height)
+    image(segmentation.partMask, 0, 0, width, height)
 
-    bodypix.segmentWithParts(gotResults, options)
+    bodypix.segmentWithParts(video, gotResults, options)
 
 }
 
