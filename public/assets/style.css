@@ -47,7 +47,7 @@ html {
   width: 50%;
   border: 2px solid black;
   padding:1rem 1.25rem;
-  box-shadow: 1rem 1rem aliceblue;
+  box-shadow: 1rem 1rem #A15FFB;
 }
 
 .header-text__links{

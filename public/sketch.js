@@ -7,14 +7,22 @@ const s = ( sketch ) => {
 
   sketch.setup = () => {
     canvas = sketch.createCanvas(sketch.displayWidth, sketch.displayHeight);
+    sketch.textAlign(sketch.CENTER)
+    sketch.colorMode(sketch.HSB, 360, 100, 100, 100);
   };
 
   sketch.draw = () => {
-    sketch.background(200);
-    sketch.fill(255);
-    sketch.rect(sketch.mouseX, sketch.mouseY,50,50);
+    sketch.background(0,0,100, 80);
+
+    const dist = sketch.dist(sketch.pmouseX, sketch.pmouseY, sketch.mouseX, sketch.mouseY)
+    const weight = sketch.constrain(dist, 1, 10)
+    const col = sketch.map(weight, 1, 10, 0, 360);
+    sketch.strokeWeight(weight);
+    sketch.stroke(col, 100, 100)
+    sketch.line(sketch.pmouseX, sketch.pmouseY, sketch.mouseX, sketch.mouseY);
   };
 };
+
 
 let data;
 const $main = document.querySelector('.main');
@@ -29,7 +37,7 @@ async function init(){
   createSections(data);
 
   // p5 sketch
-  // let myp5 = new p5(s, 'myCanvas');
+  let myp5 = new p5(s, 'myCanvas');
 }
 
 init();
