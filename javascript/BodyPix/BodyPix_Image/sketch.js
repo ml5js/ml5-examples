@@ -18,7 +18,7 @@ async function make() {
 
     ctx.drawImage(img, 0,0);
 
-    let maskedBackground = await imageDataToCanvas(segmentation.maskBackground.data, segmentation.maskBackground.width, segmentation.maskBackground.height)
+    let maskedBackground = await imageDataToCanvas(segmentation.raw.backgroundMask.data, segmentation.raw.backgroundMask.width, segmentation.raw.backgroundMask.height)
     ctx.drawImage(maskedBackground, 0, 0);
 
 }
