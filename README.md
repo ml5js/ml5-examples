@@ -1,5 +1,4 @@
 # ml5 Examples
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
 
 ## Description
 
@@ -11,88 +10,62 @@ For example, the `/p5js` folder holds examples of using [ml5.js](https://github.
 
 Instead of using the CDN links to p5 and ml5, you can [download the p5.js libraries here](https://github.com/processing/p5.js/releases) and [ml5 library here](https://github.com/ml5js/ml5-library/releases).
 
-## Usage
+## Setup
 
-Download or clone this repository:
-```
+### Step 1: or clone this repository:
+
+Open your terminal and type:
+
+```sh
+# clone the repo or download the zip file
 git clone https://github.com/ml5js/ml5-examples.git
 ```
 
-Change directory into the new folder and start a server.
-An easy way to start a server is with python. If you are have python 2:
-```
+### Step 2: start a local development server
+Open your terminal
+
+```sh
+# change directories
 cd ml5-examples
-python -m SimpleHTTPServer
-```
-If you are have python 3:
-```
-cd ml5-examples
-python -m http.server
+
+# install the dependencies
+npm install
+
+# run the local web server
+npm run develop
+
+# you should be able to run the examples at: 
+# localhost:8082
+
 ```
 
-If you don't know how to start a server, check [this](https://github.com/processing/p5.js/wiki/Local-server) guide.
+If you don't know how to start a server, check [this guide on how to start a local web server](https://learn.ml5js.org/docs/#/tutorials/local-web-server?id=running-a-local-web-server).
+
+
+## Usage
+
+Open your terminal
+
+```sh
+# change directories
+cd ml5-examples
+
+# run the local web server
+npm run develop
+
+# you should be able to run the examples at: 
+# localhost:8082
+
+```
+
 
 ## Examples Index
 
-Below is the current `release` examples index:
+* [ml5 examples in the p5 web editor](https://editor.p5js.org/ml5/sketches)
+  * The best way to interact with our examples are using the [p5 web editor](https://editor.p5js.org/ml5/sketches). This is an interactive coding environment.
+* Run the examples using the [example index](https://ml5js.github.io/ml5-examples/public)
+  * We have examples written in plain javascript, p5.js, and more.
 
-### javascript
-
-ml5.js does not require p5.js, however as ml5.js and p5.js have been designed to play nicely with eachother, most of our examples currently are developed together with p5.js. The following "vanilla" javascript examples showcase the use of ml5 without p5.js.
-
-* [FeatureExtractor_Image_Classification](https://ml5js.github.io/ml5-examples/javascript/FeatureExtractor_Image_Classification)
-* [ImageClassification_Video](https://ml5js.github.io/ml5-examples/javascript/ImageClassification_Video)
-* [ImageClassification](https://ml5js.github.io/ml5-examples/javascript/ImageClassification)
-* [StyleTransfer_Image](https://ml5js.github.io/ml5-examples/javascript/StyleTransfer_Image)
-* [PoseNet](https://ml5js.github.io/ml5-examples/javascript/PoseNet)
-
-### p5js
-
-* [CVAE](https://ml5js.github.io/ml5-examples/p5js/CVAE)
-* [BodyPix_Image](https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Image/)
-* [BodyPix_Webcam](https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Webcam)
-* [BodyPix_Webcam_Parts](https://ml5js.github.io/ml5-examples/p5js/BodyPix/BodyPix_Webcam_Parts)
-* [DCGAN](https://ml5js.github.io/ml5-examples/p5js/DCGAN)
-* [Sentiment](https://ml5js.github.io/ml5-examples/p5js/Sentiment)
-* [UNET](https://ml5js.github.io/ml5-examples/p5js/UNET/UNET_webcam)
-* [Word2Vec](https://ml5js.github.io/ml5-examples/p5js/Word2Vec)
-* [FeatureExtractor_Image_Classification](https://ml5js.github.io/ml5-examples/p5js/FeatureExtractor/FeatureExtractor_Image_Classification)
-* [FeatureExtractor_Image_Regression](https://ml5js.github.io/ml5-examples/p5js/FeatureExtractor/FeatureExtractor_Image_Regression)
-* [StyleTransfer_Video](https://ml5js.github.io/ml5-examples/p5js/StyleTransfer/StyleTransfer_Video)
-* [StyleTransfer_Image](https://ml5js.github.io/ml5-examples/p5js/StyleTransfer/StyleTransfer_Image)
-* [ImageClassification_Video](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_Video)
-* [ImageClassification_VideoScavengerHunt](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_VideoScavengerHunt)
-* [ImageClassification](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification)
-* [ImageClassification_VideoSoundTranslate](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_VideoSoundTranslate)
-* [ImageClassification_VideoSound](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_VideoSound)
-* [ImageClassification_MultipleImages](https://ml5js.github.io/ml5-examples/p5js/ImageClassification/ImageClassification_MultipleImages)
-* [KNNClassification_VideoSound](https://ml5js.github.io/ml5-examples/p5js/KNNClassification/KNNClassification_VideoSound)
-* [KNNClassification_Video](https://ml5js.github.io/ml5-examples/p5js/KNNClassification/KNNClassification_Video)
-* [KNNClassification_PoseNet](https://ml5js.github.io/ml5-examples/p5js/KNNClassification/KNNClassification_PoseNet)
-* [KNNClassification_VideoSquare](https://ml5js.github.io/ml5-examples/p5js/KNNClassification/KNNClassification_VideoSquare)
-* [SketchRNN_basic](https://ml5js.github.io/ml5-examples/p5js/SketchRNN/SketchRNN_basic)
-* [SketchRNN_interactive](https://ml5js.github.io/ml5-examples/p5js/SketchRNN/SketchRNN_interactive)
-* [PitchDetection_Game](https://ml5js.github.io/ml5-examples/p5js/PitchDetection/PitchDetection_Game)
-* [PitchDetection](https://ml5js.github.io/ml5-examples/p5js/PitchDetection/PitchDetection)
-* [CharRNN_Interactive](https://ml5js.github.io/ml5-examples/p5js/CharRNN/CharRNN_Interactive)
-* [CharRNN_Text](https://ml5js.github.io/ml5-examples/p5js/CharRNN/CharRNN_Text)
-* [CharRNN_Text_Stateful](https://ml5js.github.io/ml5-examples/p5js/CharRNN/CharRNN_Text_Stateful)
-* [Pix2Pix_callback](https://ml5js.github.io/ml5-examples/p5js/Pix2Pix/Pix2Pix_callback)
-* [Pix2Pix_promise](https://ml5js.github.io/ml5-examples/p5js/Pix2Pix/Pix2Pix_promise)
-* [YOLO_webcam](https://ml5js.github.io/ml5-examples/p5js/YOLO/YOLO_webcam)
-* [YOLO_single_image](https://ml5js.github.io/ml5-examples/p5js/YOLO/YOLO_single_image)
-* [PoseNet_image_single](https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_image_single)
-* [PoseNet_webcam](https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_webcam)
-* [PoseNet_part_selection](https://ml5js.github.io/ml5-examples/p5js/PoseNet/PoseNet_part_selection)
-
-## p5.js web editor examples
-
-The p5.js examples can also be run using the [p5.js web editor](https://alpha.editor.p5js.org). We are [in the process of porting](https://github.com/ml5js/ml5-examples/issues/6) and would welcome any contributions!
-
-You can find all of our examples here:
-* [ml5 on editor.p5js.org](https://editor.p5js.org/ml5/sketches)
-
-NOTE: not all of the ml5.js examples are currently working on the p5.js web editor. Stay tuned for updates!
 
 ## Contributing
 
