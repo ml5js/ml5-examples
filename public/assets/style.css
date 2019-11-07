@@ -50,6 +50,12 @@ html {
   box-shadow: 1rem 1rem aliceblue;
 }
 
+.header-text__links{
+  color: #5E2CA5;
+text-decoration: none;
+letter-spacing: 0.8px;
+}
+
 .header-text{
   margin-top:3rem;
   max-width: 500px;
