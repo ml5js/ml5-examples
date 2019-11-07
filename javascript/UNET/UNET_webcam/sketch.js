@@ -59,7 +59,7 @@ function draw() {
 
   if(segmentationImage.hasOwnProperty('raw')){
     // UNET image is 128x128
-    let im = imageDataToCanvas(segmentationImage.raw, 128, 128)
+    let im = imageDataToCanvas(segmentationImage.raw.backgroundMask, 128, 128)
     ctx.drawImage(im, 0, 0, width, height);
   }
   
