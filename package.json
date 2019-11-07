@@ -9,6 +9,7 @@
     "update:ml5": "node scripts/update-ml5-reference.js",
     "update:ml5-dev": "NODE_ENV=dev node scripts/update-ml5-reference.js",
     "create:example-index": "node scripts/create-examples-index.js",
+    "update:example-json": "node scripts/update-examples-json.js",
     "merge:release:ours": "git merge --strategy-option ours release"
   },
   "repository": {
