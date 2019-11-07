@@ -28,10 +28,14 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
 function gotImage(err, result){
+    if(err) {
+        console.log(err);
+        return;
+    }
     segmentation = result;
     ctx.drawImage(video, 0, 0, width, height);
 
-    let parts = imageDataToCanvas(result.image.data, result.image.width, result.image.height)
+    let parts = imageDataToCanvas(result.raw.partMask.data, result.raw.partMask.width, result.raw.partMask.height)
     ctx.drawImage(parts, 0, 0, width, height);
 
     bodypix.segmentWithParts(gotImage, options);
