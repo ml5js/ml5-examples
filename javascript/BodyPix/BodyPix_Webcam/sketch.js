@@ -17,9 +17,9 @@ async function setup() {
     // get the video
     video = await getVideo();
     // load bodyPix with video
-    bodypix = await ml5.bodyPix(video)
+    bodypix = await ml5.bodyPix(options)
     // run the segmentation on the video, handle the results in a callback
-    bodypix.segment(gotImage, options);
+    bodypix.segment(video, gotImage, options);
 }
 
 // when the dom is loaded, call make();
@@ -29,12 +29,16 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
 function gotImage(err, result){
+    if(err) {
+        console.log(err);
+        return;
+    }
     segmentation = result;
     ctx.drawImage(video, 0, 0, width, height);
-    let maskBackground = imageDataToCanvas(result.maskBackground.data, result.maskBackground.width, result.maskBackground.height)
+    let maskBackground = imageDataToCanvas(result.raw.backgroundMask.data, result.raw.backgroundMask.width, result.raw.backgroundMask.height)
     ctx.drawImage(maskBackground, 0, 0, width, height);
     
-    bodypix.segment(gotImage, options);
+    bodypix.segment(video, gotImage, options);
 }
 
 // Helper Functions
