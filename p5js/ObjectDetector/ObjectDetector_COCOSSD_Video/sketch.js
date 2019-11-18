@@ -3,7 +3,7 @@ let detector;
 let detections;
 
 function setup() {
-    createCanvas(680, 480);
+    createCanvas(480, 360);
     
     video = createCapture(VIDEO);
     video.size(width, height);
@@ -14,6 +14,7 @@ function setup() {
 
 
 function modelReady(){
+  console.log('model loaded')
   detect();
 }
 
@@ -27,14 +28,29 @@ function gotResults(err, results){
     return
   }
 
-  console.log(results);
+  detections = results;
 
   detect();
 }
 
 function draw() {
+    image(video, 0, 0, width, height);
+
     if (detections) {
-        image(video, 0, 0, width, height);
-        
+      detections.forEach(detection => {
+        noStroke();
+        fill(255);
+        strokeWeight(2);
+        text(detection.label, detection.x + 4, detection.y + 10)
+
+        noFill();
+        strokeWeight(3);
+        if(detection.label === 'person'){
+          stroke(0, 255, 0);
+        } else {
+          stroke(0,0, 255);
+        }
+        rect(detection.x, detection.y, detection.w, detection.h);  
+      })
     } 
 }
