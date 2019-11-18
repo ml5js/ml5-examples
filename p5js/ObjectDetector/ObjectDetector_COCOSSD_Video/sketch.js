@@ -1,5 +1,5 @@
 let video;
-let objectDetector;
+let detector;
 let detections;
 
 function setup() {
@@ -9,14 +9,7 @@ function setup() {
     video.size(width, height);
     video.hide();
 
-    objectDetector = ml5.objectDetector('CocoSsd', {}, modelReady)
-    // This would also work
-    // objectDetector = ml5.objectDetector('YOLO', capture, {}, () => {
-    //     console.log('objectDetector with YOLO loaded')
-    //     isModelReady = true;
-    // })
-
-    frameRate(10);
+    detector = ml5.objectDetector('CocoSsd', modelReady)
 }
 
 
@@ -25,7 +18,7 @@ function modelReady(){
 }
 
 function detect(){
-  objectDetector.detect(video, gotResults);
+  detector.detect(video, gotResults);
 }
 
 function gotResults(err, results){
