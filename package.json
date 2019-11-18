@@ -1,6 +1,6 @@
 {
   "name": "ml5-examples",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "ml5-examples repo",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "create:example-index": "node scripts/create-examples-index.js",
     "update:example-json": "node scripts/update-examples-json.js",
     "merge:release:ours": "git merge --strategy-option ours release",
-    "merge:release:dev": "git checkout release-dev && npm run update:ml5-dev && git add . && git commit -m 'sets ml5 url to dev' && git checkout development && git merge release-dev",
+    "merge:release:dev": "git checkout release-dev && git merge --strategy-option theirs release && npm run update:ml5-dev && git add . && git commit -m 'sets ml5 url to dev'",
     "merge:dev:release": "git checkout dev-release && npm run update:ml5 && git add . && git commit -m 'sets ml5 url to release' && git checkout release && git merge dev-release"
   },
   "repository": {
