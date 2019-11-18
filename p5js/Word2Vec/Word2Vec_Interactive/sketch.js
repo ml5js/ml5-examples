@@ -18,8 +18,8 @@ function setup() {
   noLoop();
   noCanvas();
 
-  // Create the Word2Vec model with pre-trained file of 10,000 words
-  word2Vec = ml5.word2vec('data/wordvecs10000.json', modelLoaded);
+  // Create the Word2Vec model with pre-trained file of 5000 words
+  word2Vec = ml5.word2vec('data/wordvecs5000.json', modelLoaded);
 
   // Select all the DOM elements
   let nearWordInput = select('#nearword');
