@@ -62,10 +62,11 @@ function finishedTraining(){
 
     console.log(nn)
     const testInput = ml5.tf.tensor([[1,1], [0,0]])
-    const classification = nn.neuralNetwork.model.predict(testInput)
-    classification.print();
+    const classification = nn.neuralNetwork.predict(testInput)
+    // classification.print();
+    console.log(classification);
 
-    classification.dispose();
+    // classification.dispose();
     testInput.dispose();
 
 }
