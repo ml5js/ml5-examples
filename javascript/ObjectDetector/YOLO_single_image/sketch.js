@@ -5,21 +5,24 @@
 
 /* ===
 ml5 Example
-Real time Object Detection using YOLO
+Real time Object Detection using objectDetector
 === */
 
-let yolo;
+let objectDetector;
 let status;
 let objects = [];
-let video;
 let canvas, ctx;
-let width = 480;
-let height = 360;
+let width = 640;
+let height = 420;
 
 async function make() {
-    // get the video
-    video = await getVideo();
-    yolo = await ml5.YOLO(video, startDetecting)
+    img = new Image();
+    img.src = 'images/cat2.JPG';
+    img.width = width;
+    img.height = height;
+
+    objectDetector = await ml5.objectDetector('yolo', {}, startDetecting)
+
     canvas = createCanvas(width, height);
     ctx = canvas.getContext('2d');
 }
@@ -35,7 +38,7 @@ function startDetecting(){
 }
 
 function detect() {
-  yolo.detect(function(err, results) {
+  objectDetector.detect(img, function(err, results) {
     if(err){
       console.log(err);
       return
@@ -45,8 +48,6 @@ function detect() {
     if(objects){
       draw();
     }
-    
-    detect();
   });
 }
 
@@ -55,7 +56,7 @@ function draw(){
     ctx.fillStyle = "#000000"
     ctx.fillRect(0,0, width, height);
 
-    ctx.drawImage(video, 0, 0);
+    ctx.drawImage(img, 0, 0);
     for (let i = 0; i < objects.length; i++) {
       
       ctx.font = "16px Arial";
@@ -70,27 +71,11 @@ function draw(){
     }
 }
 
-// Helper Functions
-async function getVideo(){
-    // Grab elements, create settings, etc.
-    const videoElement = document.createElement('video');
-    videoElement.setAttribute("style", "display: none;"); 
-    videoElement.width = width;
-    videoElement.height = height;
-    document.body.appendChild(videoElement);
-
-    // Create a webcam capture
-    const capture = await navigator.mediaDevices.getUserMedia({ video: true })
-    videoElement.srcObject = capture;
-    videoElement.play();
-
-    return videoElement
-}
 
 function createCanvas(w, h){
-  const canvas = document.createElement("canvas"); 
-  canvas.width  = w;
-  canvas.height = h;
-  document.body.appendChild(canvas);
-  return canvas;
+    const canvas = document.createElement("canvas"); 
+    canvas.width  = w;
+    canvas.height = h;
+    document.body.appendChild(canvas);
+    return canvas;
 }
