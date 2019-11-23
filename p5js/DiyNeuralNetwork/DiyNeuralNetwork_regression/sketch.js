@@ -70,4 +70,8 @@ function finishedTraining(){
     // classification.dispose();
     testInput.dispose();
 
+    const dataUrl = 'https://raw.githubusercontent.com/ml5js/ml5-examples/release/p5js/NeuralNetwork/NeuralNetwork_titanic/data/titanic_cleaned.csv'
+    nn.neuralNetworkData.loadCSV(dataUrl, ['fare_class',"sex",'age','fare'], ['survived']).then( () => {
+      console.log(nn.neuralNetworkData.data.raw);
+    })
 }
