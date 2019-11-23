@@ -36,23 +36,39 @@ let inputs, outputs;
       metrics: ['accuracy'],
     });
 
-    const inputArr = [];
-    const outputArr = [];
-    nn.neuralNetworkData.data.raw.forEach( row => {
-      inputArr.push([row.xs.r, row.xs.g, row.xs.b])
+    const {inputs, outputs} = nn.neuralNetworkData.convertRawToTensors();
 
-      const {legend} = nn.neuralNetworkData.meta.outputs.label;
-      const onehotval = legend[row.ys.label]
-      outputArr.push(onehotval)
-    })
-    const inputs = ml5.tf.tensor(inputArr, [nn.neuralNetworkData.data.raw.length, inputUnits])
-    const outputs = ml5.tf.tensor(outputArr, [nn.neuralNetworkData.data.raw.length, outputUnits])
+    // const inputArr = [];
+    // const outputArr = [];
+    // nn.neuralNetworkData.data.raw.forEach( row => {
+    //   // get xs
+    //   // const xs = ['r', 'g', 'b'].map(k => row.xs[k]);
+    //   const xs = Object.keys(nn.neuralNetworkData.meta.inputs).map(k => {
+    //     if(nn.neuralNetworkData.meta.inputs[k].legend){
+    //       return nn.neuralNetworkData.meta.inputs[k].legend[row.xs[k]]
+    //     }
+    //     return row.xs[k]
+    //   });
+    //   inputArr.push(...xs)
+
+    //   // get ys
+    //   const ys = Object.keys(nn.neuralNetworkData.meta.outputs).map(k =>  {
+    //     if(nn.neuralNetworkData.meta.outputs[k].legend){
+    //       return nn.neuralNetworkData.meta.outputs[k].legend[row.ys[k]]
+    //     }
+    //     return row.ys[k]
+    //   })
+    //   outputArr.push(...ys)
+
+    // })
+    // const inputs = ml5.tf.tensor(inputArr, [nn.neuralNetworkData.data.raw.length, inputUnits])
+    // const outputs = ml5.tf.tensor(outputArr, [nn.neuralNetworkData.data.raw.length, outputUnits])
 
     nn.train({
       inputs, 
       outputs,
       epochs: 10,
-      batchSize: 50,
+      batchSize: 100,
       whileTraining: function(epoch, loss){
         console.log(epoch, loss.loss)
       }
