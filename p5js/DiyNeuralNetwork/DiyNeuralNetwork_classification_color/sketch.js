@@ -38,9 +38,7 @@ let inputs, outputs;
 
 
     // let inputMeta; 
-    nn.neuralNetworkData.meta.inputs = nn.neuralNetworkData.getRawStats(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.inputs, 'xs');
-    nn.neuralNetworkData.meta.outputs = nn.neuralNetworkData.getRawStats(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.outputs, 'ys');
-
+    nn.summarizeData();
 
     const normalizedInputs  = nn.neuralNetworkData.normalizeRaws(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.inputs, 'xs');
     const normalizedOutputs  = nn.neuralNetworkData.normalizeRaws(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.outputs, 'ys');
