@@ -36,7 +36,61 @@ let inputs, outputs;
       metrics: ['accuracy'],
     });
 
-    const {inputs, outputs} = nn.neuralNetworkData.convertRawToTensors();
+
+    // let inputMeta; 
+    nn.neuralNetworkData.meta.inputs = nn.neuralNetworkData.getRawStats(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.inputs, 'xs');
+    nn.neuralNetworkData.meta.outputs = nn.neuralNetworkData.getRawStats(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.outputs, 'ys');
+
+
+    const normalizedInputs  = nn.neuralNetworkData.normalizeRaws(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.inputs, 'xs');
+    const normalizedOutputs  = nn.neuralNetworkData.normalizeRaws(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.outputs, 'ys');
+    
+    
+    const trainingData = nn.neuralNetworkData.zipArrays(normalizedInputs, normalizedOutputs)
+
+    console.log(trainingData)
+    
+
+
+    const {inputs, outputs} = nn.neuralNetworkData.convertRawToTensors(trainingData, nn.neuralNetworkData.meta);
+
+    // inputs.print();
+    // inputs.dispose();
+    nn.train({
+      inputs, 
+      outputs,
+      epochs: 10,
+      batchSize: 100,
+      whileTraining: function(epoch, loss){
+        console.log(epoch, loss.loss)
+      }
+    }, function(){
+      console.log(nn, 'training done!')
+
+      
+      const testInput = ml5.tf.tensor([[1, 0,0]]);
+      
+      nn.neuralNetwork.predict(testInput, function(err, result){
+        console.log(result)
+        
+
+        const vals = Object.entries(nn.neuralNetworkData.meta.outputs.label.legend);
+        vals.forEach( (item,idx) => {
+          console.log(`label:${item[0]}, confidence:${result[0][idx]}`);
+        })
+        
+      })
+
+      inputs.dispose();
+      outputs.dispose();
+      testInput.dispose();
+    })
+
+
+  })
+
+  
+
 
     // const inputArr = [];
     // const outputArr = [];
@@ -64,32 +118,6 @@ let inputs, outputs;
     // const inputs = ml5.tf.tensor(inputArr, [nn.neuralNetworkData.data.raw.length, inputUnits])
     // const outputs = ml5.tf.tensor(outputArr, [nn.neuralNetworkData.data.raw.length, outputUnits])
 
-    nn.train({
-      inputs, 
-      outputs,
-      epochs: 10,
-      batchSize: 100,
-      whileTraining: function(epoch, loss){
-        console.log(epoch, loss.loss)
-      }
-    }, function(){
-      console.log(nn, 'training done!')
-
-      const testInput = ml5.tf.tensor([[255, 0,0]]);
-      
-      nn.neuralNetwork.predict(testInput, function(err, result){
-        console.log(result)
-      })
-
-      inputs.dispose();
-      outputs.dispose();
-      testInput.dispose();
-    })
-
-
-  })
-
-  
   
   // train the model
   // const training_options = {
