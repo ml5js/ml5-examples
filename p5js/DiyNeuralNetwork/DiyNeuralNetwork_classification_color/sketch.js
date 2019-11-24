@@ -39,17 +39,8 @@ let inputs, outputs;
 
     // let inputMeta; 
     nn.summarizeData();
-
-    const normalizedInputs  = nn.neuralNetworkData.normalizeRaws(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.inputs, 'xs');
-    const normalizedOutputs  = nn.neuralNetworkData.normalizeRaws(nn.neuralNetworkData.data.raw, nn.neuralNetworkData.meta.outputs, 'ys');
-    
-    
-    const trainingData = nn.neuralNetworkData.zipArrays(normalizedInputs, normalizedOutputs)
-
+    const trainingData = nn.normalizeData();
     console.log(trainingData)
-    
-
-
     const {inputs, outputs} = nn.neuralNetworkData.convertRawToTensors(trainingData, nn.neuralNetworkData.meta);
 
     // inputs.print();
