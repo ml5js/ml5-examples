@@ -38,22 +38,19 @@ let inputs, outputs;
 
 
     // let inputMeta; 
-    nn.summarizeData();
-    const trainingData = nn.normalizeData();
-    console.log(trainingData)
-    const {inputs, outputs} = nn.neuralNetworkData.convertRawToTensors(trainingData, nn.neuralNetworkData.meta);
-
-    // inputs.print();
-    // inputs.dispose();
+    nn.warmUp();
+    // nn.normalizeData();
+    // console.log(trainingData)
+    console.log(ml5.tf.memory())
     nn.train({
-      inputs, 
-      outputs,
       epochs: 10,
-      batchSize: 100,
+      batchSize: 150,
+      validationSplit: 0.1,
       whileTraining: function(epoch, loss){
         console.log(epoch, loss.loss)
       }
     }, function(){
+      console.log(ml5.tf.memory())
       console.log(nn, 'training done!')
 
       
@@ -70,8 +67,6 @@ let inputs, outputs;
         
       })
 
-      inputs.dispose();
-      outputs.dispose();
       testInput.dispose();
     })
 
