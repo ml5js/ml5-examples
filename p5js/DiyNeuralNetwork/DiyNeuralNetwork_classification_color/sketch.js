@@ -23,41 +23,34 @@ nn = ml5.diyNeuralNetwork(options, dataLoaded);
 function dataLoaded() {
   // prep your data
   nn.normalizeData();
-
-  // create a model
-  nn.neuralNetwork.createModel('sequential');
+  
   // get the inputUnits and outputUnits
-  const {
-    inputUnits,
-    outputUnits
-  } = nn.neuralNetworkData.meta
+  // const {
+  //   inputUnits,
+  //   outputUnits
+  // } = nn.neuralNetworkData.meta
+
   // add some layers
-  nn.neuralNetwork.addLayer(nn.createDenseLayer({
-    inputShape: [inputUnits]
-  }))
+  // nn.addLayer(nn.createDenseLayer({
+  //   inputShape: [inputUnits]
+  // }))
   // nn.neuralNetwork.addLayer(nn.createDenseLayer({
   //   activation: 'sigmoid'
   // }))
-  nn.neuralNetwork.addLayer(nn.createDenseLayer({
-    units: outputUnits,
-    activation: 'sigmoid'
-  }))
+  // nn.addLayer(nn.createDenseLayer({
+  //   units: outputUnits,
+  //   activation: 'sigmoid'
+  // }))
   // compile the model
   // compile(options, learningRate)
-  nn.compile({
-    loss: 'meanSquaredError',
-    optimizer: ml5.tf.train.adam,
-    metrics: ['accuracy'],
-  }, 0.25);
 
-  nn.train({
-    epochs: 10,
-    batchSize: 32,
-    validationSplit: 0.1,
-    whileTraining: function (epoch, loss) {
-      console.log(epoch, loss.loss)
-    }
-  }, finishedTraining)
+  // nn.compile({
+  //   loss: 'meanSquaredError',
+  //   optimizer: ml5.tf.train.adam,
+  //   metrics: ['accuracy'],
+  // }, 0.25);
+
+  nn.train({epochs:10},finishedTraining)
 
 }
 
