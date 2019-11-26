@@ -9,20 +9,19 @@ Image classification using MobileNet and p5.js
 This example uses a callback pattern to create the classifier
 === */
 let nn;
-let inputs, outputs;
-
 // function setup(){
 
 nn = ml5.diyNeuralNetwork();
 
 nn.neuralNetworkData.loadJSON('colorData.json', ['r', 'g', 'b'], ['label']).then(() => {
 
-  const meta = nn.neuralNetworkData.createMetaDataFromData(nn.neuralNetworkData.data.raw)
+  // prep your data
+  nn.createMetaDataFromData();
+  nn.warmUp();
+  nn.normalizeData();
 
-  nn.neuralNetworkData.meta = meta;
   // create a model
   nn.neuralNetwork.createModel('sequential');
-
   // get the inputUnits and outputUnits
   const {
     inputUnits,
@@ -32,36 +31,29 @@ nn.neuralNetworkData.loadJSON('colorData.json', ['r', 'g', 'b'], ['label']).then
   nn.neuralNetwork.addLayer(nn.createDenseLayer({
     inputShape: [inputUnits]
   }))
-  nn.neuralNetwork.addLayer(nn.createDenseLayer({
-    activation: 'sigmoid'
-  }))
+  // nn.neuralNetwork.addLayer(nn.createDenseLayer({
+  //   activation: 'sigmoid'
+  // }))
   nn.neuralNetwork.addLayer(nn.createDenseLayer({
     units: outputUnits,
     activation: 'sigmoid'
   }))
   // compile the model
+  // compile(options, learningRate)
   nn.compile({
     loss: 'meanSquaredError',
     optimizer: ml5.tf.train.adam,
     metrics: ['accuracy'],
-  });
-
-
-  // let inputMeta; 
-  nn.warmUp();
-  nn.normalizeData();
-
-  console.log(ml5.tf.memory())
+  }, 0.25);
 
   nn.train({
-    epochs: 3,
-    batchSize: 150,
+    epochs: 10,
+    batchSize: 32,
     validationSplit: 0.1,
     whileTraining: function (epoch, loss) {
       console.log(epoch, loss.loss)
     }
   }, finishedTraining)
-
 
 
   function finishedTraining() {
