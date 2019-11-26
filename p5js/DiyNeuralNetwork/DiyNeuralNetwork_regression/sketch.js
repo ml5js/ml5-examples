@@ -26,22 +26,23 @@ function setup(){
     nn.neuralNetworkData.addData({x:i}, {y:i}, {inputLabels:['x'], outputLabels:['y']})
   }
 
-  nn.createMetaDataFromData();
-  nn.warmUp();
-  nn.normalizeData();
+  // nn.createMetaDataFromData();
+  // nn.warmUp();
+
+  // nn.normalizeData();
 
   // create a model
-  nn.neuralNetwork.createModel('sequential');
+  // nn.neuralNetwork.createModel('sequential');
   // add some layers
-  nn.neuralNetwork.addLayer(nn.createDenseLayer({inputShape: [nn.neuralNetworkData.meta.inputUnits]}))
-  nn.neuralNetwork.addLayer(nn.createDenseLayer({activation: 'sigmoid'}))
-  nn.neuralNetwork.addLayer(nn.createDenseLayer({units: nn.neuralNetworkData.meta.outputUnits, activation: 'sigmoid'}))
+  // nn.neuralNetwork.addLayer(nn.createDenseLayer({inputShape: [nn.neuralNetworkData.meta.inputUnits]}))
+  // nn.neuralNetwork.addLayer(nn.createDenseLayer({activation: 'sigmoid'}))
+  // nn.neuralNetwork.addLayer(nn.createDenseLayer({units: nn.neuralNetworkData.meta.outputUnits, activation: 'sigmoid'}))
   // compile the model
-  nn.compile({
-    loss: 'meanSquaredError',
-    optimizer: ml5.tf.train.adam, 
-    metrics: ['accuracy'],
-  });
+  // nn.compile({
+  //   loss: 'meanSquaredError',
+  //   optimizer: ml5.tf.train.adam, 
+  //   metrics: ['accuracy'],
+  // });
 
   
   
