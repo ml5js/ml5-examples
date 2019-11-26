@@ -69,13 +69,13 @@ nn.neuralNetworkData.loadJSON('colorData.json', ['r', 'g', 'b'], ['label']).then
     console.log(ml5.tf.memory())
     console.log(nn, 'training done!')
 
-    nn.predict({
+    nn.classify({
       r: 1,
       g: 0,
       b: 0
     }, gotResult)
 
-    nn.predict([1, 0, 0], gotResult)
+    nn.classify([1, 0, 0], gotResult)
 
   }
 
@@ -86,10 +86,10 @@ nn.neuralNetworkData.loadJSON('colorData.json', ['r', 'g', 'b'], ['label']).then
     }
     console.log(result)
 
-    const vals = Object.entries(nn.neuralNetworkData.meta.outputs.label.legend);
-    vals.forEach((item, idx) => {
-      console.log(`label:${item[0]}, confidence:${result[0][idx]}`);
-    })
+    // const vals = Object.entries(nn.neuralNetworkData.meta.outputs.label.legend);
+    // vals.forEach((item, idx) => {
+    //   console.log(`label:${item[0]}, confidence:${result[0][idx]}`);
+    // })
 
 
     console.log(ml5.tf.memory())
