@@ -11,13 +11,17 @@ This example uses a callback pattern to create the classifier
 let nn;
 // function setup(){
 
-nn = ml5.diyNeuralNetwork();
+const options = {
+  inputs: ['r', 'g', 'b'],
+  outputs: ['label'],
+  dataUrl: 'colorData.json',
+  task: 'classification'
+}
 
-nn.neuralNetworkData.loadJSON('colorData.json', ['r', 'g', 'b'], ['label']).then(() => {
+nn = ml5.diyNeuralNetwork(options, dataLoaded);
 
+function dataLoaded() {
   // prep your data
-  nn.createMetaDataFromData();
-  nn.warmUp();
   nn.normalizeData();
 
   // create a model
@@ -55,40 +59,42 @@ nn.neuralNetworkData.loadJSON('colorData.json', ['r', 'g', 'b'], ['label']).then
     }
   }, finishedTraining)
 
+}
 
-  function finishedTraining() {
+function finishedTraining() {
 
-    console.log(ml5.tf.memory())
-    console.log(nn, 'training done!')
+  console.log(ml5.tf.memory())
+  console.log(nn, 'training done!')
 
-    nn.classify({
-      r: 1,
-      g: 0,
-      b: 0
-    }, gotResult)
+  nn.classify({
+    r: 1,
+    g: 0,
+    b: 0
+  }, gotResult)
 
-    nn.classify([1, 0, 0], gotResult)
+  nn.classify([1, 0, 0], gotResult)
 
+}
+
+function gotResult(err, result) {
+  if (err) {
+    console.log('err', err);
+    return
   }
+  console.log(result)
 
-  function gotResult(err, result) {
-    if (err) {
-      console.log('err', err);
-      return
-    }
-    console.log(result)
-
-    // const vals = Object.entries(nn.neuralNetworkData.meta.outputs.label.legend);
-    // vals.forEach((item, idx) => {
-    //   console.log(`label:${item[0]}, confidence:${result[0][idx]}`);
-    // })
+  // const vals = Object.entries(nn.neuralNetworkData.meta.outputs.label.legend);
+  // vals.forEach((item, idx) => {
+  //   console.log(`label:${item[0]}, confidence:${result[0][idx]}`);
+  // })
 
 
-    console.log(ml5.tf.memory())
-  }
+  console.log(ml5.tf.memory())
+}
 
+// nn.neuralNetworkData.loadJSON('colorData.json', ['r', 'g', 'b'], ['label']).then(() => {
 
-})
+// })
 
 
 

@@ -9,11 +9,17 @@ Image classification using MobileNet and p5.js
 This example uses a callback pattern to create the classifier
 === */
 let nn;
-let inputs, outputs;
+// let inputs, outputs;
+
+const options = {
+  inputs: ['x'],
+  outputs: ['y'],
+  task:'regression'
+}
 
 function setup(){
 
-  nn = ml5.diyNeuralNetwork();
+  nn = ml5.diyNeuralNetwork(options);
   
   // create some data
   for(let i = 0; i < 1; i+=0.01){
@@ -21,7 +27,6 @@ function setup(){
   }
 
   nn.createMetaDataFromData();
-  nn.summarizeData();
   nn.warmUp();
   nn.normalizeData();
 
