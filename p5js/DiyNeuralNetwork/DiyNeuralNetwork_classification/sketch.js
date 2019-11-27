@@ -10,8 +10,8 @@ This example uses a callback pattern to create the classifier
 === */
 let nn;
 const options = {
-  inputs:['x', 'y'],
-  outputs:['label'],
+  // inputs:2,
+  // outputs:2,
   task:'classification'
 }
 function setup(){
@@ -31,7 +31,8 @@ function setup(){
     }
     const yVal = Math.floor(Math.random()*500);
     
-    nn.addData({x: xVal, y: yVal}, {label: labelVal})
+    // nn.addData({x: xVal, y: yVal}, {label: labelVal})
+    nn.addData([xVal, yVal],[labelVal])
   }
    
   // nn.normalizeData();
@@ -48,7 +49,15 @@ function setup(){
 function finishedTraining(){
     console.log('done')
     
-    nn.classify({x:0, y:250}, function(err, result){
+    // nn.classify({x:0, y:250}, function(err, result){
+    //   if(err){
+    //     console.log(err)
+    //     return;
+    //   }
+    //   console.log('hi from callback', result)
+    // })
+
+    nn.classify([0, 250], function(err, result){
       if(err){
         console.log(err)
         return;
