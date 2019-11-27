@@ -41,14 +41,15 @@ function classify() {
   let fare_class = select('#fare_class').value();
   let sex = select('#sex').value();
 
-  let inputs = {
-    age: age,
-    fare: fare,
-    fare_class: [0,1,0],
-    sex: [0,1]
-  };
+  // let inputs = {
+  //   age: age,
+  //   fare: fare,
+  //   fare_class: 'first', // [0,1,0],
+  //   sex: 'female', //[0,1]
+  // };
 
   // let inputs = [0,1,0, 0, 1, 0.25, 1];
+  let inputs = ['first','female', age, fare]
   nn.classify(inputs, gotResults);
 }
 
