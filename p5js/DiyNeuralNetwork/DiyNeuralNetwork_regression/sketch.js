@@ -23,7 +23,8 @@ function setup(){
   
   // create some data
   for(let i = 0; i < 1; i+=0.01){
-    nn.neuralNetworkData.addData({x:i}, {y:i}, {inputLabels:['x'], outputLabels:['y']})
+    // nn.neuralNetworkData.addData({x:i}, {y:i}, {inputLabels:['x'], outputLabels:['y']})
+    nn.neuralNetworkData.addData({x:i}, {y:i})
   }
 
   // nn.createMetaDataFromData();

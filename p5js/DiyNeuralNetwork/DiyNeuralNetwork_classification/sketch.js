@@ -9,46 +9,37 @@ Image classification using MobileNet and p5.js
 This example uses a callback pattern to create the classifier
 === */
 let nn;
-let inputs, outputs;
-const DEFAULT_LEARNING_RATE = 0.2
+const options = {
+  inputs:['x', 'y'],
+  outputs:['label'],
+  task:'classification'
+}
 function setup(){
 
-  nn = ml5.diyNeuralNetwork();
-  // create a model
-  nn.neuralNetwork.createModel('sequential');
-  // add some layers
-  nn.neuralNetwork.addLayer(nn.createDenseLayer({inputShape: [2]}))
-  nn.neuralNetwork.addLayer(nn.createDenseLayer({activation: 'sigmoid'}))
-  nn.neuralNetwork.addLayer(nn.createDenseLayer({units: 2, activation: 'sigmoid'}))
-  // compile the model
-  nn.compile();
 
-  // create some data
-  const inputArr = [];
-  const outputArr = [];
+  nn = ml5.diyNeuralNetwork(options);
+  
   for(let i = 0; i < 500; i++){
+    
+    let xVal, labelVal;
     if(i < 250){
-      inputArr.push([1, 1])
-      outputArr.push([1, 0])
-    } else{
-    inputArr.push([0, 0])
-    outputArr.push([0, 1])
-  }
+      xVal = i
+      labelVal = "a"
+    } else {
+      xVal = i
+      labelVal = "b"
+    }
+    const yVal = Math.floor(Math.random()*500);
+    
+    nn.addData({x: xVal, y: yVal}, {label: labelVal})
   }
    
-  // turn them into tensors
-  inputs = ml5.tf.tensor(inputArr, [500, 2]) 
-  outputs = ml5.tf.tensor(outputArr, [500, 2])
+  // nn.normalizeData();
   
   // train the model
   const training_options = {
-    inputs,
-    outputs,
     batchSize: 32,
-    epochs: 2,
-    whileTraining: (epoch, loss) => {
-      console.log(`epoch:${epoch}, loss: ${loss.loss}`);
-    }
+    epochs: 10
   }
   nn.train(training_options, finishedTraining)
   
@@ -56,18 +47,12 @@ function setup(){
 
 function finishedTraining(){
     console.log('done')
-
-    inputs.dispose();
-    outputs.dispose();
-
-    console.log(nn)
-    const testInput = ml5.tf.tensor([[1,1], [0,0]])
     
-    nn.neuralNetwork.classify(testInput, function(err, result){
+    nn.classify({x:0, y:250}, function(err, result){
+      if(err){
+        console.log(err)
+        return;
+      }
       console.log('hi from callback', result)
     })
-
-    // classification.dispose();
-    testInput.dispose();
-
 }

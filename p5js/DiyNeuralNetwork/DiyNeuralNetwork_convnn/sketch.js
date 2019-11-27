@@ -16,8 +16,6 @@ const IMAGE_CHANNELS = 1;
 function setup() {
 
   nn = ml5.diyNeuralNetwork();
-  // create a model
-  nn.neuralNetwork.createModel('sequential');
   // add some layers
   // conv
   nn.neuralNetwork.addLayer(nn.createConv2dLayer({
