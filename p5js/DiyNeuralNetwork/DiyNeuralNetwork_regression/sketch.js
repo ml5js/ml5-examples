@@ -45,8 +45,6 @@ function setup(){
   //   metrics: ['accuracy'],
   // });
 
-  
-  
   // train the model
   const training_options = {
     batchSize: 32,
@@ -61,18 +59,14 @@ function setup(){
 
 function finishedTraining(){
     console.log('done')
-
-    
     nn.predict([0.25], gotResult)
-
 }
 
 function gotResult(err, result){
-
     if(err) {
       console.log(err)
       return
     }
-    console.log('hi from callback', result)
+    console.log('results', result)
 
 }
