@@ -17,6 +17,20 @@ function setup(){
   }
   nn = ml5.diyNeuralNetwork(options);
   
+  addData();
+   
+  nn.normalizeData();
+  
+  // train the model
+  const training_options = {
+    batchSize: 32,
+    epochs: 10
+  }
+  nn.train(training_options, finishedTraining)
+  
+}
+
+function addData(){
   for(let i = 0; i < 500; i++){
     
     let xVal, labelVal;
@@ -31,16 +45,6 @@ function setup(){
     
     nn.addData({x: xVal, y: yVal}, {label: labelVal})
   }
-   
-  nn.normalizeData();
-  
-  // train the model
-  const training_options = {
-    batchSize: 32,
-    epochs: 10
-  }
-  nn.train(training_options, finishedTraining)
-  
 }
 
 function finishedTraining(){
