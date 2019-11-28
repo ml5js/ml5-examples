@@ -86,9 +86,6 @@ function setup() {
     
     const outputs = ml5.tf.tensor(labelList, [images.length, oneHotLabels.uniqueValues.length])
 
-    inputs.print()
-    outputs.print()
-
     // const [trainXs, trainYs] = ml5.tf.tidy(() => {
     //   const d = data.nextTrainBatch(TRAIN_DATA_SIZE);
     //   return [
@@ -135,7 +132,6 @@ function setup() {
     const normalized = nn.neuralNetworkData.normalizeArray( Array.from(testA.pixels),{min: 0, max:255});
     testATensor = ml5.tf.tensor( [normalized ], [1, IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS])
     
-    testATensor.print();
     nn.neuralNetwork.classify(testATensor, {outputs:{label:oneHotLabels}}, (err, result) =>{
       if(err){
         console.log(err);
