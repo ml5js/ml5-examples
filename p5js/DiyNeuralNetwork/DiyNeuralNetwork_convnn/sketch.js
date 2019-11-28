@@ -85,17 +85,17 @@ function setup() {
       metrics: ['accuracy']}
     );
 
-    nn.neuralNetwork.train({
-      inputs: trainXs, 
-      outputs: trainYs,
-      batchSize: BATCH_SIZE,
-      validationData: [testXs, testYs],
-      epochs: 10,
-      shuffle: true,
-      whileTraining: (epoch, loss) => {
-        console.log(`epoch:${epoch}, loss: ${loss.loss}`);
-      },
-    }, finishedTraining)
+    // nn.neuralNetwork.train({
+    //   inputs: trainXs, 
+    //   outputs: trainYs,
+    //   batchSize: BATCH_SIZE,
+    //   validationData: [testXs, testYs],
+    //   epochs: 10,
+    //   shuffle: true,
+    //   whileTraining: (epoch, loss) => {
+    //     console.log(`epoch:${epoch}, loss: ${loss.loss}`);
+    //   },
+    // }, finishedTraining)
 
   })
 
