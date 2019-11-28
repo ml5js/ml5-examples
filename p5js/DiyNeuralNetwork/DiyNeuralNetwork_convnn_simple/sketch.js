@@ -116,7 +116,7 @@ function setup() {
       outputs,
       batchSize: BATCH_SIZE,
       // validationData: [inputs, outputs],
-      epochs: 30,
+      epochs: 32,
       shuffle: false,
       whileTraining: (epoch, loss) => {
         console.log(`epoch:${epoch}, loss: ${loss.loss}`);
