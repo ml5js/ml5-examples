@@ -18,8 +18,6 @@ function setup() {
   bSlider = createSlider(0, 255, 255);
 
   let nnOptions = {
-    inputs: ['r', 'g', 'b'],
-    outputs: ['label'],
     task: 'classification',
     debug: true
   };
