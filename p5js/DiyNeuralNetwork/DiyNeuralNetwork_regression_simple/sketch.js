@@ -13,7 +13,7 @@ function setup(){
   const options = {
     task:'regression'
   }
-  nn = ml5.diyNeuralNetwork(options);
+  nn = ml5.neuralNetwork(options);
   // create some data
   for(let i = 0; i < 1; i+=0.01){
     // nn.neuralNetworkData.addData({x:i}, {y:i}, {inputLabels:['x'], outputLabels:['y']})

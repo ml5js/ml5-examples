@@ -19,7 +19,7 @@ const options = {
 
 function setup(){
 
-  nn = ml5.diyNeuralNetwork(options);
+  nn = ml5.neuralNetwork(options);
   
   // create some data
   for(let i = 0; i < 1; i+=0.01){

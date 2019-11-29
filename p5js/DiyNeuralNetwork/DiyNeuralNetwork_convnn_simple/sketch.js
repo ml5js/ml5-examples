@@ -35,7 +35,7 @@ function setup() {
       task: 'classification'
     }
 
-    nn = ml5.diyNeuralNetwork(options);
+    nn = ml5.neuralNetwork(options);
     // add some layers
     // conv
     nn.addLayer(nn.createConv2dLayer({

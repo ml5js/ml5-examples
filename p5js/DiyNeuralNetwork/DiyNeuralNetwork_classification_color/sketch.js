@@ -18,7 +18,7 @@ const options = {
   task: 'classification'
 }
 
-nn = ml5.diyNeuralNetwork(options, dataLoaded);
+nn = ml5.neuralNetwork(options, dataLoaded);
 
 function dataLoaded() {
   // prep your data

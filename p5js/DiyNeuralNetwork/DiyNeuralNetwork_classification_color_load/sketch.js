@@ -16,7 +16,7 @@ function setup() {
     task: 'classification'
   }
 
-  nn = ml5.diyNeuralNetwork(options);
+  nn = ml5.neuralNetwork(options);
 
   const modelUrls = {
     model: 'model/model.json',

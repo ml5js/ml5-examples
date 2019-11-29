@@ -15,7 +15,7 @@ function setup(){
   const options = {
     task:'classification'
   }
-  nn = ml5.diyNeuralNetwork(options);
+  nn = ml5.neuralNetwork(options);
   
   addData();
    

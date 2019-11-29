@@ -12,7 +12,7 @@ function setup() {
     debug: true
   };
 
-  nn = ml5.diyNeuralNetwork(nnOptions, modelReady)
+  nn = ml5.neuralNetwork(nnOptions, modelReady)
   submitButton = select('#submit');
   submitButton.mousePressed(classify);
   submitButton.hide();
