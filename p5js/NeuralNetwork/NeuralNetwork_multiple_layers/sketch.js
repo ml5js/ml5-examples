@@ -1,68 +1,72 @@
+// Copyright (c) 2019 ml5
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
+/* ===
+ml5 Example
+Image classification using MobileNet and p5.js
+This example uses a callback pattern to create the classifier
+=== */
 let nn;
-const nn_options = {
-    inputs: 1,
-    outputs: 1,
-    layers: [
-        ml5.tf.layers.dense({
-            units: 16,
-            inputShape: [1],
-            activation: 'relu',
-        }),
-        ml5.tf.layers.dense({
-            units: 16,
-            activation: 'sigmoid',
-        }),
-        ml5.tf.layers.dense({
-            units: 1,
-            activation: 'sigmoid',
-        })
-    ],
-    debug: true
+
+function setup(){
+  
+  const options = {
+    task:'classification'
+  }
+  nn = ml5.neuralNetwork(options);
+  
+  // add your data
+  addData();
+  // normalize it
+  nn.normalizeData();
+  
+  // create metadata from the data
+  nn.createMetaDataFromData();
+  // create the training data and prepare for training
+  nn.warmUp();
+  // setup your nn architecture based on the inputUnits and outputUnits
+  const {inputUnits, outputUnits} = nn.neuralNetworkData.meta;
+  nn.addLayer(nn.createDenseLayer({inputShape: [inputUnits]}))
+  nn.addLayer(nn.createDenseLayer({activation: 'sigmoid'}))
+  nn.addLayer(nn.createDenseLayer({units: outputUnits, activation: 'sigmoid'}))
+
+  
+  // train the model
+  const training_options = {
+    batchSize: 32,
+    epochs: 10
+  }
+  nn.train(training_options, finishedTraining)
+  
 }
 
-function setup() {
-    createCanvas(400, 400);
-    background(240);
-    nn = ml5.neuralNetwork(nn_options);
-    console.log(nn);
-    createTrainingData();
-
-    nn.normalizeData();
-    const train_options = {
-        epochs: 32
+function addData(){
+  for(let i = 0; i < 500; i++){
+    
+    let xVal, labelVal;
+    if(i < 250){
+      xVal = i
+      labelVal = "a"
+    } else {
+      xVal = i
+      labelVal = "b"
     }
-    nn.train(train_options, finishedTraining);
+    const yVal = Math.floor(Math.random()*500);
+    
+    nn.addData({x: xVal, y: yVal}, {label: labelVal})
+  }
 }
 
 function finishedTraining(){
-
-    nn.predict([10], function(err, result){
-        if(err){
-            console.log(err);
-            return
-        }
-        console.log(result)
-    })
-
-    nn.predict([390], function(err, result){
-        if(err){
-            console.log(err);
-            return
-        }
-        console.log(result)
-    })
-}
-
-function createTrainingData(){
-    for(let i = 0; i < 400; i++){
-        if(i%2){
-            const x = floor(random(0, width/2));
-            nn.addData([x], [0])
-        }else {
-            const x = floor(random(width/2, width));
-            nn.addData([x], [1])
-        }
-    }
+    console.log('done')
     
+    nn.classify({x:0, y:0.5}, function(err, result){
+      if(err){
+        console.log(err)
+        return;
+      }
+      console.log('hi from callback', result)
+    })
 }
-
