@@ -30,6 +30,7 @@ function setup() {
     inputs: 2,
     outputs: 1,
     learningRate: 0.25,
+    task:'regression',
     debug:true
     // hiddenUnits: 2
   }
