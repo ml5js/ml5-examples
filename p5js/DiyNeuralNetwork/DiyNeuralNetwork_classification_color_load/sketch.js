@@ -13,17 +13,16 @@ let nn;
 function setup() {
 
   const options = {
-    task: 'classification'
+    task: 'classification',
+    modelUrl: {
+      model: 'model/model.json',
+      metadata: 'model/model_meta.json',
+      weights: 'model/model.weights.bin'
+    }
   }
 
-  nn = ml5.neuralNetwork(options);
+  nn = ml5.neuralNetwork(options, modelLoaded);
 
-  const modelUrls = {
-    model: 'model/model.json',
-    metadata: 'model/model_meta.json',
-    weights: 'model/model.weights.bin'
-  }
-  nn.load(modelUrls, modelLoaded)
 
   function modelLoaded() {
 
