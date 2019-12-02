@@ -13,7 +13,8 @@ let nn;
 function setup(){
 
   const options = {
-    task:'classification'
+    task:'classification',
+    debug:true,
   }
   nn = ml5.neuralNetwork(options);
   addData();

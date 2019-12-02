@@ -32,7 +32,8 @@ function setup() {
     images.forEach(item => item.image.loadPixels())
     console.log(images)
     const options = {
-      task: 'classification'
+      task: 'classification',
+      debug:true
     }
 
     nn = ml5.neuralNetwork(options);

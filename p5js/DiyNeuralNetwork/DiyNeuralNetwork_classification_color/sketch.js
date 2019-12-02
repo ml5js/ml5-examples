@@ -15,7 +15,8 @@ const options = {
   inputs: ['r', 'g', 'b'],
   outputs: ['label'],
   dataUrl: 'colorData.json',
-  task: 'classification'
+  task: 'classification',
+  debug:true
 }
 
 nn = ml5.neuralNetwork(options, dataLoaded);
@@ -50,7 +51,7 @@ function dataLoaded() {
   //   metrics: ['accuracy'],
   // }, 0.25);
 
-  nn.train({epochs:10},finishedTraining)
+  nn.train({epochs:2},finishedTraining)
 
 }
 
@@ -59,13 +60,13 @@ function finishedTraining() {
   console.log(ml5.tf.memory())
   console.log(nn, 'training done!')
 
-  nn.classify({
-    r: 1,
-    g: 0,
-    b: 0
-  }, gotResult)
+  // nn.classify({
+  //   r: 1,
+  //   g: 0,
+  //   b: 0
+  // }, gotResult)
 
-  nn.classify([1, 0, 0], gotResult)
+  nn.classifyMultiple([[1, 0, 0], [0,1,0]], gotResult)
 
 }
 
