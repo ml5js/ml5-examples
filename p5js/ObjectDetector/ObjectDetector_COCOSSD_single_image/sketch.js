@@ -14,7 +14,7 @@ function preload(){
 function setup() {
   createCanvas(640, 420);
 
-  yolo = ml5.objectDetector('yolo', modelReady);
+  yolo = ml5.objectDetector('cocossd', modelReady);
 
 }
 

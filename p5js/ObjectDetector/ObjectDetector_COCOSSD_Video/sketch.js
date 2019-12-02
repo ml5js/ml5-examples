@@ -50,7 +50,7 @@ function draw() {
         } else {
           stroke(0,0, 255);
         }
-        rect(detection.x, detection.y, detection.w, detection.h);  
+        rect(detection.x, detection.y, detection.width, detection.height);  
       })
     } 
 }
