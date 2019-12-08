@@ -1,51 +1,25 @@
-// Copyright (c) 2019 ml5
-//
-// This software is released under the MIT License.
-// https://opensource.org/licenses/MIT
-
-/* ===
-ml5 Example
-Real time Object Detection using YOLO and p5.js
-=== */
-
 let video;
-let yolo;
-let status;
-let objects = [];
+let detector;
+let detections;
 
 function setup() {
-  createCanvas(320, 240);
+  createCanvas(480, 360);
+
   video = createCapture(VIDEO);
-  video.size(320, 240);
-
-  // Create a YOLO method
-  yolo = ml5.objectDetector('yolo', modelLoaded);
-
-  // Hide the original video
+  video.size(width, height);
   video.hide();
-  status = select('#status');
+
+  detector = ml5.objectDetector('yolo', modelReady)
 }
 
-function draw() {
-  image(video, 0, 0, width, height);
-  for (let i = 0; i < objects.length; i++) {
-    noStroke();
-    fill(0, 255, 0);
-    text(objects[i].label, objects[i].x, objects[i].y - 5);
-    noFill();
-    strokeWeight(4);
-    stroke(0, 255, 0);
-    rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
-  }
-}
 
-function modelLoaded() {
-  status.html('Model loaded!');
+function modelReady() {
+  console.log('model loaded')
   detect();
 }
 
 function detect() {
-  yolo.detect(video, gotResults);
+  detector.detect(video, gotResults);
 }
 
 function gotResults(err, results) {
@@ -54,6 +28,29 @@ function gotResults(err, results) {
     return
   }
 
-  objects = results;
+  detections = results;
+
   detect();
+}
+
+function draw() {
+  image(video, 0, 0, width, height);
+
+  if (detections) {
+    detections.forEach(detection => {
+      noStroke();
+      fill(255);
+      strokeWeight(2);
+      text(detection.label, detection.x + 4, detection.y + 10)
+
+      noFill();
+      strokeWeight(3);
+      if (detection.label === 'person') {
+        stroke(0, 255, 0);
+      } else {
+        stroke(0, 0, 255);
+      }
+      rect(detection.x, detection.y, detection.width, detection.height);
+    })
+  }
 }

@@ -1,7 +1,4 @@
-// Initialize the Image Classifier method with MobileNet. A callback needs to be passed.
-// Create a YOLO method
-
-let yolo;
+let objectDetector;
 let img;
 let objects = [];
 let status;
@@ -14,7 +11,7 @@ function preload(){
 function setup() {
   createCanvas(640, 420);
 
-  yolo = ml5.objectDetector('yolo', modelReady);
+  objectDetector = ml5.objectDetector('yolo', modelReady);
 
 }
 
@@ -23,7 +20,7 @@ function modelReady() {
   console.log("model Ready!")
   status = true;
   console.log('Detecting') 
-  yolo.detect(img, gotResult);
+  objectDetector.detect(img, gotResult);
 }
 
 // A function to run when we get any errors and the results

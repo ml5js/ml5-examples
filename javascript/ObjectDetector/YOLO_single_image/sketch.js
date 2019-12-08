@@ -21,7 +21,7 @@ async function make() {
     img.width = width;
     img.height = height;
 
-    objectDetector = await ml5.objectDetector('yolo', {}, startDetecting)
+    objectDetector = await ml5.objectDetector('yolo', startDetecting)
 
     canvas = createCanvas(width, height);
     ctx = canvas.getContext('2d');

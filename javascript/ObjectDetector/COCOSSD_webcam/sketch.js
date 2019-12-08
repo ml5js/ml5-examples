@@ -19,7 +19,7 @@ let height = 360;
 async function make() {
     // get the video
     video = await getVideo();
-    objectDetector = await ml5.objectDetector('cocossd', {}, startDetecting)
+    objectDetector = await ml5.objectDetector('cocossd', startDetecting)
     canvas = createCanvas(width, height);
     ctx = canvas.getContext('2d');
 }
