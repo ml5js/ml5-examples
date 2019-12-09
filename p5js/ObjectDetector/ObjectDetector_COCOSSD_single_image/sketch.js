@@ -1,4 +1,5 @@
 let objectDetector;
+
 let img;
 let objects = [];
 let status;
