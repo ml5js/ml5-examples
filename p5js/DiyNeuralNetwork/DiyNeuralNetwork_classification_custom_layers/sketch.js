@@ -15,7 +15,24 @@ function setup(){
   const options = {
     task:'classification'
   }
+
+
+  let options = {
+    layers: [
+      {type: 'convolutional', inputs: video.width*video.height*4}, 
+      {type: 'maxpooling'}, 
+      {type: 'flatten'},
+      {type: 'dense'}
+    ],
+    
+  }
   nn = ml5.neuralNetwork(options);
+
+  nn.addImageData(video, 'pose1');
+  nn.addData(video.pixels, 'pose1');
+
+  nn.classifyImage(video, gotResults);
+  nn.classify(video.pixels, gotResults);
   
   // add your data
   addData();
