@@ -22,7 +22,7 @@ nn = ml5.neuralNetwork(options, dataLoaded);
 
 function dataLoaded() {
   // prep your data
-  nn.normalizeData();
+  // nn.normalizeData();
   
   // get the inputUnits and outputUnits
   // const {
@@ -50,7 +50,7 @@ function dataLoaded() {
   //   metrics: ['accuracy'],
   // }, 0.25);
 
-  nn.train({epochs:10},finishedTraining)
+  // nn.train({epochs:10},finishedTraining)
 
 }
 
