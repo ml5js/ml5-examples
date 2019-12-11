@@ -23,37 +23,10 @@ function setup() {
 
   nn.normalizeData();
   nn.train({batchSize:2},finishedTraining)
-  // nn.neuralNetworkData.createMetadata(nn.neuralNetworkData.data.raw)
-
-  // /**
-  //  * ///////////////////////////
-  //  * Prepare data for training
-  //  * ///////////////////////////
-  //  */
-
-  // // normalize
-  // const trainingData = nn.neuralNetworkData.normalizeDataRaw(nn.neuralNetworkData.data.raw)
-  // console.log(trainingData)
-  // const trainingDataUnormalized = nn.neuralNetworkData.applyOneHotEncodingsToDataRaw(nn.neuralNetworkData.data.raw)
-  // console.log(trainingDataUnormalized)
-
-
-  // const {inputs, outputs} = nn.neuralNetworkData.convertRawToTensors(trainingData);
-  // inputs.print();
-  // console.log('---')
-  // outputs.print();
-
-
-
-  // inputs.dispose();
-  // outputs.dispose();
 
 }
 
-
 function finishedTraining(err, res){
-  console.log(nn);
-
   nn.classify({r:255, g:0,b:0}, gotResults)
 }
 

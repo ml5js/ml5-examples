@@ -38,13 +38,14 @@ function preload() {
 function setup() {
   // load the pixels for each image to get a flat pixel array
   images.forEach(item => item.image.loadPixels())
+  
 
   const options = {
-    task: 'classification',
+    task: 'imageClassification',
     debug: true,
+    inputs:[IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS],
     layers: [{
         type: 'conv2d',
-        inputShape: [IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS], // for image classifcation this is necessary 
         kernelSize: 5,
         filters: 8,
         strides: 1,
@@ -75,7 +76,6 @@ function setup() {
       },
       {
         type: 'dense',
-        // units:2, // will be handled by the neural net class
         kernelInitializer: 'varianceScaling',
         activation: 'softmax'
       }
@@ -89,19 +89,14 @@ function setup() {
   images.forEach(item => {
     const imageArray = Array.from(item.image.pixels);
     const labels = item.label;
-    nn.neuralNetworkData.addImageData(imageArray, {
-      label: labels
-    });
+    nn.addData({pixelArray:imageArray}, {label: labels});
   })
 
-  nn.normalizeData();
+  // nn.normalizeData();
 
   const TRAINING_OPTIONS = {
     batchSize: 2,
-    onImageData: true,
-    // validationData: [inputs, outputs],
     epochs: 10,
-    shuffle: false,
   }
 
   nn.train(TRAINING_OPTIONS, finishedTraining)
@@ -109,20 +104,16 @@ function setup() {
 }
 
 
-function finishedTraining(err, result) {
-
-  if (err) {
-    console.log(err);
-    return
-  }
+function finishedTraining() {
 
   console.log("finished training");
-
-  nn.classifyImage(testA.pixels, gotResult)
+  testA.loadPixels();
+  const test = Array.from(testA.pixels);
+  nn.classify( test, gotResults)
 
 }
 
-function gotResult(err, result) {
+function gotResults(err, result) {
   if (err) {
     console.log(err);
     return

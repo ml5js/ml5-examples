@@ -26,48 +26,15 @@ function setup() {
    */
   addData();
 
-  nn.train(finishedTraining)
-
-  // /**
-  //  * ///////////////////////////
-  //  * get information about the data
-  //  * ///////////////////////////
-  //  */
-  // // get the data type for each property
-  // nn.neuralNetworkData.createMetadata(nn.neuralNetworkData.data.raw, [2,2,3])
-
-  // /**
-  //  * ///////////////////////////
-  //  * Prepare data for training
-  //  * ///////////////////////////
-  //  */
-
-  // const trainingDataUnormalized = nn.prepareForTraining()
-  // console.log(trainingDataUnormalized)
-
-  // // normalize
-  // const trainingData = nn.normalizeData()
-  // console.log(trainingData)
-  
-
-  // // create training data tensors
-
-  // const {inputs, outputs} = nn.neuralNetworkData.convertRawToTensors(trainingDataUnormalized);
-  // inputs.print();
-  // outputs.print();
-
-  // inputs.dispose();
-  // outputs.dispose();
+  nn.train({epochs: 100, batchSize:2}, finishedTraining)
 
 }
 
 function finishedTraining(){
 
   nn.classify([
-    
     0, 0, 255,255, 0, 0, 255,255,
     0, 0, 255,255, 0, 0, 255,255
-  
 ], gotResults)
 
 }
