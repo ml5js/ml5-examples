@@ -13,28 +13,46 @@ let nn;
 function setup() {
 
   const options = {
-    task: 'classification'
+    task: 'classification',
+    debug:true
   }
   nn = ml5.neuralNetwork(options);
 
   // add data
   addData();
 
+  nn.normalizeData();
+  nn.train({batchSize:2},finishedTraining)
+  // nn.neuralNetworkData.createMetadata(nn.neuralNetworkData.data.raw)
 
-  // get the data type for each property
-  nn.neuralNetworkData.getDTypesFromData(nn.neuralNetworkData.data.raw);
-  console.log(nn.neuralNetworkData.meta.inputs)
-  console.log(nn.neuralNetworkData.meta.outputs)
-  // get the stats - min, max
-  nn.neuralNetworkData.getDataStats(nn.neuralNetworkData.data.raw);
-  console.log(nn.neuralNetworkData.meta.inputs)
-  console.log(nn.neuralNetworkData.meta.outputs)
+  // /**
+  //  * ///////////////////////////
+  //  * Prepare data for training
+  //  * ///////////////////////////
+  //  */
 
-  // onehot encode 
-  nn.neuralNetworkData.getDataOneHot(nn.neuralNetworkData.data.raw);
-  console.log(nn.neuralNetworkData.meta.inputs)
-  console.log(nn.neuralNetworkData.meta.outputs)
+  // // normalize
+  // const trainingData = nn.neuralNetworkData.normalizeDataRaw(nn.neuralNetworkData.data.raw)
+  // console.log(trainingData)
+  // const trainingDataUnormalized = nn.neuralNetworkData.applyOneHotEncodingsToDataRaw(nn.neuralNetworkData.data.raw)
+  // console.log(trainingDataUnormalized)
 
+
+  // const {inputs, outputs} = nn.neuralNetworkData.convertRawToTensors(trainingData);
+  // inputs.print();
+  // console.log('---')
+  // outputs.print();
+
+
+
+  // inputs.dispose();
+  // outputs.dispose();
+
+}
+
+
+function finishedTraining(){
+  console.log(nn);
 }
 
 function addData() {

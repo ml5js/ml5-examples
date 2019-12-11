@@ -17,6 +17,7 @@ function setup() {
     dataUrl: 'data/colorData.json',
     inputs: ['r', 'g', 'b'],
     outputs: ['label'],
+    debug:true
   }
   nn = ml5.neuralNetwork(options, dataLoaded);
 
@@ -24,5 +25,10 @@ function setup() {
 }
 
 function dataLoaded(){
-  console.log(nn.neuralNetworkData.data)
+
+  nn.train({batchSize: 32},finishedTraining)
+}
+
+function finishedTraining(err, res){
+  console.log(nn);
 }

@@ -13,7 +13,9 @@ let nn;
 function setup() {
 
   const options = {
-    task: 'classification'
+    task: 'imageClassification',
+    inputs: [2,2,4],
+    debug:true
   }
   nn = ml5.neuralNetwork(options);
 
@@ -24,34 +26,44 @@ function setup() {
    */
   addData();
 
-  /**
-   * ///////////////////////////
-   * get information about the data
-   * ///////////////////////////
-   */
+  nn.train(finishedTraining)
+
+  // /**
+  //  * ///////////////////////////
+  //  * get information about the data
+  //  * ///////////////////////////
+  //  */
+  // // get the data type for each property
+  // nn.neuralNetworkData.createMetadata(nn.neuralNetworkData.data.raw, [2,2,3])
+
+  // /**
+  //  * ///////////////////////////
+  //  * Prepare data for training
+  //  * ///////////////////////////
+  //  */
+
+  // const trainingDataUnormalized = nn.prepareForTraining()
+  // console.log(trainingDataUnormalized)
+
+  // // normalize
+  // const trainingData = nn.normalizeData()
+  // console.log(trainingData)
   
-  // get the data type for each property
-  nn.neuralNetworkData.getDTypesFromData(nn.neuralNetworkData.data.raw);
-  console.log(nn.neuralNetworkData.meta.inputs)
-  console.log(nn.neuralNetworkData.meta.outputs)
-  // get the stats - min, max
-  nn.neuralNetworkData.getDataStats(nn.neuralNetworkData.data.raw);
-  console.log(nn.neuralNetworkData.meta.inputs)
-  console.log(nn.neuralNetworkData.meta.outputs)
 
-  // onehot encode 
-  nn.neuralNetworkData.getDataOneHot(nn.neuralNetworkData.data.raw);
-  console.log(nn.neuralNetworkData.meta.inputs)
-  console.log(nn.neuralNetworkData.meta.outputs)
+  // // create training data tensors
 
-  // calculate the input units from the data
-  nn.neuralNetworkData.getDataUnits(nn.neuralNetworkData.data.raw, [2,2, 3]);
-  console.log(nn.neuralNetworkData.meta)
+  // const {inputs, outputs} = nn.neuralNetworkData.convertRawToTensors(trainingDataUnormalized);
+  // inputs.print();
+  // outputs.print();
 
+  // inputs.dispose();
+  // outputs.dispose();
 
+}
 
+function finishedTraining(){
 
-
+  console.log(nn)
 
 }
 
@@ -59,28 +71,39 @@ function addData() {
   const myData = [{
       label: "red-square",
       value: [
-        255, 0, 0, 255, 0, 0,
-        255, 0, 0, 255, 0, 0
+        255, 0, 0,255, 255, 0, 0, 255,
+        255, 0, 0,255, 255, 0, 0, 255
       ]
     },
     {
       label: "green-square",
       value: [
-        0, 255, 0, 0, 255, 0,
-        0, 255, 0, 0, 255, 0
+        0, 255, 0, 255, 0, 255, 0, 255,
+        0, 255, 0, 255, 0, 255, 0, 255
       ]
     },
     {
       label: "blue-square",
       value: [
-        0, 0, 255, 0, 0, 255,
-        0, 0, 255, 0, 0, 255
+        0, 0, 255,255, 0, 0, 255,255,
+        0, 0, 255,255, 0, 0, 255,255
       ]
     }
 
   ]
 
   // method 1
+  myData.forEach(item => {
+    const xInputObj = {
+      pixelArray: item.value
+    }
+
+    const yInputObj = {
+      label: item.label
+    }
+    nn.addData(xInputObj, yInputObj)
+  })
+
   myData.forEach(item => {
     const xInputObj = {
       pixelArray: item.value
