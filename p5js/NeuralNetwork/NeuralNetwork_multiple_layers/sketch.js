@@ -13,6 +13,7 @@ let nn;
 function setup() {
 
   const options = {
+    debug:true,
     task: 'classification',
     layers: [{
         type: 'dense',
