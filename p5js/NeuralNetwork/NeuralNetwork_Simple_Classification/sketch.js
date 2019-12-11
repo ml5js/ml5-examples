@@ -11,7 +11,7 @@ This example uses a callback pattern to create the classifier
 let nn;
 
 const options = {
-  inputs: 1,
+  inputs: [1],
   outputs: 2,
   task: 'classification',
   debug: true
