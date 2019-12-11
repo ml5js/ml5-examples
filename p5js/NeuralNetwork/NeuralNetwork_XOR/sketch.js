@@ -27,7 +27,7 @@ function setup() {
   }
 
   let options = {
-    inputs: [2],
+    inputs: 2,
     outputs: 1,
     learningRate: 0.25,
     task:'regression',
