@@ -24,11 +24,21 @@ function setup() {
 
 }
 
-function dataLoaded(){
+function dataLoaded(err, result){
 
-  nn.train({batchSize: 32},finishedTraining)
+  nn.normalizeData();
+  nn.train(finishedTraining)
 }
 
 function finishedTraining(err, res){
   console.log(nn);
+
+  nn.classify({r:255, g:0,b:0}, gotResults)
+}
+
+function gotResults(err, result){
+  if(err){
+    console.err(err)
+  }
+  console.log(result)
 }

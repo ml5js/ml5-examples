@@ -63,8 +63,20 @@ function setup() {
 
 function finishedTraining(){
 
-  console.log(nn)
+  nn.classify([
+    
+    0, 0, 255,255, 0, 0, 255,255,
+    0, 0, 255,255, 0, 0, 255,255
+  
+], gotResults)
 
+}
+
+function gotResults(err, result){
+  if(err){
+    console.error(err)
+  }
+  console.log(result)
 }
 
 function addData() {

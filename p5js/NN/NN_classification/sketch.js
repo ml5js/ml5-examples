@@ -51,8 +51,17 @@ function setup() {
 }
 
 
-function finishedTraining(){
+function finishedTraining(err, res){
   console.log(nn);
+
+  nn.classify({r:255, g:0,b:0}, gotResults)
+}
+
+function gotResults(err, result){
+  if(err){
+    console.err(err)
+  }
+  console.log(result)
 }
 
 function addData() {
