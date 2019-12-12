@@ -30,6 +30,7 @@ function setup() {
   trainBtn.mousePressed(train)
   addDataBtn = createButton('addData')
   addDataBtn.mousePressed(addData)
+  resultLabel = createDiv('I see:')
 
   labelInput = createInput();
 
@@ -84,14 +85,12 @@ function setup() {
 
 function draw(){
   image(video, 0,0, width, height)
-
 }
 
 
 function addData(){
   console.log('adding data', labelInput.value())
   nn.addData({image:video}, {label: labelInput.value()})
-
 }
 
 function train(){
@@ -99,7 +98,7 @@ function train(){
 
   const TRAINING_OPTIONS = {
     batchSize: 16,
-    epochs: 32,
+    epochs: 4,
   }
 
   nn.normalizeData();
@@ -110,7 +109,7 @@ function train(){
 function finishedTraining() {
 
   console.log("finished training");
-  nn.classify({image:video}, gotResults)
+  nn.classify([video], gotResults)
 
 }
 
@@ -120,10 +119,8 @@ function gotResults(err, result) {
     return
   }
 
-  console.log(result[0].label);
+  // image(video, 0,0, width, height)
+  resultLabel.elt.textContent = `I see ${result[0].label}`
 
-  // resultLabel = result[0].label;
-  // text(resultLabel, 10, 10);
-
-  nn.classify({image:video}, gotResults)
+  nn.classify([video], gotResults)
 }
