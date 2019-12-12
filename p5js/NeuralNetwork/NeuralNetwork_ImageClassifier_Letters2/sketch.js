@@ -19,99 +19,70 @@ let testA;
 function preload() {
   images = [];
   for (let i = 1; i < 7; i++) {
-    const a = loadImage(`images/A_0${i}.png`)
-    const b = loadImage(`images/B_0${i}.png`)
+    const a = loadImage(`images/A_0${i}.png`);
+    const b = loadImage(`images/B_0${i}.png`);
     images.push({
       image: a,
       label: 'a'
-    })
+    });
     images.push({
       image: b,
       label: 'b'
-    })
+    });
   }
 
-  testA = loadImage(`images/A_test.png`)
-
+  testA = loadImage(`images/A_test.png`);
 }
 
 function setup() {
-  // load the pixels for each image to get a flat pixel array  
-
   const options = {
     task: 'imageClassification',
     debug: true,
-    inputs:[IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS],
-    layers: [{
-        type: 'conv2d',
-        kernelSize: 5,
-        filters: 8,
-        strides: 1,
-        activation: 'relu',
-        kernelInitializer: 'varianceScaling'
-      },
-      {
-        type: 'maxPooling2d',
-        poolSize: [2, 2],
-        strides: [2, 2]
-      },
-      {
-        type: 'conv2d',
-        filters: 16,
-        kernelSize: 5,
-        filters: 8,
-        strides: 1,
-        activation: 'relu',
-        kernelInitializer: 'varianceScaling'
-      },
-      {
-        type: 'maxPooling2d',
-        poolSize: [2, 2],
-        strides: [2, 2]
-      },
-      {
-        type: 'flatten'
-      },
-      {
-        type: 'dense',
-        kernelInitializer: 'varianceScaling',
-        activation: 'softmax'
-      }
-    ]
-  }
+    inputs: [IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS]
+  };
 
   // construct the neural network
   nn = ml5.neuralNetwork(options);
 
   // add data
-  images.forEach(item => {
+  for (let i = 0; i < images.length; i++) {
+    const item = images[i];
     const labels = item.label;
-    nn.addData({pixelArray:item.image}, {label: labels});
-  })
-
-  // nn.normalizeData();
-
-  const TRAINING_OPTIONS = {
-    batchSize: 2,
-    epochs: 10,
+    nn.addData({
+      pixelArray: item.image
+    }, {
+      label: labels
+    });
   }
 
-  nn.train(TRAINING_OPTIONS, finishedTraining)
+  // normalize data
+  nn.normalizeData();
 
+  // train
+  const TRAINING_OPTIONS = {
+    batchSize: 2,
+    epochs: 10
+  };
+  nn.train(TRAINING_OPTIONS, finishedTraining);
 }
 
-
 function finishedTraining() {
+  console.log('finished training');
+  // method 1: you can pass in an object with a matching key and the HTMLImageElement
+  nn.classify({
+      pixelArray: testA
+    },
+    gotResults
+  );
 
-  console.log("finished training");
-  nn.classify({pixelArray:testA}, gotResults)
-
+  // method 2: you can pass in an array holding the HTMLImageElement
+  nn.classify([testA], gotResults);
 }
 
 function gotResults(err, result) {
   if (err) {
     console.log(err);
-    return
+    return;
   }
   console.log(result);
 }

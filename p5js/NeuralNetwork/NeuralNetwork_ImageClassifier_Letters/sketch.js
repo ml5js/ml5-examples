@@ -36,64 +36,31 @@ function preload() {
 }
 
 function setup() {
-  // load the pixels for each image to get a flat pixel array
-  images.forEach(item => item.image.loadPixels())
-  
 
   const options = {
     task: 'imageClassification',
     debug: true,
     inputs:[IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS],
-    layers: [{
-        type: 'conv2d',
-        kernelSize: 5,
-        filters: 8,
-        strides: 1,
-        activation: 'relu',
-        kernelInitializer: 'varianceScaling'
-      },
-      {
-        type: 'maxPooling2d',
-        poolSize: [2, 2],
-        strides: [2, 2]
-      },
-      {
-        type: 'conv2d',
-        filters: 16,
-        kernelSize: 5,
-        filters: 8,
-        strides: 1,
-        activation: 'relu',
-        kernelInitializer: 'varianceScaling'
-      },
-      {
-        type: 'maxPooling2d',
-        poolSize: [2, 2],
-        strides: [2, 2]
-      },
-      {
-        type: 'flatten'
-      },
-      {
-        type: 'dense',
-        kernelInitializer: 'varianceScaling',
-        activation: 'softmax'
-      }
-    ]
   }
 
   // construct the neural network
   nn = ml5.neuralNetwork(options);
 
+
   // add data
-  images.forEach(item => {
+  for(let i = 0; i < images.length; i++){
+    const item = images[i];
+    // get back the image array
+    item.image.loadPixels()
     const imageArray = Array.from(item.image.pixels);
     const labels = item.label;
     nn.addData({pixelArray:imageArray}, {label: labels});
-  })
+  }
 
-  // nn.normalizeData();
+  // normalize the data
+  nn.normalizeData();
 
+  // train
   const TRAINING_OPTIONS = {
     batchSize: 2,
     epochs: 10,
@@ -105,11 +72,11 @@ function setup() {
 
 
 function finishedTraining() {
-
   console.log("finished training");
+
   testA.loadPixels();
   const test = Array.from(testA.pixels);
-  nn.classify( test, gotResults)
+  nn.classify([test], gotResults)
 
 }
 
