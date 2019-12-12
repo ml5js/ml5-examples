@@ -14,33 +14,29 @@ function setup() {
 
   const options = {
     task: 'imageClassification',
-    inputs: [2,2,4],
-    debug:true
+    inputs: [2, 2, 4],
+    debug: true
   }
   nn = ml5.neuralNetwork(options);
 
-  /**
-   * ///////////////////////////
-   * ADD DATA
-   * ///////////////////////////
-   */
   addData();
-
-  nn.train({epochs: 100, batchSize:2}, finishedTraining)
+  nn.train({
+    epochs: 20,
+    batchSize: 2
+  }, finishedTraining)
 
 }
 
-function finishedTraining(){
-
+function finishedTraining() {
   nn.classify([
-    0, 0, 255,255, 0, 0, 255,255,
-    0, 0, 255,255, 0, 0, 255,255
-], gotResults)
+    0, 0, 255, 255, 0, 0, 255, 255,
+    0, 0, 255, 255, 0, 0, 255, 255
+  ], gotResults)
 
 }
 
-function gotResults(err, result){
-  if(err){
+function gotResults(err, result) {
+  if (err) {
     console.error(err)
   }
   console.log(result)
@@ -50,8 +46,8 @@ function addData() {
   const myData = [{
       label: "red-square",
       value: [
-        255, 0, 0,255, 255, 0, 0, 255,
-        255, 0, 0,255, 255, 0, 0, 255
+        255, 0, 0, 255, 255, 0, 0, 255,
+        255, 0, 0, 255, 255, 0, 0, 255
       ]
     },
     {
@@ -64,15 +60,16 @@ function addData() {
     {
       label: "blue-square",
       value: [
-        0, 0, 255,255, 0, 0, 255,255,
-        0, 0, 255,255, 0, 0, 255,255
+        0, 0, 255, 255, 0, 0, 255, 255,
+        0, 0, 255, 255, 0, 0, 255, 255
       ]
     }
 
   ]
 
-  // method 1
-  myData.forEach(item => {
+  // method 1: adding data as objects
+  for(let i = 0; i < myData.length; i++){
+    const item = myData[i];
     const xInputObj = {
       pixelArray: item.value
     }
@@ -81,26 +78,16 @@ function addData() {
       label: item.label
     }
     nn.addData(xInputObj, yInputObj)
-  })
+  }
 
-  myData.forEach(item => {
-    const xInputObj = {
-      pixelArray: item.value
-    }
-
-    const yInputObj = {
-      label: item.label
-    }
-    nn.addData(xInputObj, yInputObj)
-  })
-
-  // method 2
-  myData.forEach(item => {
-    nn.addData([item.value], [item.label], {
-      inputLabels: ['pixelArray'],
-      outputLabels: ['label']
-    })
-  })
-
-  console.log(nn.neuralNetworkData.data)
+  
+  // method 2:adding data as arrays with
+  const labelsOptions = {
+    inputLabels: ['pixelArray'],
+    outputLabels: ['label']
+  }
+  for(let i = 0; i < myData.length; i++){
+    const item = myData[i]; 
+    nn.addData([item.value], [item.label], labelsOptions)
+  }
 }
