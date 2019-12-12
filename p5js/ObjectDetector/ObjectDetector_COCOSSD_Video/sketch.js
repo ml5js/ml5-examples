@@ -9,7 +9,7 @@ function setup() {
     video.size(width, height);
     video.hide();
 
-    detector = ml5.objectDetector('CocoSsd', modelReady)
+    detector = ml5.objectDetector('cocossd', modelReady)
 }
 
 
