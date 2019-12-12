@@ -1,5 +1,3 @@
-
-
 // Copyright (c) 2019 ml5
 //
 // This software is released under the MIT License.
@@ -12,51 +10,48 @@ This example uses a callback pattern to create the classifier
 === */
 let nn;
 
-function setup(){
-  
+function setup() {
   const options = {
-    task:'classification'
-  }
+    task: 'classification'
+  };
   nn = ml5.neuralNetwork(options);
-  
+
   addData();
-   
+
   nn.normalizeData();
-  
+
   // train the model
   const training_options = {
     batchSize: 32,
     epochs: 10
-  }
-  nn.train(training_options, finishedTraining)
-  
+  };
+  nn.train(training_options, finishedTraining);
 }
 
-function addData(){
-  for(let i = 0; i < 500; i++){
-    
+function addData() {
+  for (let i = 0; i < 500; i++) {
     let xVal, labelVal;
-    if(i < 250){
-      xVal = i
-      labelVal = "a"
+    if (i < 250) {
+      xVal = i;
+      labelVal = 'a';
     } else {
-      xVal = i
-      labelVal = "b"
+      xVal = i;
+      labelVal = 'b';
     }
-    const yVal = Math.floor(Math.random()*500);
-    
-    nn.addData({x: xVal, y: yVal}, {label: labelVal})
+    const yVal = floor(random(500));
+
+    nn.addData({ x: xVal, y: yVal }, { label: labelVal });
   }
 }
 
-function finishedTraining(){
-    console.log('done')
-    
-    nn.classify({x:0, y:0.5}, function(err, result){
-      if(err){
-        console.log(err)
-        return;
-      }
-      console.log('hi from callback', result)
-    })
+function finishedTraining() {
+  console.log('done');
+
+  nn.classify({ x: 0, y: 0.5 }, function(err, result) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log('hi from callback', result);
+  });
 }

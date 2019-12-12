@@ -11,26 +11,26 @@ This example uses a callback pattern to create the classifier
 let nn;
 
 function setup() {
-
   const options = {
-    debug:true,
+    debug: true,
     task: 'classification',
-    layers: [{
+    layers: [
+      {
         type: 'dense',
         units: 16,
-        activation: 'relu',
+        activation: 'relu'
       },
       {
         type: 'dense',
         units: 16,
-        activation: 'sigmoid',
+        activation: 'sigmoid'
       },
       {
         type: 'dense',
-        activation: 'sigmoid',
+        activation: 'sigmoid'
       }
     ]
-  }
+  };
   nn = ml5.neuralNetwork(options);
 
   // add your data
@@ -42,44 +42,48 @@ function setup() {
   const training_options = {
     batchSize: 32,
     epochs: 10
-  }
-  nn.train(training_options, finishedTraining)
-
+  };
+  nn.train(training_options, finishedTraining);
 }
 
 function addData() {
   for (let i = 0; i < 500; i++) {
-
     let xVal, labelVal;
     if (i < 250) {
-      xVal = i
-      labelVal = "a"
+      xVal = i;
+      labelVal = 'a';
     } else {
-      xVal = i
-      labelVal = "b"
+      xVal = i;
+      labelVal = 'b';
     }
-    const yVal = Math.floor(Math.random() * 500);
+    const yVal = floor(random(500));
 
-    nn.addData({
-      x: xVal,
-      y: yVal
-    }, {
-      label: labelVal
-    })
+    nn.addData(
+      {
+        x: xVal,
+        y: yVal
+      },
+      {
+        label: labelVal
+      }
+    );
   }
 }
 
 function finishedTraining() {
-  console.log('done')
+  console.log('done');
 
-  nn.classify({
-    x: 0,
-    y: 0.5
-  }, function (err, result) {
-    if (err) {
-      console.log(err)
-      return;
+  nn.classify(
+    {
+      x: 0,
+      y: 0.5
+    },
+    function(err, result) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log('hi from callback', result);
     }
-    console.log('hi from callback', result)
-  })
+  );
 }
