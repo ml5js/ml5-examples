@@ -18,8 +18,6 @@ function setup() {
   bSlider = createSlider(0, 255, 255);
 
   let nnOptions = {
-    inputs: ['r', 'g', 'b'],
-    outputs: ['label'],
     task: 'classification',
     debug: true
   };
@@ -56,6 +54,7 @@ function gotResults(error, results) {
   if (error) {
     console.error(error);
   } else {
+    // console.log(results)
     labelP.html(`label:${results[0].label}, confidence: ${results[0].confidence.toFixed(2)}`);
     classify();
   }

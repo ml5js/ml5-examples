@@ -15,6 +15,7 @@ function setup() {
   const options = {
     inputs: ['x', 'y'],  // TODO: support ['x', 'y']
     outputs: ['freq'], // TODO: support ['freq]
+    task:'regression',
     debug: true,
   }
   brain = ml5.neuralNetwork(options);

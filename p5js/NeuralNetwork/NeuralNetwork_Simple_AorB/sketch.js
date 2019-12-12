@@ -12,30 +12,12 @@ let nn;
 
 function setup() {
   const options = {
-    debug: true,
-    task: 'classification',
-    layers: [
-      {
-        type: 'dense',
-        units: 16,
-        activation: 'relu'
-      },
-      {
-        type: 'dense',
-        units: 16,
-        activation: 'sigmoid'
-      },
-      {
-        type: 'dense',
-        activation: 'sigmoid'
-      }
-    ]
+    task: 'classification'
   };
   nn = ml5.neuralNetwork(options);
 
-  // add your data
   addData();
-  // normalize it
+
   nn.normalizeData();
 
   // train the model
@@ -58,32 +40,18 @@ function addData() {
     }
     const yVal = floor(random(500));
 
-    nn.addData(
-      {
-        x: xVal,
-        y: yVal
-      },
-      {
-        label: labelVal
-      }
-    );
+    nn.addData({ x: xVal, y: yVal }, { label: labelVal });
   }
 }
 
 function finishedTraining() {
   console.log('done');
 
-  nn.classify(
-    {
-      x: 0,
-      y: 0.5
-    },
-    function(err, result) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      console.log('hi from callback', result);
+  nn.classify({ x: 0, y: 0.5 }, function(err, result) {
+    if (err) {
+      console.log(err);
+      return;
     }
-  );
+    console.log('hi from callback', result);
+  });
 }

@@ -44,12 +44,12 @@ function trainModel() {
   brain.normalizeData();
   // Train the model
   // Epochs: one cycle through all the training data
-  brain.train({ epochs: 20 }, finishedTraining);
+  brain.train({ epochs: 50 }, finishedTraining);
 }
 
 // When the model is trained
 function finishedTraining() {
-  brain.classify([mouseX, mouseY], gotResults);
+  brain.classify({x:mouseX,y: mouseY}, gotResults);
 }
 
 // Got a result
@@ -59,10 +59,11 @@ function gotResults(error, results) {
     return;
   }
 
+  // console.log(results)
   // Show classification
   select('#classification').html(results[0].label);
 
   // Predict again
-  brain.classify([mouseX, mouseY], gotResults);
+  brain.classify({x:mouseX,y: mouseY}, gotResults);
 }
 

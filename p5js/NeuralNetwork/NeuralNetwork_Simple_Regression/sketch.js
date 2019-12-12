@@ -9,10 +9,10 @@ Image classification using MobileNet and p5.js
 This example uses a callback pattern to create the classifier
 === */
 let nn;
+let counter = 0;
 
 const options = {
-  inputs: 1,
-  outputs: 1,
+  task:'regression',
   debug: true
 }
 
@@ -34,20 +34,26 @@ function setup(){
   // nn.train(finishedTraining); // use the default training options
 }
 
-async function finishedTraining(){
- 
-  await Promise.all(
-    [...new Array(400).fill(null).map( async (item, idx) =>  {
-      let results = await nn.predict([idx]);
+function finishedTraining(){
+
+  if(counter < 400){
+    nn.predict([counter], (err, results) => {
+      if(err){
+        console.log(err);
+        return;
+      }
+      console.log(results[0]);
       let prediction = results[0]
-      let x = idx
+      let x = counter;
       let y = prediction.value
       fill(255, 0, 0);
       rectMode(CENTER);
       rect(x, y, 10, 10);
-    })]
-  )
 
+      counter++;
+      finishedTraining();
+    })
+  }
   
 }
 
@@ -59,7 +65,7 @@ function createTrainingData(){
       let data = [i, height - i + floor(random(-spread, spread))]
       fill(0, 0, 255);
       ellipse(data[0], data[1], 10, 10)
-      nn.data.addData([data[0]], [data[1]])
+      nn.addData([data[0]], [data[1]])
     }
     
   }
