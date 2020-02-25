@@ -1,11 +1,12 @@
 let cartoonGan;
 let img;
+let newImage;
 function preload(){
     img = loadImage('MrBubz.jpg');
 }
 
 function setup(){
-    createCanvas(400, 400);
+    createCanvas(256, 256);
 
     cartoonGan = ml5.cartoon(modelLoaded)
     image(img, 0,0, width, height)
@@ -19,7 +20,8 @@ function gotResults(err, result){
     if(err){
         return;
     }
-    console.log(result);
+    console.log(result)
     image(result.image, 0,0, 256, 256);
+    
 }
 
