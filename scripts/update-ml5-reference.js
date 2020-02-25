@@ -5,17 +5,13 @@ const { parse } = require('node-html-parser');
 
 const baseurl = path.resolve(__dirname, "..");
 
-const {version} = JSON.parse(fs.readFileSync(`${baseurl}/package.json`))
-
-const ml5version = process.argv[2] || version;
-
 let ml5src;
 if(process.env.NODE_ENV && ['development', 'dev', 'DEVELOPMENT'].includes(process.env.NODE_ENV) === true ){
     console.log(`setting src for ${process.env.NODE_ENV}`)
     ml5src = `src="http://localhost:8080/ml5.js" type="text/javascript"`
 } else {
     console.log(`setting src for production`)
-    ml5src = `src="https://unpkg.com/ml5@${ml5version}/dist/ml5.min.js" type="text/javascript"`
+    ml5src = `src="https://unpkg.com/ml5@latest/dist/ml5.min.js" type="text/javascript"`
 }
 
 // run the functions
