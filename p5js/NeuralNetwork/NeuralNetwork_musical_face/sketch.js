@@ -32,6 +32,7 @@ function setup() {
     inputs: 68 * 2,
     outputs: 1,
     learningRate: 0.02,
+    task:'regression',
     debug: true,
   }
   faceBrain = ml5.neuralNetwork(options);

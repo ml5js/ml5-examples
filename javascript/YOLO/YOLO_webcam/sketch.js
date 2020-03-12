@@ -5,7 +5,7 @@
 
 /* ===
 ml5 Example
-Real time Object Detection using YOLO and p5.js
+Real time Object Detection using YOLO
 === */
 
 let yolo;

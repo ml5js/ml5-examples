@@ -13,8 +13,6 @@ let nn;
 function setup() {
   // Options for Neural Network
   const options = {
-    inputs: 3,
-    outputs: 2,
     task: 'regression',
     debug:true
   };
@@ -127,6 +125,5 @@ function gotResults(error, results) {
   if (error) console.log(error);
   if (results) {
     console.log(results);
-    results.tensor.print()
   }
 }
