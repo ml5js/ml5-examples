@@ -21,9 +21,9 @@ function setup() {
     // video.hide(); // Hide the video element, and just show the canvas
 
     // Create a palette - uncomment to test below
-    createHSBPalette();
+    // createHSBPalette();
     // createRGBPalette();
-    // createSimplePalette();
+    createSimplePalette();
 
     bodypix.segmentWithParts(video, gotResults, options)
 }
@@ -46,7 +46,7 @@ function gotResults(err, result) {
 
 function createSimplePalette() {
     options.palette = bodypix.config.palette;
-    Object.keys(bodypix.palette).forEach(part => {
+    Object.keys(options.palette).forEach(part => {
         const r = floor(random(255));
         const g = floor(random(255));
         const b = floor(random(255));
@@ -66,7 +66,7 @@ function createHSBPalette() {
     });
 }
 
-function createHSBPalette() {
+function createRGBPalette() {
     colorMode(RGB);
     options.palette = bodypix.config.palette;
     Object.keys(options.palette).forEach(part => {

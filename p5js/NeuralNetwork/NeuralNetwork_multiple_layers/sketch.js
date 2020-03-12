@@ -1,68 +1,89 @@
+// Copyright (c) 2019 ml5
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
+/* ===
+ml5 Example
+Image classification using MobileNet and p5.js
+This example uses a callback pattern to create the classifier
+=== */
 let nn;
-const nn_options = {
-    inputs: 1,
-    outputs: 1,
-    layers: [
-        ml5.tf.layers.dense({
-            units: 16,
-            inputShape: [1],
-            activation: 'relu',
-        }),
-        ml5.tf.layers.dense({
-            units: 16,
-            activation: 'sigmoid',
-        }),
-        ml5.tf.layers.dense({
-            units: 1,
-            activation: 'sigmoid',
-        })
-    ],
-    debug: true
-}
 
 function setup() {
-    createCanvas(400, 400);
-    background(240);
-    nn = ml5.neuralNetwork(nn_options);
-    console.log(nn);
-    createTrainingData();
+  const options = {
+    debug: true,
+    task: 'classification',
+    layers: [
+      {
+        type: 'dense',
+        units: 16,
+        activation: 'relu'
+      },
+      {
+        type: 'dense',
+        units: 16,
+        activation: 'sigmoid'
+      },
+      {
+        type: 'dense',
+        activation: 'sigmoid'
+      }
+    ]
+  };
+  nn = ml5.neuralNetwork(options);
 
-    nn.normalizeData();
-    const train_options = {
-        epochs: 32
+  // add your data
+  addData();
+  // normalize it
+  nn.normalizeData();
+
+  // train the model
+  const training_options = {
+    batchSize: 32,
+    epochs: 10
+  };
+  nn.train(training_options, finishedTraining);
+}
+
+function addData() {
+  for (let i = 0; i < 500; i++) {
+    let xVal, labelVal;
+    if (i < 250) {
+      xVal = i;
+      labelVal = 'a';
+    } else {
+      xVal = i;
+      labelVal = 'b';
     }
-    nn.train(train_options, finishedTraining);
+    const yVal = floor(random(500));
+
+    nn.addData(
+      {
+        x: xVal,
+        y: yVal
+      },
+      {
+        label: labelVal
+      }
+    );
+  }
 }
 
-function finishedTraining(){
+function finishedTraining() {
+  console.log('done');
 
-    nn.predict([10], function(err, result){
-        if(err){
-            console.log(err);
-            return
-        }
-        console.log(result)
-    })
-
-    nn.predict([390], function(err, result){
-        if(err){
-            console.log(err);
-            return
-        }
-        console.log(result)
-    })
-}
-
-function createTrainingData(){
-    for(let i = 0; i < 400; i++){
-        if(i%2){
-            const x = floor(random(0, width/2));
-            nn.addData([x], [0])
-        }else {
-            const x = floor(random(width/2, width));
-            nn.addData([x], [1])
-        }
+  nn.classify(
+    {
+      x: 0,
+      y: 0.5
+    },
+    function(err, result) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log('hi from callback', result);
     }
-    
+  );
 }
-

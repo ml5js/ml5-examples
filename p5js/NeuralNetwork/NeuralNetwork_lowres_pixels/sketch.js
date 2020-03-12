@@ -27,6 +27,7 @@ function setup() {
     inputs: totalPixels,
     outputs: 1,
     learningRate: 0.01,
+    task:'regression',
     debug: true,
   }
   // Create the model

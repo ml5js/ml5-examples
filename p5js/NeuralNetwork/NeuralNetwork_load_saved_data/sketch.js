@@ -74,11 +74,11 @@ function trainModel() {
 
 // Training callback
 function finishedTraining() {
-  predict();
+  classify();
 }
 
-function predict() {
-  nn.predict({x:mouseX, y:mouseY}, gotResults);
+function classify() {
+  nn.classify({x:mouseX, y:mouseY}, gotResults);
 }
 
 function gotResults(error, results) {
@@ -86,6 +86,6 @@ function gotResults(error, results) {
   if (results) {
     // console.log(results)
     resultsText.html(`${results[0].label}`)
-    predict();
+    classify();
   }
 }
