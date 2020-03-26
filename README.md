@@ -1,3 +1,6 @@
+**NOTE: This repository is archived and its contents have been moved into the core [ml5-library](https://github.com/ml5js/ml5-library) repository. If you have an outstanding issue or pull request on this repository, please open it on [ml5-library](https://github.com/ml5js/ml5-library). Please feel free to read more and follow updates on [issue #809](https://github.com/ml5js/ml5-library/issues/809) and [pull request #831](https://github.com/ml5js/ml5-library/pull/831).**
+
+---
 # ml5 Examples
 
 ## Description
