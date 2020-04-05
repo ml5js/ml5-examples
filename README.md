@@ -1,4 +1,4 @@
-**NOTE: This repository is archived and its contents have been moved into the core [ml5-library](https://github.com/ml5js/ml5-library) repository. If you have an outstanding issue or pull request on this repository, please open it on [ml5-library](https://github.com/ml5js/ml5-library). Please feel free to read more and follow updates on [issue #809](https://github.com/ml5js/ml5-library/issues/809) and [pull request #831](https://github.com/ml5js/ml5-library/pull/831).**
+**NOTE: This repository is archived and its contents have been moved into the core [ml5-library](https://github.com/ml5js/ml5-library) repository. If you have an outstanding issue or pull request on this repository, please open it on [ml5-library](https://github.com/ml5js/ml5-library). Please feel free to read more and follow updates on [issue #809](https://github.com/ml5js/ml5-library/issues/809) and [pull request #831](https://github.com/ml5js/ml5-library/pull/831). You can view the examples index site at https://examples.ml5js.org.**
 
 ---
 # ml5 Examples
@@ -66,7 +66,7 @@ npm run develop
 
 * [ml5 examples in the p5 web editor](https://editor.p5js.org/ml5/sketches)
   * The best way to interact with our examples are using the [p5 web editor](https://editor.p5js.org/ml5/sketches). This is an interactive coding environment.
-* Run the examples using the [example index](https://ml5js.github.io/ml5-examples/public)
+* Run the examples using the [example index](https://examples.ml5js.org)
   * We have examples written in plain javascript, p5.js, and more.
 
 
